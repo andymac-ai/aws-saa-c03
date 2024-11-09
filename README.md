@@ -12,13 +12,13 @@ Domains of material covered in the exam:
 * Design Cost-Optimized Architectures
 
 <table>
-    <thead>
+<!--     <thead>
         <tr>
             <th>Icon</th>
             <th>Name</th>
             <th>Description</th>
         </tr>
-    </thead>
+    </thead> -->
     <tbody>
         <tr>
             <td colspan=1><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/></td>
@@ -26,7 +26,47 @@ Domains of material covered in the exam:
         </tr>
         <tr>
             <td></td>
-            <td><h4></h4></td>
+            <td><h4>Cluster Placement Group</h4></td>
+            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Description:</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Use Case:</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Spread Placement Group</h4></td>
+            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Description:</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Use Case:</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Partition Placement Group</h4></td>
+            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Description:</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Use Case:</h4></td>
             <td></td>
         </tr>
         <tr>

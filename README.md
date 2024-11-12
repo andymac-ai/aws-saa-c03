@@ -26,27 +26,30 @@ Domains of material covered in the exam:
         </tr>
         <tr>
             <td></td>
-            <td><h4>Cluster Placement Group</h4></td>
+            <td><h4>Placement Groups</h4></td>
+        <tr>
+            <td></td>
+            <td><h5>Cluster Placement Group</h5></td>
             <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><h4>Description:</h4></td>
+            <td><h5>Description:</h5></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
-            <td><h4>Use Case:</h4></td>
+            <td><h5>Use Case:</h5></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
-            <td><h4>Spread Placement Group</h4></td>
+            <td><h5>Spread Placement Group</h5></td>
             <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><h4>Description:</h4></td>
+            <td><h5>Description:</h5></td>
             <td></td>
         </tr>
         <tr>

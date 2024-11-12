@@ -88,12 +88,17 @@ Domains of material covered in the exam:
         </tr>
         <tr>
             <td></td>
-            <td><h4>ELB Encryptio </h4></td>
+            <td><h4>ELB Encryption</h4></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
             <td><h4>ELB Volume Types</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>AMI Overview</h4></td>
             <td></td>
         </tr>
         <tr>

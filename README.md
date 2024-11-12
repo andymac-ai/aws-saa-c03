@@ -82,6 +82,21 @@ Domains of material covered in the exam:
             <td colspan=2><h2>EBS - Elastic Block Store</h2></td>
         </tr>
         <tr>
+            <td></td>
+            <td><h4>ELB Snapshots</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>ELB Encryptio </h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>ELB Volume Types</h4></td>
+            <td></td>
+        </tr>
+        <tr>
             <td colspan=1><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/></td>
             <td colspan=2><h2>EFS - Elastic File System</h2></td>
         </tr>

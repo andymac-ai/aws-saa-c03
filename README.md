@@ -142,3 +142,17 @@ Domains of material covered in the exam:
         </tr>
     </tbody>
 </table>
+
+## EC2 - Elastic Compute Cloud
+private vs public vs elastic IP
+placement groups
+elastic network interfaces - ENI
+EC2 Hibernate
+EC2 Instance storage
+EBS Volumes
+EBS Snapshots
+EBS Snapshot Archive
+Recycle Bin for EBS Snapshots
+Fast Snapshot Restore
+A
+

@@ -30,7 +30,7 @@ Domains of material covered in the exam:
         <tr>
             <td></td>
             <td><h5>Cluster Placement Group</h5></td>
-            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg"/></td>
+            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/></td>
         </tr>
         <tr>
             <td></td>
@@ -45,7 +45,7 @@ Domains of material covered in the exam:
         <tr>
             <td></td>
             <td><h5>Spread Placement Group</h5></td>
-            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg"/></td>
+            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/></td>
         </tr>
         <tr>
             <td></td>
@@ -60,7 +60,7 @@ Domains of material covered in the exam:
         <tr>
             <td></td>
             <td><h4>Partition Placement Group</h4></td>
-            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png"/></td>
+            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/></td>
         </tr>
         <tr>
             <td></td>

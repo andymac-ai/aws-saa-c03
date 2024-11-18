@@ -12,21 +12,58 @@ Domains of material covered in the exam:
 * Design Cost-Optimized Architectures
 
 <table>
-    <thead>
+<!--     <thead>
         <tr>
             <th>Icon</th>
             <th>Name</th>
             <th>Description</th>
         </tr>
-    </thead>
+    </thead> -->
     <tbody>
         <tr>
             <td colspan=1><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/></td>
             <td colspan=2><h2>EC2 - Elastic Compute Cloud</h2></td>
         </tr>
         <tr>
+            <td colspan=3><h3>Placement Groups</h3></td>
+        </tr>
+        <tr>
+            <td colspan=3><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/></td>
+        </tr>
+        <tr>
             <td></td>
-            <td><h4></h4></td>
+            <td><h4>Cluster Placement Group</h4></td>
+            <td>Description:</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Use Case:</td>
+        </tr>
+        <tr>
+            <td colspan=3><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Spread Placement Group</h4></td>
+            <td>Description:</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Use Case:</td>
+        </tr>
+        <tr>
+            <td colspan=3><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Partition Placement Group</h4></td>
+            <td>Description:</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>Use Case:</h4></td>
             <td></td>
         </tr>
         <tr>
@@ -40,6 +77,26 @@ Domains of material covered in the exam:
         <tr>
             <td colspan=1><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/></td>
             <td colspan=2><h2>EBS - Elastic Block Store</h2></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>ELB Snapshots</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>ELB Encryption</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>ELB Volume Types</h4></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h4>AMI Overview</h4></td>
+            <td></td>
         </tr>
         <tr>
             <td colspan=1><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/></td>
@@ -79,3 +136,17 @@ Domains of material covered in the exam:
         </tr>
     </tbody>
 </table>
+
+## EC2 - Elastic Compute Cloud
+private vs public vs elastic IP
+placement groups
+elastic network interfaces - ENI
+EC2 Hibernate
+EC2 Instance storage
+EBS Volumes
+EBS Snapshots
+EBS Snapshot Archive
+Recycle Bin for EBS Snapshots
+Fast Snapshot Restore
+A
+

@@ -69,9 +69,53 @@ Process:
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
 
+### EBS Multi-Attach
+
+### EBS Encryption
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
 
+### EFS Performance and Storage Classes
+
+### EBS vs EFS
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
+
+### High Availability and Scalability
+
+### Load Balancing
+
+### Health Checks
+
+### Load Balancer Types
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ALB.png" width="50"/> ALB - Application Load Balancer
+
+### ALB Target Groups
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NLB.png" width="50"/> NLB - Network Load Balancer
+
+### NLB Target Groups
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/GLB.png" width="50"/> GLB - Gateway Load Balancer
+
+### GLB Target Groups
+
+### Sticky Sessions (Session Affinity)
+
+### Sticky Sessions- Cookie Names
+
+### ELB Cross-Zone Balancing
+
+### SSL/TLS Bases
+
+### SSL Certificates
+
+### SNI - Server Name Identification
+
+### Connection Draining
+
+
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management
 

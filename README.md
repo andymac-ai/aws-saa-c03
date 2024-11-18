@@ -53,6 +53,16 @@ Process:
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Auto-Scaling.png" width="50"/> Auto Scaling
 
+### Auto Scaling Groups
+
+### ASG Attributes
+
+### ASG CloudWatch Alarms
+
+### ASG Scaling Policies
+
+### ASG Scaling Cooldowns
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
@@ -114,8 +124,6 @@ Process:
 ### SNI - Server Name Identification
 
 ### Connection Draining
-
-
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management
 

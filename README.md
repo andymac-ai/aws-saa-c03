@@ -25,47 +25,41 @@ Domains of material covered in the exam:
             <td colspan=2><h2>EC2 - Elastic Compute Cloud</h2></td>
         </tr>
         <tr>
-            <td></td>
-            <td><h4>Placement Groups</h4></td>
+            <td colspan=3><h3>Placement Groups</h3></td>
+        </tr>
         <tr>
-            <td></td>
-            <td><h5>Cluster Placement Group</h5></td>
-            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/></td>
+            <td colspan=3><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><h5>Description:</h5></td>
-            <td></td>
+            <td><h4>Cluster Placement Group</h4></td>
+            <td>Description:</td>
         </tr>
         <tr>
             <td></td>
-            <td><h5>Use Case:</h5></td>
             <td></td>
+            <td>Use Case:</td>
+        </tr>
+        <tr>
+            <td colspan=3><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><h5>Spread Placement Group</h5></td>
-            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/></td>
+            <td><h4>Spread Placement Group</h4></td>
+            <td>Description:</td>
         </tr>
         <tr>
             <td></td>
-            <td><h5>Description:</h5></td>
             <td></td>
+            <td>Use Case:</td>
         </tr>
         <tr>
-            <td></td>
-            <td><h4>Use Case:</h4></td>
-            <td></td>
+            <td colspan=3><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/></td>
         </tr>
         <tr>
             <td></td>
             <td><h4>Partition Placement Group</h4></td>
-            <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><h4>Description:</h4></td>
-            <td></td>
+            <td>Description:</td>
         </tr>
         <tr>
             <td></td>

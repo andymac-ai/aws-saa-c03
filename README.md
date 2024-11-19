@@ -93,7 +93,7 @@ Process:
   <li>Laninstances from other AMI's.</li>
 </ol>
 
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png"/>
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Auto-Scaling.png" width="50"/> Auto Scaling
 
@@ -131,7 +131,7 @@ Can be detached and reattached to other instances. Capacity must be provisioned 
   <li>can copy snapshots across AZ's or regions</li>
 </ul>
 
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png"
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
 
 ### EBS Snapshot Archive
 

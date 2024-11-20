@@ -124,7 +124,7 @@ Can be used to trigger ASG
 
 <ul>
   <li>
-    **Dynamic Scaling**
+    Dynamic Scaling
     <ul>
       <li>
         Target Tracking Scaling
@@ -143,13 +143,13 @@ Can be used to trigger ASG
     </ul>
   </li>
   <li>
-    **Scheduled Scaling**
+    Scheduled Scaling
     <ul>
       <li>anticipate scaling based on known usage patterns</li>
     </ul>
   </li>
   <li>
-    **Predictive Scaling**
+    Predictive Scaling
     <ul>
       <li>control forecast and schedule scaling ahead</li>
     </ul>

@@ -482,11 +482,38 @@ Network and Gateway Load Balancers - disabled by default, costs $
 
 ### SSL/TLS Bases
 
+SSL certificate allows traffic between clients and load balancer to be encrypted in transit (in-flight encryption). SSL refers to secure sockets layer, used to encrypt connections. TLS referes to transport layer security (newer). TLS mainly used, some still use SSL.
+
+Public SSL certificates are issued by Certificate Authorities. SSL certificates have an expiration date. 
+
 ### SSL Certificates
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/LoadBalancerSSL.png" width="300"/>
+
+Load balancers use an X.509 certificate (SSL/TLS server certificate). Certificates can be managed using ACM (AWS Certificate Manager). It is possible to create and upload own certificates.
+
+HTTPS Listeners:
+<ul>
+  <li>must specify a default certificate</li>
+  <li>can add list of certificates to support multiple domains</li>
+  <li>clients can use SNI to specify the hostname</li>
+</ul>
 
 ### SNI - Server Name Identification
 
+Solves the proble, of having multiple SSL certificates on one web server. "Newer" protocol client to indicate the hostname target server of initial SSL handshake. Server finds correct certificate, or returns default.
+
+Only works for ALB, NLB, and CloudFront.
+
+### Elastic Load Balancers - SSL Certificates
+
+**Application Load Balancers** - support multiple listeners with multiple SSL certificates, ise SNI to make it work
+
+**Network Load Balancers** - supports multiple listeners with multiple SSL certificates
+
 ### Connection Draining
+
+Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management
 

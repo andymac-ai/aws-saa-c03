@@ -90,7 +90,7 @@ Process:
   <li>Start an EC2 instance and customize it.</li>
   <li>Stop the instance.</li>
   <li>Build an AMI - this will also create EBS Snapshots</li>
-  <li>Laninstances from other AMI's.</li>
+  <li>Launch instances from other AMI's.</li>
 </ol>
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
@@ -353,29 +353,132 @@ One Zone: great for development, backup by default, compatible with 1A (EFS One 
 
 ### High Availability and Scalability
 
+**Scalability** - ability of a web application to adapt to greater workloads
+
+**Vertically Scalability** - increasing instance size, common for non-distributed systems
+
+**EC2 vertical scaling** - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)
+
+**Horizontal Scalability** - increasing instance amount
+
+**EC2 horizontal scaling** - Auto Scaling Group, Load Balancer
+
+**High Availability** - Auto scaling group with multiple AZ, Load balancing with multiple AZ
+
 ### Load Balancing
+
+These are servers that forward traffic to multiple servers downstream.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ELB.png" width="250"/>
+
+Use case:
+<ul>
+  <li>Spread load accross multiple downstream servers</li>
+  <li>Expose a single point of access (DNS) to application</li>
+  <li>Seamlessly handles features downstream</li>
+  <li>Do regular health checks</li>
+  <li>Provide SSL termination (HTTP) for your websites</li>
+  <li>Enforce stickiness with cookies</li>
+  <li>Seperate public and private traffic</li>
+</ul>
+
+Elastic Load Balacer use case:
+<ul>
+  <li>managed</li>
+  <li>lower setup costs</li>
+  <li>integrated with AWS offerings/services</li>
+  <ul>
+    <li>EC2, EC2 Auto Scaling Group, Amazon ECS</li>
+    <li>AWS Certificate Manager (ACM), CoudWatch</li>
+    <li>Route 53, AWS WAF, AWS Global Accelerator</li>
+  </ul>
+</ul>
 
 ### Health Checks
 
+Crusial for load balancers. They enable load balancers to know whether instances it forwards traffic to are available. Health checks are performed on port and route (/health is common).
+
 ### Load Balancer Types
+
+**Application Load Balancer (v2)** - HTTP, HTTPS, WebSocket
+
+**Network Load Balancer (v2)** - TCP, TLS (secure TCP), UDP
+
+**Gateway Load Balancer** - operates at Network layer - IP Protocol
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ALB.png" width="50"/> ALB - Application Load Balancer
 
+Application load balancer is layer 7 (HTTP). ALB performs load balancing to multiple HTTP appliances (ex target groups) or applications (ex containers) on the same machine. Supports HTTP, HTTPS and WebSocket and redirects.
+
+Routing tables to different target groups based on:
+<ul>
+  <li>path URL (example.com/<ins>users</ins> and example.com/<ins>posts</ins>)</li>
+  <li>hostname in URL (<ins>one</ins>.example.com and <ins>other</ins>.example.com)</li>
+  <li>query string, headers (example.com/users?<ins>id=123&order=false</ins>)</li>
+</ul>
+
 ### ALB Target Groups
+
+<ul>
+  <li>EC2 instances - HTTP</li>
+  <li>ECS tasks - HTTP</li>
+  <li>Lambda functions - HTTP request is translated into JSON event</li>
+  <li>private IP addresses</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NLB.png" width="50"/> NLB - Network Load Balancer
 
+Network load balancer is layer 4 (TCP). NLB forwards TCP and UDP traffic to instances. Supports millions of requests per seconds with ultra-latency. One static IP per AZ and supports assigning Elastic IPs. NLBs are used for extreme performance, TCP or UDP traffic. Not in the AWS free tier.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/NLB.png" width="300"/>
+
 ### NLB Target Groups
+
+<ul>
+  <li>EC2 instances</li>
+  <li>IP addresses (must e private)</li>
+  <li>Application Load Balancer</li>
+  <li>Health checks support the TCL, HTTP, and HTTPS protocols</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/GLB.png" width="50"/> GLB - Gateway Load Balancer
 
+Deploy, scale, and manage a fleet of 3rd party network appliances in AWS (ex. Firewalls, Intrusion Detection, and Prevention systems, Deep Packet Inspection Systems, payload manipulation. Operates at laver 3 (Network layer, IP sockets). Combines transparent Network Gateway (single entry/exit for all traffic) and load balancer (distributes traffic to virtual appliances). Uses GENEVE protocol on port 6081.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/GWLB.png" width="250"/>
+
 ### GLB Target Groups
+
+<ul>
+  <li>EC2 instances</li>
+  <li>IP addresses (must e private)</li>
+</ul>
 
 ### Sticky Sessions (Session Affinity)
 
+Stickiness is directing same client to same instance behind load balancer, can be used in ALB and NLB. Cookies are used for stickiness and have controllable expiration date.
+
+Use case: user can retain user data.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/StickySessions.jpg" width="300"/>
+
 ### Sticky Sessions- Cookie Names
 
+**Application-based Cookies**
+
+Custom cookie - generated by target, can include custom atributes required by application, name specified for each target group (AWSALB, AWSALBAPP, AWSALBTG reserved by ELB)
+
+Application cookie - generated by load balancer, name is AWSALB for ALB
+
+**Duration-based Cookies** - generated by the load balancer, cookie name is AWSALB for ALB, AWSELB for CLB
+
 ### ELB Cross-Zone Balancing
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/CrossZoneBalancing.png" width="300"/>
+
+Application load balancer - Cross zone balancing enabled by default, no charges
+
+Network and Gateway Load Balancers - disabled by default, costs $
 
 ### SSL/TLS Bases
 

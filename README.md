@@ -99,13 +99,74 @@ Process:
 
 ### Auto Scaling Groups
 
+Goals:
+<ul>
+  <li>scale out (add EC2 instances) to match an increased load</li>
+  <li>scale in (remove EC2 instances) to match decreased load</li>
+  <li>ensure minimum and maximum EC2 instances running</li>
+  <li>automatically register as load balancer</li>
+  <li>recreate unhealthy instances</li>
+</ul>
+
 ### ASG Attributes
+
+**Launch Template** - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information
+
+**Min/Max Size**
+
+**Initial Capacity**
 
 ### ASG CloudWatch Alarms
 
+Can be used to trigger ASG
+
 ### ASG Scaling Policies
 
+<ul>
+  <li>
+    **Dynamic Scaling**
+    <ul>
+      <li>
+        Target Tracking Scaling
+        <ul>
+          <li>simple setup</li>
+          <li>ex: avg. ASG CPU to stay around 40%</li>
+        </ul>
+      </li>
+      <li>
+        Simple/Step Scaling
+        <ul>
+          <li>CloudWatch Alarm (CPU > 70%), add 2 units</li>
+          <li>CloudWatch Alarm (CPU < 30%), remove 1 unit</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    **Scheduled Scaling**
+    <ul>
+      <li>anticipate scaling based on known usage patterns</li>
+    </ul>
+  </li>
+  <li>
+    **Predictive Scaling**
+    <ul>
+      <li>control forecast and schedule scaling ahead</li>
+    </ul>
+  </li>
+</ul>
+
+Metrics to scale on:
+<ul>
+  <li>CPU Utilization: average CPU utilization across instances</li>
+  <li>Request Count Per Target: stable number of requests per instance</li>
+  <li>Average network In/Out</li>
+  <li>Custom Metric</li>
+</ul>
+
 ### ASG Scaling Cooldowns
+
+During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
 

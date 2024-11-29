@@ -746,6 +746,49 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
 
 Use cases: fraud detection, ad targeting, sentiment analysis, product recomendations
 
+### RDS Backups 
+
+Automated Backups
+
+Manual DB Snapshots
+
+Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
+
+### Aurora Backups
+
+Automated Backups
+
+Manual Backups
+
+### RDS & Aurora Restore options
+
+### Aurora Database Cloning
+
+### RDS & Aurora Security
+
+At-rest encryption:
+
+In-flight encryption:
+
+IAM authentication:
+IAM roles to connect to the database
+
+Security Groups:
+Control Network access to RDS / Aurora DB
+
+No SSH except on DB Custom
+
+Audit Logs can be enabled
+
+### Amazon RDS Proxy
+
+<ul>
+  <li>Fully managed DB proxy for RDS
+  <li>Allows pooling and sharing DB connections established with DB</li>
+  <li>Improve DB efficiency by reducing the stress on DB resources (ex CPU, RAM) and minimize open connections</li>
+  <li>Serverless, autoscaling, and highly available</li>
+  <li>Reduced RDS and Aurora failover time by 66%</li>
+</ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 

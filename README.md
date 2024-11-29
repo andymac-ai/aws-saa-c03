@@ -582,6 +582,34 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS - Relational Database Service
 
+RDS Overview
+
+Advantages/Disadvantages over using DB on EC2
+
+RDS Auto Scaling
+
+RDS Read Replicas
+
+RDS Multi AZ (disaster recovery)
+
+RDS Single AZ to Multi AZ
+
+RDS Custom
+
+Amazon Aurora
+
+Aurora High Availability and Read Scaling
+
+Amazon DB Cluster
+
+Aurora Custom Endpoints
+
+Aurora Services
+
+Global Aurora
+
+Aurora Machine Learning
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service

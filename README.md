@@ -582,6 +582,171 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS - Relational Database Service
 
+### RDS Overview
+
+Managed service for SQL databases
+
+Create databases in the cloud:
+
+ - Postgres, MySQL, ManiaDB, Oracle, Microsoft SQL Services, IBM DB2, Aurora
+
+### RDS vs using DB on EC2
+
+Advantages:
+<ul>
+  <li>Automatic provinsioning</li>
+  <li>Continuous backups</li>
+  <li>Monitoring dashboards</li>
+  <li>Read replicas</li>
+  <li>Multi AZ</li>
+  <li>Maintanence windows</li>
+  <li>Scaling (horizontal and vertical)</li>
+  <li>Storage backed by EBS</li>
+</ul>
+
+Disadvantages:
+<ul>
+  <li>No SSH into instances</li>
+</ul>
+
+### RDS Auto Scaling
+
+<ul>
+  <li>Helps you increase storage on RDS DB instance dynamically</li>
+  <li>RDS scales automattically when running out of fre storage</li>
+  <li>Maximum Storage Threshold must be set</li>
+  <li>Useful for applications with unpredictable workloads</li>
+  <li>Supports all RDS database engines</li>
+</ul>
+
+### RDS Read Replicas
+
+<ul>
+  <li>Help scale reads from DB instance</li>
+  <li>Up to 15 read replicas; within AZ, cross AZ, cross region</li>
+  <li>Replications are ASYNC so reads are eventually consistent</li>
+  <li>Replicas can be promoted to their own database</li>
+  <li>Applications must update the connection string to leverage read replicas</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/rds_read_replicas.png" width="300"/>
+
+Use case:
+<ul>
+  <li>Production DB taking a normal load</li>
+  <li>Meant to run reporting that may overload DB</li>
+  <li>Replicate reporting and run reporting there</li>
+  <li>Read replicas are used for SELECT (not modifying with INSERT, UPDATE, DELETE)</li>
+</ul>
+
+Fees incurred on cross-region read replicas, not on cross-AZ read replicas
+
+### RDS Multi AZ (disaster recovery)
+
+<ul>
+  <li>SYNC replication</li>
+  <li>One DNS name</li>
+  <li>Increase availability</li>
+  <li>Failover in case of loss</li>
+</ul>
+
+### RDS Single AZ to Multi AZ
+
+<ol>
+  <li>Create snapshot of DB</li>
+  <li>New DB restored from snapshot</li>
+  <li>Synchronization established between the 2 DB's</li>
+</ol>
+
+### RDS Custom
+
+<ul>
+  <li>managed Oracle and Microsoft SQL Server database with OS and DB customization</li>
+  <li>RDS: automates setup, operation, and scaling of DB in AWS</li>
+  <li>
+    Custom: access underlying database and OS to:
+    <ul>
+      <li>Configure settings</li>
+      <li>Install patches</li>
+      <li>Enable native features</li>
+      <li>Access underlying EC2 instance using SSH or SSH session manager</li>
+    </ul>
+  </li>
+  <li>deactivate automation made to perform customization, make snapshot first</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Aurora.png" width="50"/> Amazon Aurora
+
+<ul>
+  <li>Proprietary technology from AWS (not open source)</li>
+  <li>Postgres and MySQL are supported on Aurora DB</li>
+  <li>Aurora is cloud optimized: 5x faster than SQL, 3x faster than Postgres on RDS</li>
+  <li>Storage grows automattically in increments of 10GB, up to 128 TB</li>
+  <li>can have 15 replicas and replication is faster than MySQL</li>
+  <li>failover is instantaneous</li>
+</ul>
+
+### Aurora High Availability and Read Scaling
+
+<ul>
+  <li>
+    6 copies of data across 3 AZs
+    <ul>
+      <li>4 copies of 6 for writes</li>
+      <li>3 copies of 6 for reads</li>
+      <li>self-healing with peer-to-peer replication</li>
+      <li>storage is striped across 100s of volumes</li>
+    </ul>
+  </li>
+  <li>One Aurora instance takes writes (master)</li>
+  <li>automated failover for master is 30 seconds</li>
+  <li>master and up to 15 Aurora read replicas serve reads</li>
+  <li>support cross region replication</li>
+</ul>
+
+### Amazon DB Cluster
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/aurora_db_cluster.png" width="300"/>
+
+### Aurora Custom Endpoints
+
+<ul>
+  <li>define a subset of aurora instances as a custom endpoint</li>
+  <li>example: run analytical queries on specific replicas</li>
+  <li>reader endpoint is gernally not used after defining custom endpoints</li>
+</ul>
+
+### Aurora Services
+
+<ul>
+  <li>automated database installation and auto-scaling based on actual usage</li>
+  <li>good for infrequent, intermittent, or unpredictable workloads</li>
+  <li>no capacity planning needed</li>
+  <li>pay per second, can be cost effective</li>
+</ul>
+
+### Global Aurora
+
+<ul>
+  <li>1 primary region (read/write)</li>
+  <li>up to 15 secondary (read only) regions, replication lag is less than 1s</li>
+  <li>up to 16 read replicas per secondary region</li>
+  <li>decreased latency</li>
+  <li>typical cross-region replication less than 1 second</li>
+</ul>
+
+### Aurora Machine Learning
+
+<ul>
+  <li>Allows ML-based predictions to applications through SQL</li>
+  <li>Simple, optimized, and secure integration between Aurora and AWS ML services</li>
+  <li>Supports SageMaker and Comprehend</li>
+  <li>No ML experience needed</li>
+</ul>
+
+Use cases: fraud detection, ad targeting, sentiment analysis, product recomendations
+
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service

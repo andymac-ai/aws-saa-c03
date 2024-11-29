@@ -790,6 +790,99 @@ Audit Logs can be enabled
   <li>Reduced RDS and Aurora failover time by 66%</li>
 </ul>
 
+### Amazon Elasticache
+
+<ul>
+  <li>Elasticache is used to get managed Redis or Memcached</li>
+</ul>
+
+### Elasticache Solution Architecture - DB Cache
+
+Applications query ElastiCache, if not available then from RDS adn store in Elasticache
+
+Helps relieve RDS
+
+### Elasticache Solution Architecture - User Session Store
+
+<ul>
+  <li>User logs into any application</li>
+  <li></li>
+  <li></li>
+</ul>
+
+### Elasticache - Redis vs Memcached
+
+<table>
+  <head>
+    <tr>
+      <td>REDIS</td>
+      <td>MEMCACHED</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+  </body>
+</table>
+
+### Elasticache - Cache Security
+
+Supports IAM Authentication for Redis
+IAM policies on Elasticache are only used for AWS API-level security
+Redis AUTH
+Memcached
+
+### Patterns for Elasticache
+
+Lazy Loading
+
+Write Through
+
+Session Store
+
+### Elasticache - Redis Use Case
+
+<ul>
+  <li>Gaming leaderboards are computationally complex</li>
+  <li>Redis Sorted sets uarantee both uniqueness and element storing</li>
+  <li>Each time a new element is added, it's ranked in real time, then added in correct order</li>
+</ul>
+
+### Ports
+
+Important Ports:
+FTP: 21
+SSH: 22
+SFTP: 22 (same as SSH)
+HTTP: 80
+HTTPS: 443
+
+RDS Databases ports:
+PostgreSQL: 5432
+MySQL: 3306
+Oracle RDS: 1521
+MSSQL Server: 1433
+MariaDB: 3306 (same as MySQL)
+Aurora: 5432
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service

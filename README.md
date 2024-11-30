@@ -836,7 +836,7 @@ Audit Logs can be enabled
   <li>RDS Proxy is never publically available (accesed from VPC)</li>
 </ul>
 
-### Amazon ElastiCache
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ElastiCache.png" width="50"/> Amazon ElastiCache
 
 <ul>
   <li>Elasticache is used to get managed Redis or Memcached</li>
@@ -872,8 +872,8 @@ Audit Logs can be enabled
 <table>
   <head>
     <tr>
-      <td>REDIS</td>
-      <td>MEMCACHED</td>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ElastiCache-for-Redis.png" width="25"/> REDIS</td>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ElastiCache-for-Memcached.png" width="25"/> MEMCACHED</td>
     </tr>
   </head>
   <body>

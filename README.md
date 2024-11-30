@@ -746,6 +746,213 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
 
 Use cases: fraud detection, ad targeting, sentiment analysis, product recomendations
 
+### RDS Backups 
+
+Automated Backups
+<ul>
+  <li>Daily full backup of the DB</li>
+  <li>Transaction log backed up by RDS every 5 minutes</li>
+  <li>1 to 35 days of retention, set to 0 to disable</li>
+</ul>
+
+Manual DB Snapshots
+<ul>
+  <li>Manually triggered</li>
+  <li>Rentention of back up as long as wanted</li>
+</ul>
+
+Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
+
+### Aurora Backups
+
+Automated Backups
+<ul>
+  <li>1 to 35 day backups (cannot be disabled)</li>
+  <li>point-in-time recovers in that timeframe</li>
+</ul>
+
+Manual Backups
+<ul>
+  <li>Manually triggered</li>
+  <li>Retention of backup for as long as wanted</li>
+</ul>
+
+### RDS & Aurora Restore options
+
+Restoring RDS/Aurora backup or snapshot creates a new database.
+
+Restoring MySQL RDS from S3
+<ol>
+  <li>Create backup of on-premises database</li>
+  <li>Store on S3</li>
+  <li>Restore the backup onto a new RDS instance</li>
+</ol>
+
+Restore MySQL Aurora from S3
+<ol>
+  <li>Create backup of on-premises database with Percona XtraBackup</li>
+  <li>Store on S3</li>
+  <li>Restore the backup onto a new Aurora cluster</li>
+</ol>
+
+### Aurora Database Cloning
+
+Create a new Aurora DB cluster from an existing one.
+
+Faster than snapshot & restore, using copy-on-write protocal. 
+
+Very fast and cost effective.
+
+### RDS & Aurora Security
+
+At-rest encryption:
+<ul>
+  <li>DB master and replics encryption using AWS KMS - defined at launchtime</li>
+  <li>If master not encrypted, replicas cannot be encrypted</li>
+  <li>To encrypt an unencrypted DB, make a snapshot and restore as encrypted.</li>
+</ul>
+
+In-flight encryption: TLS ready by default, using AWS TLS root certificates client-side-
+
+IAM authentication: IAM roles to connect to the database
+
+Security Groups: Control Network access to RDS / Aurora DB
+
+No SSH except on DB Custom
+
+Audit Logs can be enabled
+
+### Amazon RDS Proxy
+
+<ul>
+  <li>Fully managed DB proxy for RDS</li>
+  <li>Allows pooling and sharing DB connections established with DB</li>
+  <li>Improve DB efficiency by reducing the stress on DB resources (ex CPU, RAM) and minimize open connections</li>
+  <li>Serverless, autoscaling, and highly available</li>
+  <li>Reduced RDS and Aurora failover time by 66%</li>
+  <li>Supprts RDS (MySQL, PostgreSQL, MariaDB, MS SQL Server) and Aurora (MySQL, PostgreSQL)</li>
+  <li>No code chage required for most apps</li>
+  <li>Enforce IAM Authentication for DB and securely restore credentials in AWS Secrets Manager</li>
+  <li>RDS Proxy is never publically available (accesed from VPC)</li>
+</ul>
+
+### Amazon ElastiCache
+
+<ul>
+  <li>Elasticache is used to get managed Redis or Memcached</li>
+  <li>Caches are in-memory DBs with very high performance, low latency</li>
+  <li>Helps reduce load off of DBs for read intesive workloads</li>
+  <li>Helps make application stateless</li>
+  <li>AWS takes care of OS maintanence, patching, setup configuration, monitoring, failure recovery, and backups</li>
+</ul>
+
+### ElastiCache Solution Architecture - DB Cache
+
+<ul>
+  <li>Applications query ElastiCache, if not available then from RDS adn store in Elasticache.</li>
+  <li>Helps relieve load in RDS.</li>
+  <li>Cache must have an invalidation strategy to ensure only current data is used.</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/elasticache_db_cache.png" width="300"/>
+
+### ElastiCache Solution Architecture - User Session Store
+
+<ul>
+  <li>User logs into any application</li>
+  <li>Application writes session data into ElastiCache</li>
+  <li>User hits another instance of application</li>
+  <li>The instnance retirieves the data and the user is already logged in.</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/elasticache_user_session_store.png" width="300"/>
+
+### Elasticache - Redis vs Memcached
+
+<table>
+  <head>
+    <tr>
+      <td>REDIS</td>
+      <td>MEMCACHED</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Multi AZ with Auto-Failover</td>
+      <td>Multi-node for partitioning of data</td>
+    </tr>
+    <tr>
+      <td>Read replicas to scale reads and have high availability</td>
+      <td>No high availability</td>
+    </tr>
+    <tr>
+      <td>Data durability using AOF persistence</td>
+      <td>Non persistent</td>
+    </tr>
+    <tr>
+      <td>Backup and restore features</td>
+      <td>Backup and restore (serverless)</td>
+    </tr>
+    <tr>
+      <td>Supports sets and sorted sets</td>
+      <td>Multi-threaded architecture</td>
+    </tr>
+  </body>
+</table>
+
+### Elasticache - Cache Security
+
+<ul>
+  <li>Supports IAM Authentication for Redis</li>
+  <li>IAM policies on Elasticache are only used for AWS API-level security</li>
+  <li>
+    Redis AUTH
+    <ul>
+      <li>Set a "password/token" when creating Redis cluster</li>
+      <li>Extra layer of security for the cache</li>
+      <li>Supports SSL in-flight encryption</li>
+    </ul>
+  </li>
+  <li>
+    Memcached
+    <ul>
+      <li>Supports SASL-based authentication</li>
+    </ul>
+  </li>
+</ul>
+
+### Patterns for Elasticache
+
+**Lazy Loading:** all the read data is cached, data can become stale in cache
+
+**Write Through:** adds or update data in the cache when written to a DB
+
+**Session Store:** store temporary session data in cache (using TTL features)
+
+### Elasticache - Redis Use Case
+
+<ul>
+  <li>Gaming leaderboards are computationally complex</li>
+  <li>Redis Sorted sets uarantee both uniqueness and element storing</li>
+  <li>Each time a new element is added, it's ranked in real time, then added in correct order</li>
+</ul>
+
+### Ports
+
+Important Ports:
+FTP: 21
+SSH: 22
+SFTP: 22 (same as SSH)
+HTTP: 80
+HTTPS: 443
+
+RDS Databases ports:
+PostgreSQL: 5432
+MySQL: 3306
+Oracle RDS: 1521
+MSSQL Server: 1433
+MariaDB: 3306 (same as MySQL)
+Aurora: 5432
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 

@@ -966,22 +966,19 @@ Aurora: 5432
 
 <ul>
   <li>Domain Name System translates human friendly hostnames into the machine IP addresses.</li>
-  <li>DNS is the backbone of the internet, uses heirarchical naming structure.</li>
+  <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
 </ul>
 
 ### DNS Terminology
 
-**Domain Registrar:**
-
-**DNS Records:**
-
-**Zone File:**
-
-**Name Server:**
-
-**Top Level Domain (TLD):**
-
-**Second Level Domain (SLD):**
+<ul>
+  <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
+  <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
+  <li>**Zone File:** contains DNS records</li>
+  <li>**Name Server:** resolves DNS queries</li>
+  <li>**Top Level Domain (TLD):** .com, .us, .in, .gov, ...</li>
+  <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
+</ul>
 
 ### DNS Functionality
 
@@ -989,21 +986,73 @@ Aurora: 5432
 
 ### Amazon Route 53
 
+<ul>
+  <li>High available, scalable, fully managed and Authoritative DNS, Authoritative: user can update the DNS records</li>
+  <li>Route 53 is also a domain registrar</li>
+  <li>Has the ability to check health of resources</li>
+  <li>Only AWS service providing 100% availability SLA</li>
+  <li>53: reference to the traditional DNS port</li>
+</ul>
+
+### Route 53 - Records
+
+<ul>
+  <li>How to the traffic should be routed for a domain</li>
+  <li>
+    Each record contains:
+    <ul>
+      <li>Domina/subdomain Name: eg example.com</li>
+      <li>Record Type: eg A or AAAA</li>
+      <li>Value: eg 12.34.56.78</li>
+      <li>Routing Policy: how Route 53 responds to queries</li>
+      <li>TTL: amount of time the record cached at DNS Resolvers</li>
+    </ul>
+  </li>
+  <li>
+    Supports the following DNS types
+    <ul>
+      <li>(must know) A / AAA / CNAME / NS</li>
+      <li>(advanced) CAA / DS / MX / NAPTR / PTR / SOA / TXT / SPF / SRV</li>
+    </ul>
+  </li>
+</ul>
+
 ### Route 53 - Record Types
+
+<ul>
+  <li>A: maps a hostname to IPv4</li>
+  <li>AAAA: maps a hostname to IPv6</li>
+  <li>
+    CNAME: mapse a hostname to another hostname
+    <ul>
+      <li>Target is a domain name with an A or AAAA record</li>
+      <li>Cant create a CNAME record for the top node of a DNS namespace (Zone Apex)</li>
+      <li>eg: cant create for example.com but can for www.example.com</li>
+    </ul>
+  </li>
+  <li>NS: Name servers for the hosted zone</li>
+</ul>
 
 ### Route 53 - Hosted Zones
 
-Public Hosted Zones
+Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
 
-Private Hosted Zones
-
-### Public vs Private Hosted Zones
+Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
 
 ### Records TTL (Time to Live)
 
-**High TTL:**
+**High TTL:** eg 24hr
+<ul>
+  <li>Less traffic on Route 53</li>
+  <li>Possibly outdated records</li>
+</ul>
 
-**Low TTL:**
+**Low TTL:** eg 60sec
+<ul>
+  <li>More traffic on Route 53</li>
+  <li>Records are outdated for less time</li>
+  <li>Easy to change records</li>
+</ul>
 
 ### CNAME vs Alias
 

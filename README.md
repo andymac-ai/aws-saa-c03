@@ -1105,4 +1105,66 @@ They can't process private endpoints.
 
 CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.
 
+### Routing Policy Failover
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
+
+### Routing Policy Geolocation
+
+Different from letency based. 
+
+Routing based on user location.
+
+Specified by Continent, Country, or by US State.
+
+Should create "Default" record.
+
+Use case: website localization, restrict content distribution, load balancing,...
+
+Can be associated with health checks.
+
+### Routing Policy Geoproximity
+
+Route traffic to resources based on geographic location of users and resources.
+
+Ability to shift more traffic to resources based on the defined bias.
+
+Bias values set size of region.
+
+Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).
+
+Must use Route 53 Traffic Flow (advanced) to used this feature.
+
+### Routing Policy IP-based
+
+Ruoting based on clients' IP addresses.
+
+List of CIDRs provided for clients and the corresponding endpoints/locations.
+
+Use case: optimize performance, reduce network costs...
+
+Example: route end users from a particular ISP to a specific endpoint.
+
+### Routing Policy Multi-Value
+
+Use when routing traffic to multiple resources.
+
+Route 53 return multiple values/resources.
+
+Can be associated with Health Checks (return values for healthy resources).
+
+Up to 8 healthy records are returned for each Multi-Value query.
+
+Multi-Value is not a substitute for having an ELB.
+
+### Domain Registar vs DNS Service
+
+Domain names can be purchased with a Domain Registrar typically by paying annual charges.
+
+The Domain Registrar provides a DNS service to manage DNS records.
+
+Other DNS servec can be selected to manage DNS records.
+
+Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront

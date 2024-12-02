@@ -960,4 +960,211 @@ Aurora: 5432
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
+## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53
+
+### DNS
+
+<ul>
+  <li>Domain Name System translates human friendly hostnames into the machine IP addresses.</li>
+  <li>DNS is the backbone of the internet, uses heirarchical naming structure.</li>
+</ul>
+
+### DNS Terminology
+
+**Domain Registrar:**
+
+**DNS Records:**
+
+**Zone File:**
+
+**Name Server:**
+
+**Top Level Domain (TLD):**
+
+**Second Level Domain (SLD):**
+
+### DNS Functionality
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
+
+### Amazon Route 53
+
+### Route 53 - Record Types
+
+### Route 53 - Hosted Zones
+
+Public Hosted Zones
+
+Private Hosted Zones
+
+### Public vs Private Hosted Zones
+
+### Records TTL (Time to Live)
+
+**High TTL:**
+
+**Low TTL:**
+
+### CNAME vs Alias
+
+**CNAME:**
+
+**Alias:**
+
+### Alias Records
+
+**Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
+
+### Routing Policies
+
+<ul>
+  <li>Define how Route 53 responds to DNS queries</li>
+  <li>DNS does not route traffic, only responds to DNS queries</li>
+  <li>
+    Supports the following route policies:
+    <ul>
+      <li>Simple</li>
+      <li>Weighted</li>
+      <li>Failover</li>
+      <li>Latency based</li>
+      <li>Geolocation</li>
+      <li>Multi-Value Answer</li>
+      <li>Geoproximity</li>
+    </ul>
+  </li>
+</ul>
+
+### Routing Policy Simple
+
+<ul>
+  <li>Typically route traffic to a single resource.</li>
+  <li>Can specify multiple values in the same record.</li>
+  <li>If random values are returned, a random one is chosen by the client.</li>
+  <li>When Alias enabled, specify only one AWS resource.</li>
+  <li>Can't be associated with Health Checks.</li>
+</ul>
+
+### Routing Policy Weighted
+
+<ul>
+  <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
+  <li>DNS records must have the same name and type.</li>
+  <li>Can be associated with Health Checks.</li>
+  <li>Use cases: load balancing between regions, testing new application versions...</li>
+  <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
+  <li>If all records have weight of 0, then all records will be returned equally</li>
+</ul>
+
+### Routing Policy Latency-based
+
+<ul>
+  <li>Redirect to the resource that has the least latency close to us</li>
+  <li>Super helpful when latency for users is a priority</li>
+  <li>Latency is based on traffic between users and AWS Regions</li>
+  <li>Can be associated with health checks</li>
+</ul>
+
+### Health Checks
+
+HTTP Health Checks are only for public resources
+
+Health Check => Automated DNS Failover:
+<ul>
+  <li>Monitor an Endpoint</li>
+  <li>Monitor other Health Checks</li>
+  <li>Monitor CloudWatch Alarms</li>
+</ul>
+
+### Health Checks - Monitor an Endpoint
+
+About 15 global health checkers will check endpoint health.
+
+Health checks only pass then the endpoint responds with 2xx or 3xx codes.
+
+Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.
+
+Configure router/firewall to allow incoming requests from Route 53 Health checkers
+
+### Health Checks - Calculated
+
+Combine the results of multiple health checks into a single health check.
+
+Can use OR, AND, or NOT.
+
+Can monitor up to 256 health checks.
+
+Specify how many health checks are needed to pass.
+
+Usage: perform maintainence to website without causing all health checks to fail.
+
+### Health Checks - Private Hosted Zones
+
+Route 53 health checkers are outside the VPC.
+
+They can't process private endpoints.
+
+CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.
+
+### Routing Policy Failover
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
+
+### Routing Policy Geolocation
+
+Different from letency based. 
+
+Routing based on user location.
+
+Specified by Continent, Country, or by US State.
+
+Should create "Default" record.
+
+Use case: website localization, restrict content distribution, load balancing,...
+
+Can be associated with health checks.
+
+### Routing Policy Geoproximity
+
+Route traffic to resources based on geographic location of users and resources.
+
+Ability to shift more traffic to resources based on the defined bias.
+
+Bias values set size of region.
+
+Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).
+
+Must use Route 53 Traffic Flow (advanced) to used this feature.
+
+### Routing Policy IP-based
+
+Ruoting based on clients' IP addresses.
+
+List of CIDRs provided for clients and the corresponding endpoints/locations.
+
+Use case: optimize performance, reduce network costs...
+
+Example: route end users from a particular ISP to a specific endpoint.
+
+### Routing Policy Multi-Value
+
+Use when routing traffic to multiple resources.
+
+Route 53 return multiple values/resources.
+
+Can be associated with Health Checks (return values for healthy resources).
+
+Up to 8 healthy records are returned for each Multi-Value query.
+
+Multi-Value is not a substitute for having an ELB.
+
+### Domain Registar vs DNS Service
+
+Domain names can be purchased with a Domain Registrar typically by paying annual charges.
+
+The Domain Registrar provides a DNS service to manage DNS records.
+
+Other DNS servec can be selected to manage DNS records.
+
+Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront

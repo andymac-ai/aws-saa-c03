@@ -956,6 +956,22 @@ Aurora: 5432
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
+### Moving Between Storage Classes
+
+### Lifecycle Rules
+
+### Analytics
+
+### Requester Pays
+
+### Event Notifications
+
+### Performance
+
+### Batch Operations
+
+### Storage Lens
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud

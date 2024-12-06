@@ -956,6 +956,149 @@ Aurora: 5432
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
+### Moving Between Storage Classes
+
+Objects can be moved through the storage classes, movement is automated through the use of Lifecycle Policies.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
+
+### Lifecycle Rules
+
+**Transition Actions:**
+<ul>
+  <li>configure objects to transition to another storage class</li>
+  <li>Ex: move objects to Standard 1A 60 days after creation</li>
+  <li>Ex: move objects into glacier after 6 months</li>
+</ul>
+
+**Expiration Actions:**
+<ul>
+  <li>configure object deletion after time</li>
+  <li>Ex: delete access logs after 365 days</li>
+  <li>Ex: delete old versions of files (with versioning)</li>
+  <li>Ex: delete multi-part uploads</li>
+</ul>
+
+*Rules can be created for a certain prefix, eg. s3://mybucket/mp3/xxx*
+
+### Analytics
+
+<ul>
+  <li>Helps determine timeperiods for tansitioning objects into archive</li>
+  <li>Recomentions for Standard and Standard-1A</li>
+  <li>Report updated daily</li>
+  <li>24 to 48 hours to start seeing analysis</li>
+  <li>Good starting point for creating lifecycle rules, or improving them</li>
+</ul>
+
+### Requester Pays
+
+<ul>
+  <li>Bucket owners typically pay for storage and data transfer costs for bucket</li>
+  <li>Requester Pays buckets bill the requester the cost of the request and download</li>
+  <li>Helpful when sharing large datasets with other accounts</li>
+  <li>Requester must be AWS authenticated</li>
+</ul>
+
+### Event Notifications
+
+<ul>
+  <li>notifications on s3 events</li>
+  <li>typically delivered in seconds, sometimes in minutes</li>
+  <li>can be set according to file type</li>
+  <li>can create as many "s3 events" as desired</li>
+</ul>
+
+Can be passed to SNS, SQS, or Lambda Functions as policy checks for access.
+
+Can be passed into Amazon EventBridge, and shared with other AWS services as destinations, allowing for advanced filtering, multiple destinations, EventBridge Capabilities.
+
+### Baseline Performance
+
+<ul>
+  <li>Automatically scales to high request rates, latency 100-200ms</li>
+  <li>Application can achieve at least 3500 PUT/COPY/POST/DELETE or 5500 GET/HEAD requests per second per prefix in a bucket</li>
+  <li>No limit to number of prefixes</li>
+  <li>Examples: (/folder1/sub1/, /folder1/sub2/, /1/, /2/)</li>
+  <li>spreading accross 4 prefixes evenly results in 22000 requests per second for GET and HEAD</li>
+</ul>
+
+### Performance
+
+<table>
+  <head>
+    <tr>
+      <td>Multi-Part Upload</td>
+      <td>Transfer Acceleration</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Recommended for files > 100MB</td>
+      <td>Increase transfer speed by transerring file to an AWS edge location which forwards data to S3 bucket in the target region</td>
+    </tr>
+    <tr>
+      <td>Can help parallelize uploads</td>
+      <td>Compatible with multi-part upload</td>
+    </tr>
+  </body>
+</table>
+
+### S3 Byte-Range Fetches
+
+Parallelize GETs by requesting specific byte ranges, has better failure resistance.
+
+### Batch Operations
+
+<ul>
+  <li>Perform bulk operations on existing S3 objects with single request</li>
+  <li>Job consists of a list of objects, the action to perform, and optional parameters</li>
+  <li>manages retries, tracks progress, sends completion notifications, general reports</li>
+  <li>S3 Inventory can be used to get object list and use S3 Select to filter objects</li>
+</ul>
+
+### Storage Lens
+
+Default Dashboard:
+<ul>
+  <li>Visualize summarized insights and trends for both free and advanced metrics</li>
+  <li>Default dashboard shows Multi-Region and Multi-Account data</li>
+  <li>Preconfigured by Amazon S3</li>
+  <li>Can't be deleted, but can be disabled</li>
+</ul>
+
+<h4>Metrics</h4>
+
+**Summary**
+<ul>
+  <li>general insights about your s3 storage</li>
+  <li>StorageBytes, ObjectCount...</li>
+  <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+</ul>
+
+**Cost-Optimization**
+<ul>
+  <li>Provide insights to manage and optimize your storage costs</li>
+  <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
+  <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+</ul>
+
+**Free**
+<ul>
+  <li>automatically available for all</li>
+  <li>Contains 28 usage metrics</li>
+  <li>Data is available for 14 days</li>
+</ul>
+
+**Advanced**
+<ul>
+  <li>additional paid metrics and features</li>
+  <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
+  <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
+  <li>Prefix Aggregation - collect metrics at the prefix level</li>
+  <li>Data is available for queries for 15 months</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud

@@ -1189,11 +1189,71 @@ If a client makes a cross-origin request on an S3 bucket, the correct CORS heade
 
 ### Access Logs
 
+<ul>
+  <li>Logging access to S3 buckets recomended for audits</li>
+  <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
+  <li>Data can be analyzed using analysis tools</li>
+  <li>Target loogin bucket must be in same AWS region</li>
+</ul>
+
+Log:Warnings
+<ul>
+  <li>do not set logging bucket to be the monitored bucket</li>
+  <li>creates logging loop, bucket will grow exponentially</li>
+</ul>
+
 ### Pre-Signed URLs
+
+<ul>
+  <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
+  <li>
+    URL Expiration
+    <ul>
+      <li>S3 Console - 1min up to 720mina</li>
+      <li>AWS CLI - configure expiration with expires-in parameter (default 3600s - 604800s)</li>
+    </ul>
+  </li>
+  <li>Users given pre-signed URL inherit the permissions of the user that generated the URL for GET/PUT</li>
+</ul>
+
+Examples:
+<ul>
+  <li>Allow only logged-in users to download a premium video from your S3 bucket</li>
+  <li>Allow an ever-changing list of users to download files by generating URLs dynamically</li>
+  <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
+</ul>
 
 ### Glacier Vault Lock
 
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Create a Vault Lock Policy</li>
+  <li>Lock the policy for future edits (cannot be changed or deleted)</li>
+  <li>Helpful for compliance and data retention</li>
+</ul>
+
 ### Object Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Block an object version deletion for a specified time</li>
+  <li>
+    Retention mode - Compliance:
+    <ul>
+      <li>Object versions can't be overwritten or deleted by any user, including root</li>
+      <li>Object retention modes can't be changed and retention periods can't be shortened</li>
+    </ul>
+  </li>
+  <li>
+    Retention mode - Governance:
+    <ul>
+      <li>Most users can overwrite or delete an object version or alter its lock settings</li>
+      <li>Some users have special permissions to change the retention or delete the object</li>
+    </ul>
+  </li>
+  <li>Retention Period - protect object for a fixed period</li>
+  <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
+</ul>
 
 ### Access Points
 

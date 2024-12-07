@@ -956,6 +956,334 @@ Aurora: 5432
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
+### Moving Between Storage Classes
+
+Objects can be moved through the storage classes, movement is automated through the use of Lifecycle Policies.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
+
+### Lifecycle Rules
+
+**Transition Actions:**
+<ul>
+  <li>configure objects to transition to another storage class</li>
+  <li>Ex: move objects to Standard 1A 60 days after creation</li>
+  <li>Ex: move objects into glacier after 6 months</li>
+</ul>
+
+**Expiration Actions:**
+<ul>
+  <li>configure object deletion after time</li>
+  <li>Ex: delete access logs after 365 days</li>
+  <li>Ex: delete old versions of files (with versioning)</li>
+  <li>Ex: delete multi-part uploads</li>
+</ul>
+
+*Rules can be created for a certain prefix, eg. s3://mybucket/mp3/xxx*
+
+### Analytics
+
+<ul>
+  <li>Helps determine timeperiods for tansitioning objects into archive</li>
+  <li>Recomentions for Standard and Standard-1A</li>
+  <li>Report updated daily</li>
+  <li>24 to 48 hours to start seeing analysis</li>
+  <li>Good starting point for creating lifecycle rules, or improving them</li>
+</ul>
+
+### Requester Pays
+
+<ul>
+  <li>Bucket owners typically pay for storage and data transfer costs for bucket</li>
+  <li>Requester Pays buckets bill the requester the cost of the request and download</li>
+  <li>Helpful when sharing large datasets with other accounts</li>
+  <li>Requester must be AWS authenticated</li>
+</ul>
+
+### Event Notifications
+
+<ul>
+  <li>notifications on s3 events</li>
+  <li>typically delivered in seconds, sometimes in minutes</li>
+  <li>can be set according to file type</li>
+  <li>can create as many "s3 events" as desired</li>
+</ul>
+
+Can be passed to SNS, SQS, or Lambda Functions as policy checks for access.
+
+Can be passed into Amazon EventBridge, and shared with other AWS services as destinations, allowing for advanced filtering, multiple destinations, EventBridge Capabilities.
+
+### Baseline Performance
+
+<ul>
+  <li>Automatically scales to high request rates, latency 100-200ms</li>
+  <li>Application can achieve at least 3500 PUT/COPY/POST/DELETE or 5500 GET/HEAD requests per second per prefix in a bucket</li>
+  <li>No limit to number of prefixes</li>
+  <li>Examples: (/folder1/sub1/, /folder1/sub2/, /1/, /2/)</li>
+  <li>spreading accross 4 prefixes evenly results in 22000 requests per second for GET and HEAD</li>
+</ul>
+
+### Performance
+
+<table>
+  <head>
+    <tr>
+      <td>Multi-Part Upload</td>
+      <td>Transfer Acceleration</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Recommended for files > 100MB</td>
+      <td>Increase transfer speed by transerring file to an AWS edge location which forwards data to S3 bucket in the target region</td>
+    </tr>
+    <tr>
+      <td>Can help parallelize uploads</td>
+      <td>Compatible with multi-part upload</td>
+    </tr>
+  </body>
+</table>
+
+### S3 Byte-Range Fetches
+
+Parallelize GETs by requesting specific byte ranges, has better failure resistance.
+
+### Batch Operations
+
+<ul>
+  <li>Perform bulk operations on existing S3 objects with single request</li>
+  <li>Job consists of a list of objects, the action to perform, and optional parameters</li>
+  <li>manages retries, tracks progress, sends completion notifications, general reports</li>
+  <li>S3 Inventory can be used to get object list and use S3 Select to filter objects</li>
+</ul>
+
+### Storage Lens
+
+Default Dashboard:
+<ul>
+  <li>Visualize summarized insights and trends for both free and advanced metrics</li>
+  <li>Default dashboard shows Multi-Region and Multi-Account data</li>
+  <li>Preconfigured by Amazon S3</li>
+  <li>Can't be deleted, but can be disabled</li>
+</ul>
+
+<h4>Metrics</h4>
+
+**Summary**
+<ul>
+  <li>general insights about your s3 storage</li>
+  <li>StorageBytes, ObjectCount...</li>
+  <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+</ul>
+
+**Cost-Optimization**
+<ul>
+  <li>Provide insights to manage and optimize your storage costs</li>
+  <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
+  <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+</ul>
+
+**Free**
+<ul>
+  <li>automatically available for all</li>
+  <li>Contains 28 usage metrics</li>
+  <li>Data is available for 14 days</li>
+</ul>
+
+**Advanced**
+<ul>
+  <li>additional paid metrics and features</li>
+  <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
+  <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
+  <li>Prefix Aggregation - collect metrics at the prefix level</li>
+  <li>Data is available for queries for 15 months</li>
+</ul>
+
+### Object Encryption
+
+SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS</li>
+  <li>Object encryption is server-side</li>
+  <li>Encryption type is AES-256</li>
+  <li>Enabled by default for new buckets and new objects</li>
+  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
+</ul>
+
+SSE-KMS (Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
+  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
+  <li>Object is encrypted server side</li>
+  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
+</ul>
+
+<ul>
+  <li>SSE-KMS impacted by KMS limits</li>
+  <li>Upon downloads calls the GenerateDataKey KMS API</li>
+  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
+  <li>You can request a quota increase using the Service Quotas Console</li>
+</ul>
+
+DSSE-KMS (Double Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption handled on double sides</li>
+  <li>For customers with more rigorous security standards</li>
+</ul>
+
+SSE-C (Server-Side Encryption with Customer keys)
+<ul>
+  <li>Keys fully managed by customer outside of AWS</li>
+  <li>S3 does not store the encryption key you provide</li>
+  <li>HTTPS required</li>
+  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
+</ul>
+
+Client-Side Encryption
+<ul>
+  <li>Use client libraries such as S3 Client Side Encryption Library</li>
+  <li>Clients must encrypt data themselved before sending to S3</li>
+  <li>Clients must decrpt data themselves when retrieving</li>
+  <li>Customer fully manages the keys and encryption cycle</li>
+</ul>
+
+### Ecryption in Transit (SSL/TLS)
+
+<ul>
+  <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
+  <li>HTTPS recommended</li>
+  <li>HTTPS is mandatory for SSE-C</li>
+  <li>Most clients use HTTPS endpoint by default</li>
+</ul>
+
+### Default Encryption vs Bucket Policies
+
+SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
+
+Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
+
+### CORS
+
+<ul>
+  <li>Cross-Origin Resource Sharing</li>
+  <li>Origin = scheme (protocol) + host (domain) + port</li>
+  <li>Web Browser-based mechanism to allow requests to other orignins while visiting the main origin</li>
+  <li>Same origin: "http://example.com/app1" and "http://example.com/app2"</li>
+  <li>Different origins: "http://www.example.com" and "http://other.example.com"</li>
+  <li>Requests won't be fulfilled unless the other origin allows for the requests, using CORS Headers</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cors.png" width="300"/>
+
+If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
+
+### MFA Delete
+
+<ul>
+  <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
+  <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
+  <li>MFA not required to: enable versioning, list deleted versions</li>
+  <li>Enable versioning to use MFA delete</li>
+  <li>Only bucket owner can enable/disable MFA Delete</li>
+</ul>
+
+### Access Logs
+
+<ul>
+  <li>Logging access to S3 buckets recomended for audits</li>
+  <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
+  <li>Data can be analyzed using analysis tools</li>
+  <li>Target loogin bucket must be in same AWS region</li>
+</ul>
+
+Log:Warnings
+<ul>
+  <li>do not set logging bucket to be the monitored bucket</li>
+  <li>creates logging loop, bucket will grow exponentially</li>
+</ul>
+
+### Pre-Signed URLs
+
+<ul>
+  <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
+  <li>
+    URL Expiration
+    <ul>
+      <li>S3 Console - 1min up to 720mina</li>
+      <li>AWS CLI - configure expiration with expires-in parameter (default 3600s - 604800s)</li>
+    </ul>
+  </li>
+  <li>Users given pre-signed URL inherit the permissions of the user that generated the URL for GET/PUT</li>
+</ul>
+
+Examples:
+<ul>
+  <li>Allow only logged-in users to download a premium video from your S3 bucket</li>
+  <li>Allow an ever-changing list of users to download files by generating URLs dynamically</li>
+  <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
+</ul>
+
+### Glacier Vault Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Create a Vault Lock Policy</li>
+  <li>Lock the policy for future edits (cannot be changed or deleted)</li>
+  <li>Helpful for compliance and data retention</li>
+</ul>
+
+### Object Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Block an object version deletion for a specified time</li>
+  <li>
+    Retention mode - Compliance:
+    <ul>
+      <li>Object versions can't be overwritten or deleted by any user, including root</li>
+      <li>Object retention modes can't be changed and retention periods can't be shortened</li>
+    </ul>
+  </li>
+  <li>
+    Retention mode - Governance:
+    <ul>
+      <li>Most users can overwrite or delete an object version or alter its lock settings</li>
+      <li>Some users have special permissions to change the retention or delete the object</li>
+    </ul>
+  </li>
+  <li>Retention Period - protect object for a fixed period</li>
+  <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
+</ul>
+
+### Access Points
+
+Access points simplify security management for S3 buckets. Each Access Point has:
+<ul>
+  <li>its own DNS name</li>
+  <li>ab access point policy - manage security at scale</li>
+</ul>
+
+VPC Origin:
+<ul>
+  <li>Possible to define access point to be accessible only from within VPC</li>
+  <li>VPC Enpoint must be created to acces the Access Point (Gateway or Interface Endpoint)</li>
+  <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
+</ul>
+
+### Object Lambda
+
+<ul>
+  <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
+  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S§ Object Lambda Access Points are created</li>
+</ul>
+
+ Use Cases:
+ <ul>
+   <li>Redacting personally identifiable information for analytics or non-production environments.</li>
+   <li>Converting across data formatsm such as converting XML to JSON</li>
+   <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
+ </ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
@@ -1056,11 +1384,20 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 
 ### CNAME vs Alias
 
-**CNAME:**
+**CNAME:** Points a hostname to any other hostname, only for non root domain
 
-**Alias:**
+**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
 
 ### Alias Records
+
+<ul>
+  <li>Maps a hostname to an AWS resource</li>
+  <li>an extension to DNS functionality</li>
+  <li>Automatically recognizes changes in the resource's IP adresses</li>
+  <li>Unlike CNAME, can be used for the top node of a DNS namespace</li>
+  <li>Alias Record is always of type A/AAAA for AWS resources</li>
+  <li>TTL cannot be set</li>
+</ul>
 
 **Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
 
@@ -1069,151 +1406,157 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 <ul>
   <li>Define how Route 53 responds to DNS queries</li>
   <li>DNS does not route traffic, only responds to DNS queries</li>
+</ul>
+
+<table>
+  <head>
+    <tr>
+      <td colspan=2>Routing Policies</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Simple</td>
+      <td>
+        <ul>
+          <li>Typically route traffic to a single resource.</li>
+          <li>Can specify multiple values in the same record.</li>
+          <li>If random values are returned, a random one is chosen by the client.</li>
+          <li>When Alias enabled, specify only one AWS resource.</li>
+          <li>Can't be associated with Health Checks.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Weighted</td>
+      <td>
+        <ul>
+          <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
+          <li>DNS records must have the same name and type.</li>
+          <li>Can be associated with Health Checks.</li>
+          <li>Use cases: load balancing between regions, testing new application versions...</li>
+          <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
+          <li>If all records have weight of 0, then all records will be returned equally</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Latency-based</td>
+      <td>
+        <ul>
+          <li>Redirect to the resource that has the least latency close to us</li>
+          <li>Super helpful when latency for users is a priority</li>
+          <li>Latency is based on traffic between users and AWS Regions</li>
+          <li>Can be associated with health checks</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Failover</td>
+      <td>
+        <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Geolocation</td>
+      <td>
+        <ul>
+          <li>Different from letency based.</li>
+          <li>Routing based on user location.</li>
+          <li>Specified by Continent, Country, or by US State.</li>
+          <li>Should create "Default" record.</li>
+          <li>Use case: website localization, restrict content distribution, load balancing,...</li>
+          <li>Can be associated with health checks.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Geoproximity</td>
+      <td>
+        <ul>
+          <li>Route traffic to resources based on geographic location of users and resources.</li>
+          <li>Ability to shift more traffic to resources based on the defined bias.</li>
+          <li>Bias values set size of region.</li>
+          <li>Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).</li>
+          <li>Must use Route 53 Traffic Flow (advanced) to used this feature.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>IP-based</td>
+      <td>
+        <ul>
+          <li>Routing based on clients' IP addresses.</li>
+          <li>List of CIDRs provided for clients and the corresponding endpoints/locations.</li>
+          <li>Use case: optimize performance, reduce network costs...</li>
+          <li>Example: route end users from a particular ISP to a specific endpoint.</li>
+          <li></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Multi-Value</td>
+      <td>
+        <ul>
+          <li>Use when routing traffic to multiple resources.</li>
+          <li>Route 53 return multiple values/resources.</li>
+          <li>Can be associated with Health Checks (return values for healthy resources).</li>
+          <li>Up to 8 healthy records are returned for each Multi-Value query.</li>
+          <li>Multi-Value is not a substitute for having an ELB.</li>
+        </ul>
+      </td>
+    </tr>
+  </body>
+</table>
+
+### Health Checks
+
+<ul>
+  <li>HTTP Health Checks are only for public resources</li>
   <li>
-    Supports the following route policies:
+    Health Check => Automated DNS Failover:
     <ul>
-      <li>Simple</li>
-      <li>Weighted</li>
-      <li>Failover</li>
-      <li>Latency based</li>
-      <li>Geolocation</li>
-      <li>Multi-Value Answer</li>
-      <li>Geoproximity</li>
+      <li>Monitor an Endpoint</li>
+      <li>Monitor other Health Checks</li>
+      <li>Monitor CloudWatch Alarms</li>
     </ul>
   </li>
 </ul>
 
-### Routing Policy Simple
-
-<ul>
-  <li>Typically route traffic to a single resource.</li>
-  <li>Can specify multiple values in the same record.</li>
-  <li>If random values are returned, a random one is chosen by the client.</li>
-  <li>When Alias enabled, specify only one AWS resource.</li>
-  <li>Can't be associated with Health Checks.</li>
-</ul>
-
-### Routing Policy Weighted
-
-<ul>
-  <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
-  <li>DNS records must have the same name and type.</li>
-  <li>Can be associated with Health Checks.</li>
-  <li>Use cases: load balancing between regions, testing new application versions...</li>
-  <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
-  <li>If all records have weight of 0, then all records will be returned equally</li>
-</ul>
-
-### Routing Policy Latency-based
-
-<ul>
-  <li>Redirect to the resource that has the least latency close to us</li>
-  <li>Super helpful when latency for users is a priority</li>
-  <li>Latency is based on traffic between users and AWS Regions</li>
-  <li>Can be associated with health checks</li>
-</ul>
-
-### Health Checks
-
-HTTP Health Checks are only for public resources
-
-Health Check => Automated DNS Failover:
-<ul>
-  <li>Monitor an Endpoint</li>
-  <li>Monitor other Health Checks</li>
-  <li>Monitor CloudWatch Alarms</li>
-</ul>
-
 ### Health Checks - Monitor an Endpoint
 
-About 15 global health checkers will check endpoint health.
-
-Health checks only pass then the endpoint responds with 2xx or 3xx codes.
-
-Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.
-
-Configure router/firewall to allow incoming requests from Route 53 Health checkers
+<ul>
+  <li>About 15 global health checkers will check endpoint health.</li>
+  <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
+  <li>Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.</li>
+  <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
+</ul>
 
 ### Health Checks - Calculated
 
-Combine the results of multiple health checks into a single health check.
-
-Can use OR, AND, or NOT.
-
-Can monitor up to 256 health checks.
-
-Specify how many health checks are needed to pass.
-
-Usage: perform maintainence to website without causing all health checks to fail.
+<ul>
+  <li>Combine the results of multiple health checks into a single health check.</li>
+  <li>Can use OR, AND, or NOT.</li>
+  <li>Can monitor up to 256 health checks.</li>
+  <li>Specify how many health checks are needed to pass.</li>
+  <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
+</ul>
 
 ### Health Checks - Private Hosted Zones
 
-Route 53 health checkers are outside the VPC.
-
-They can't process private endpoints.
-
-CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.
-
-### Routing Policy Failover
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
-
-### Routing Policy Geolocation
-
-Different from letency based. 
-
-Routing based on user location.
-
-Specified by Continent, Country, or by US State.
-
-Should create "Default" record.
-
-Use case: website localization, restrict content distribution, load balancing,...
-
-Can be associated with health checks.
-
-### Routing Policy Geoproximity
-
-Route traffic to resources based on geographic location of users and resources.
-
-Ability to shift more traffic to resources based on the defined bias.
-
-Bias values set size of region.
-
-Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).
-
-Must use Route 53 Traffic Flow (advanced) to used this feature.
-
-### Routing Policy IP-based
-
-Ruoting based on clients' IP addresses.
-
-List of CIDRs provided for clients and the corresponding endpoints/locations.
-
-Use case: optimize performance, reduce network costs...
-
-Example: route end users from a particular ISP to a specific endpoint.
-
-### Routing Policy Multi-Value
-
-Use when routing traffic to multiple resources.
-
-Route 53 return multiple values/resources.
-
-Can be associated with Health Checks (return values for healthy resources).
-
-Up to 8 healthy records are returned for each Multi-Value query.
-
-Multi-Value is not a substitute for having an ELB.
+<ul>
+  <li>Route 53 health checkers are outside the VPC.</li>
+  <li>They can't process private endpoints.</li>
+  <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
+</ul>
 
 ### Domain Registar vs DNS Service
 
-Domain names can be purchased with a Domain Registrar typically by paying annual charges.
-
-The Domain Registrar provides a DNS service to manage DNS records.
-
-Other DNS servec can be selected to manage DNS records.
-
-Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.
+<ul>
+  <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
+  <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
+  <li>Other DNS servec can be selected to manage DNS records.</li>
+  <li>Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.</li>
+</ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront

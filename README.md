@@ -1158,9 +1158,34 @@ Client-Side Encryption
 
 ### Default Encryption vs Bucket Policies
 
+SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
+
+Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
+
 ### CORS
 
+<ul>
+  <li>Cross-Origin Resource Sharing</li>
+  <li>Origin = scheme (protocol) + host (domain) + port</li>
+  <li>Web Browser-based mechanism to allow requests to other orignins while visiting the main origin</li>
+  <li>Same origin: "http://example.com/app1" and "http://example.com/app2"</li>
+  <li>Different origins: "http://www.example.com" and "http://other.example.com"</li>
+  <li>Requests won't be fulfilled unless the other origin allows for the requests, using CORS Headers</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cors.png" width="300"/>
+
+If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
+
 ### MFA Delete
+
+<ul>
+  <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
+  <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
+  <li>MFA not required to: enable versioning, list deleted versions</li>
+  <li>Enable versioning to use MFA delete</li>
+  <li>Only bucket owner can enable/disable MFA Delete</li>
+</ul>
 
 ### Access Logs
 

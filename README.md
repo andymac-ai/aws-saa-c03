@@ -1102,16 +1102,59 @@ Default Dashboard:
 ### Object Encryption
 
 SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS</li>
+  <li>Object encryption is server-side</li>
+  <li>Encryption type is AES-256</li>
+  <li>Enabled by default for new buckets and new objects</li>
+  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
+</ul>
 
 SSE-KMS (Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
+  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
+  <li>Object is encrypted server side</li>
+  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
+</ul>
+
+<ul>
+  <li>SSE-KMS impacted by KMS limits</li>
+  <li>Upon downloads calls the GenerateDataKey KMS API</li>
+  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
+  <li>You can request a quota increase using the Service Quotas Console</li>
+</ul>
 
 DSSE-KMS (Double Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption handled on double sides</li>
+  <li>For customers with more rigorous security standards</li>
+</ul>
 
 SSE-C (Server-Side Encryption with Customer keys)
+<ul>
+  <li>Keys fully managed by customer outside of AWS</li>
+  <li>S3 does not store the encryption key you provide</li>
+  <li>HTTPS required</li>
+  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
+</ul>
 
 Client-Side Encryption
+<ul>
+  <li>Use client libraries such as S3 Client Side Encryption Library</li>
+  <li>Clients must encrypt data themselved before sending to S3</li>
+  <li>Clients must decrpt data themselves when retrieving</li>
+  <li>Customer fully manages the keys and encryption cycle</li>
+</ul>
 
 ### Ecryption in Transit (SSL/TLS)
+
+<ul>
+  <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
+  <li>HTTPS recommended</li>
+  <li>HTTPS is mandatory for SSE-C</li>
+  <li>Most clients use HTTPS endpoint by default</li>
+</ul>
 
 ### Default Encryption vs Bucket Policies
 

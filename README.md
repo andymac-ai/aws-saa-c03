@@ -1099,6 +1099,38 @@ Default Dashboard:
   <li>Data is available for queries for 15 months</li>
 </ul>
 
+### Object Encryption
+
+SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+
+SSE-KMS (Server-Side Encryption with KMS keys)
+
+DSSE-KMS (Double Server-Side Encryption with KMS keys)
+
+SSE-C (Server-Side Encryption with Customer keys)
+
+Client-Side Encryption
+
+### Ecryption in Transit (SSL/TLS)
+
+### Default Encryption vs Bucket Policies
+
+### CORS
+
+### MFA Delete
+
+### Access Logs
+
+### Pre-Signed URLs
+
+### Glacier Vault Lock
+
+### Object Lock
+
+### Access Points
+
+### Object Lambda
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud

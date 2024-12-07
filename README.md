@@ -1099,6 +1099,191 @@ Default Dashboard:
   <li>Data is available for queries for 15 months</li>
 </ul>
 
+### Object Encryption
+
+SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS</li>
+  <li>Object encryption is server-side</li>
+  <li>Encryption type is AES-256</li>
+  <li>Enabled by default for new buckets and new objects</li>
+  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
+</ul>
+
+SSE-KMS (Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
+  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
+  <li>Object is encrypted server side</li>
+  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
+</ul>
+
+<ul>
+  <li>SSE-KMS impacted by KMS limits</li>
+  <li>Upon downloads calls the GenerateDataKey KMS API</li>
+  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
+  <li>You can request a quota increase using the Service Quotas Console</li>
+</ul>
+
+DSSE-KMS (Double Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption handled on double sides</li>
+  <li>For customers with more rigorous security standards</li>
+</ul>
+
+SSE-C (Server-Side Encryption with Customer keys)
+<ul>
+  <li>Keys fully managed by customer outside of AWS</li>
+  <li>S3 does not store the encryption key you provide</li>
+  <li>HTTPS required</li>
+  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
+</ul>
+
+Client-Side Encryption
+<ul>
+  <li>Use client libraries such as S3 Client Side Encryption Library</li>
+  <li>Clients must encrypt data themselved before sending to S3</li>
+  <li>Clients must decrpt data themselves when retrieving</li>
+  <li>Customer fully manages the keys and encryption cycle</li>
+</ul>
+
+### Ecryption in Transit (SSL/TLS)
+
+<ul>
+  <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
+  <li>HTTPS recommended</li>
+  <li>HTTPS is mandatory for SSE-C</li>
+  <li>Most clients use HTTPS endpoint by default</li>
+</ul>
+
+### Default Encryption vs Bucket Policies
+
+SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
+
+Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
+
+### CORS
+
+<ul>
+  <li>Cross-Origin Resource Sharing</li>
+  <li>Origin = scheme (protocol) + host (domain) + port</li>
+  <li>Web Browser-based mechanism to allow requests to other orignins while visiting the main origin</li>
+  <li>Same origin: "http://example.com/app1" and "http://example.com/app2"</li>
+  <li>Different origins: "http://www.example.com" and "http://other.example.com"</li>
+  <li>Requests won't be fulfilled unless the other origin allows for the requests, using CORS Headers</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cors.png" width="300"/>
+
+If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
+
+### MFA Delete
+
+<ul>
+  <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
+  <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
+  <li>MFA not required to: enable versioning, list deleted versions</li>
+  <li>Enable versioning to use MFA delete</li>
+  <li>Only bucket owner can enable/disable MFA Delete</li>
+</ul>
+
+### Access Logs
+
+<ul>
+  <li>Logging access to S3 buckets recomended for audits</li>
+  <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
+  <li>Data can be analyzed using analysis tools</li>
+  <li>Target loogin bucket must be in same AWS region</li>
+</ul>
+
+Log:Warnings
+<ul>
+  <li>do not set logging bucket to be the monitored bucket</li>
+  <li>creates logging loop, bucket will grow exponentially</li>
+</ul>
+
+### Pre-Signed URLs
+
+<ul>
+  <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
+  <li>
+    URL Expiration
+    <ul>
+      <li>S3 Console - 1min up to 720mina</li>
+      <li>AWS CLI - configure expiration with expires-in parameter (default 3600s - 604800s)</li>
+    </ul>
+  </li>
+  <li>Users given pre-signed URL inherit the permissions of the user that generated the URL for GET/PUT</li>
+</ul>
+
+Examples:
+<ul>
+  <li>Allow only logged-in users to download a premium video from your S3 bucket</li>
+  <li>Allow an ever-changing list of users to download files by generating URLs dynamically</li>
+  <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
+</ul>
+
+### Glacier Vault Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Create a Vault Lock Policy</li>
+  <li>Lock the policy for future edits (cannot be changed or deleted)</li>
+  <li>Helpful for compliance and data retention</li>
+</ul>
+
+### Object Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Block an object version deletion for a specified time</li>
+  <li>
+    Retention mode - Compliance:
+    <ul>
+      <li>Object versions can't be overwritten or deleted by any user, including root</li>
+      <li>Object retention modes can't be changed and retention periods can't be shortened</li>
+    </ul>
+  </li>
+  <li>
+    Retention mode - Governance:
+    <ul>
+      <li>Most users can overwrite or delete an object version or alter its lock settings</li>
+      <li>Some users have special permissions to change the retention or delete the object</li>
+    </ul>
+  </li>
+  <li>Retention Period - protect object for a fixed period</li>
+  <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
+</ul>
+
+### Access Points
+
+Access points simplify security management for S3 buckets. Each Access Point has:
+<ul>
+  <li>its own DNS name</li>
+  <li>ab access point policy - manage security at scale</li>
+</ul>
+
+VPC Origin:
+<ul>
+  <li>Possible to define access point to be accessible only from within VPC</li>
+  <li>VPC Enpoint must be created to acces the Access Point (Gateway or Interface Endpoint)</li>
+  <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
+</ul>
+
+### Object Lambda
+
+<ul>
+  <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
+  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S§ Object Lambda Access Points are created</li>
+</ul>
+
+ Use Cases:
+ <ul>
+   <li>Redacting personally identifiable information for analytics or non-production environments.</li>
+   <li>Converting across data formatsm such as converting XML to JSON</li>
+   <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
+ </ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud

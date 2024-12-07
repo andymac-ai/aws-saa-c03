@@ -1257,7 +1257,32 @@ Examples:
 
 ### Access Points
 
+Access points simplify security management for S3 buckets. Each Access Point has:
+<ul>
+  <li>its own DNS name</li>
+  <li>ab access point policy - manage security at scale</li>
+</ul>
+
+VPC Origin:
+<ul>
+  <li>Possible to define access point to be accessible only from within VPC</li>
+  <li>VPC Enpoint must be created to acces the Access Point (Gateway or Interface Endpoint)</li>
+  <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
+</ul>
+
 ### Object Lambda
+
+<ul>
+  <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
+  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S§ Object Lambda Access Points are created</li>
+</ul>
+
+ Use Cases:
+ <ul>
+   <li>Redacting personally identifiable information for analytics or non-production environments.</li>
+   <li>Converting across data formatsm such as converting XML to JSON</li>
+   <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
+ </ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 

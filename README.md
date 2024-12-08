@@ -1560,3 +1560,25 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 </ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront
+
+### Origins
+
+S3 Bucket
+
+Custom Origin (HTTP)
+
+### CloudFront vs S3 Cross Region Replication
+
+### ALB or EC2 as an Origin
+
+### Geo Restriction
+
+### Pricing
+
+### Cache Invalidations
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Global-Accelerator.png" width="50"/> AWS Global Accelerator
+
+### Global Accelerator vs CloudFront
+
+###

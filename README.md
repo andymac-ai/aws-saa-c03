@@ -1561,24 +1561,147 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront
 
+<ul>
+  <li>Content Delivery Network</li>
+  <li>Improves read performance, content is cahced at the edge.</li>
+  <li>Improves user experience</li>
+  <li>216 Point of Presense globally (edge locations)</li>
+  <li>DDoS Protection, integration with Shield, AWS Web Application Firewall</li>
+</ul>
+
 ### Origins
 
-S3 Bucket
+**S3 Bucket:**
+<ul>
+  <li>For distirbuting files and caching at the edge</li>
+  <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
+  <li>OAC replaces Origin Access Identity (OAI)</li>
+  <li>CloudFront can be used as an ingress (uploading files to S3)</li>
+</ul>
 
-Custom Origin (HTTP)
+**Custom Origin (HTTP):**
+<ul>
+  <li>Application Load Balancer</li>
+  <li>EC2 instance</li>
+  <li>S3 website (bucket must be enabled as static S3 website)</li>
+  <li>Any HTTP backend</li>
+</ul>
 
 ### CloudFront vs S3 Cross Region Replication
 
-### ALB or EC2 as an Origin
+**CloudFront:**
+<ul>
+  <li>Global edge network</li>
+  <li>Files are cached or a TTL (maybe delay)</li>
+  <li>Great for static content that must be globally available</li>
+</ul>
+
+**S3 Cross Region Replication:**
+<ul>
+  <li>Must be setup in each region for replication</li>
+  <li>Files are updated in near real-time</li>
+  <li>Read only</li>
+  <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
+</ul>
 
 ### Geo Restriction
 
+**Allowlist:** Allow users to access content only if they are in one of the countries on the aproved list
+
+**Blocklist:** Prevent users from accessing your content if they are in one of the countries in the banned list
+
 ### Pricing
+
+Cost of data out of CloudFront Edge location varies.
+
+<table>
+  <head>
+    <tr>
+      <td colspan=2>Price Classes</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Price Class All</td>
+      <td>All regions - best performance</td>
+    </tr>
+    <tr>
+      <td>Price Class 200</td>
+      <td>Most regions, but not the most expensive</td>
+    </tr>
+    <tr>
+      <td>Price Class 100</td>
+      <td>Only the least expensive regions</td>
+    </tr>
+  </body>
+</table>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cloudfront_price.png" width="300"/>
 
 ### Cache Invalidations
 
+<ul>
+  <li>If the back-end origin is updated, CloudFront only gets refreshed content after the TTL has expired</li>
+  <li>A partial cache refresh can be forced using CloudFront invalidation</li>
+  <li>All files can be invalidated (*) or only a special path (images/*)</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Global-Accelerator.png" width="50"/> AWS Global Accelerator
 
+**Unicast IP** - one server holds one IP address
+
+**Anycaast IP** - all servers hold the same IP address and the client is routed to the nearest one
+
+<ul>
+  <li>Leverage the AWS internal network to route to the application</li>
+  <li>2 Anycast IP send traffic directly to Edge Locations</li>
+  <li>Edge Locations send traffic to the application</li>
+  <li>Works with Elastic IP, EC2 instances, ALB, NLB, public or private</li>
+  <li>
+    Consistent Performance
+    <ul>
+      <li>Intelligent routing to lowest latency and fast region failover</li>
+      <li>No issue with client cache</li>
+      <li>Internal AWS network</li>
+    </ul>
+  </li>
+  <li>
+    Health Checks
+    <ul>
+      <li>Global Accelerator performs health check of applications</li>
+      <li>Helps make application global</li>
+      <li>Great for disaster recovery</li>
+    </ul>
+  </li>
+  <li>
+    Security
+    <ul>
+      <li>only 2 external IP need to be whitelisted</li>
+      <li>DDoS protection thanks to AWS Shield</li>
+    </ul>
+  </li>
+</ul>
+
 ### Global Accelerator vs CloudFront
+
+Both use AWS global network and its edge locations around the world.
+
+Both services integrate with AWS Shield for DDoS protection.
+
+**CloudFront**
+<ul>
+  <li>improves performance for both cacheable content</li>
+  <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
+  <li>Content served on the edge</li>
+</ul>
+
+**Global Accelerator**
+<ul>
+  <li>Improve performance for a wide range of applications over TCP or UDP</li>
+  <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
+  <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
+  <li>Good for HTTP with static IP addresses</li>
+  <li>Good for HTTP with required deterministic, fast regional failover</li>
+</ul>
 
 ###

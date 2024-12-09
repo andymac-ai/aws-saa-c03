@@ -578,6 +578,30 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Organizations.png" width="50"/> AWS Orgnaizations
+
+### SCP Hiearchy
+
+### IAM Conditions
+
+### IAM S3
+
+### Resource Policies
+
+### IAM Roles 
+
+### Amazon EventBridge - Security
+
+### Permission Boundaries
+
+### Policy Evaluation Logic
+
+### Identity Center
+
+### Directory Serivces
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS - Relational Database Service

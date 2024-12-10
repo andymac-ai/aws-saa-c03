@@ -598,6 +598,8 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
 
 ### Identity Center
 
+identity center operations
+
 ### Directory Serivces
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower

@@ -580,27 +580,97 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Organizations.png" width="50"/> AWS Orgnaizations
 
+Global service that allows management of multiple accounts.
+
+Main account is the management account, the others are members. Members can be part of only one organization.
+
+Allows for consolidated billing and pricing from aggregated usage. API available for automation.
+
+Advantages:
+<ul>
+  <li>Multi Account vs One Account VPC</li>
+  <li>Use tagging standards for billing purposes</li>
+  <li>Enable CloudTrail on all accounts, send logs to central S3 account</li>
+  <li>Establish Cross Account Roles for Aministration</li>
+</ul>
+
+Service Control Policies (SPC)
+<ul>
+  <li>IAM policies applied to OU or Accounts to restrict Users and Roles</li>
+  <li>Do not apply to management account</li>
+  <li>Must have expicit allow from the root through each OU in the direct path to the target account</li>
+</ul>
+
 ### SCP Hiearchy
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/scp_hierarchy.png" width="300"/>
 
 ### IAM Conditions
 
+Set conditions for applying IAM rules.
+
 ### IAM S3
+
+Conditions can be bucket level or object level.
 
 ### Resource Policies
 
+Principle does not give up their permissions.
+
 ### IAM Roles 
+
+Assuming a role surrenders original permissions and takes new permissions.
 
 ### Amazon EventBridge - Security
 
+<ul>
+  <li>When a rule runs, it needs permissions on the target.</li>
+  <li>Resource-based policy: Lambda, SNS, SQS, S3 buckets, API gatesway...</li>
+  <li>IAM Role: Kinesis stream, EC2 Auto Scaling, Systems Manager Run Command, ECS task...</li>
+</ul>
+
 ### Permission Boundaries
 
-### Policy Evaluation Logic
+Permission boundaries are supported for users and roles. Advanced feature to use a managed policy to set the maximum permissions an IAM entity can get.
 
 ### Identity Center
 
+One login for all your:
+<ul>
+  <li>AWS accounts in AWS Organizations</li>
+  <li>Business cloud applications</li>
+  <li>SAML2.0-enabled applications</li>
+  <li>EC2 Windows Instances</li>
+</ul>
+
+Identity providers: Built-in identity store in IAM Identity Center
+
 ### Directory Serivces
 
+AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD
+
+AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD
+
+Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower
+
+Easy way to setup and govern a secure and compliant multiaccount AWS environment based on best practices; uses AWS Organizations to create accounts
+
+Benefits:
+<ul>
+  <li>Automate the set up of environment easily</li>
+  <li>Automate ongoing policy management using guardrails</li>
+  <li>Detect policy iolations and remediate</li>
+  <li>Monitor compliance through an interactive dashboard</li>
+</ul>
+
+Control Tower Guardrails:
+<ul>
+  <li>Provides ongoing governence for Control Tower environment</li>
+  <li>Preventive Guardrail - using SPCs</li>
+  <li>Detective Guardrail - using AWS Config</li>
+</ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
 

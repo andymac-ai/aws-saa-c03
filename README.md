@@ -1380,13 +1380,79 @@ Use Cases:
 
 ### AWS Snow Family
 
+Highly secure, portable devices to collect and process data at the edge, and migrate date into and out of AWS.
+
+<table>
+  <head>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Storage Capacity</td>
+      <td>Migration Size</td>
+      <td>DataSync Agent</td>
+      <td>Storage Clustering</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowcone.png" width="25"/></td>
+      <td>Snowcone</td>
+      <td>8TB uable</td>
+      <td>Up to 24TB, online and offline</td>
+      <td>Pre-installed</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowball-Edge.png" width="25"/></td>
+      <td>Snowball Edge</td>
+      <td>80TB uable</td>
+      <td>Up to petabytes, offline</td>
+      <td></td>
+      <td>Up to 15 nodes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Snowmobile</td>
+      <td>< 100 PB></td>
+      <td>Up to exabytes, offline</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </body>
+</table>
+
+Usage process:
+<ol>
+  <li>Request Snowball devices from the AWS console for delivery</li>
+  <li>Install snowball client / AWS OpsHub on servers</li>
+  <li>Connect snowball to servers and copy files with client</li>
+  <li>Ship device back when data uploadd</li>
+  <li>Data to be loaded into S3 bucket</li>
+  <li>Snowball is completely wiped</li>
+</ol>
+
 ### Edge Computing
+
+<ul>
+  <li>Processing data while its being created on an edge location.</li>
+  <li>Locations may have limited internet connection and no access to computing power.</li>
+  <li>Snowball Edge / Snowcone devices can be setup to do edge computing.</li>
+  <li>Use cases: preprocess data, machine learning, transcoding media</li>
+</ul>
 
 ### Solution Architecture: Snowball into Glacier
 
+Snowball cannot import directly into Glacier.
+
+Data must first use S§, then moved with an S§ lifecycle policy.
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
 
+Launch 3rd party highperformance file systems on AWS, fully managed service.
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
+
+
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
 

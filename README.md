@@ -1371,12 +1371,48 @@ VPC Origin:
   <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S§ Object Lambda Access Points are created</li>
 </ul>
 
- Use Cases:
- <ul>
-   <li>Redacting personally identifiable information for analytics or non-production environments.</li>
-   <li>Converting across data formatsm such as converting XML to JSON</li>
-   <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
- </ul>
+Use Cases:
+<ul>
+  <li>Redacting personally identifiable information for analytics or non-production environments.</li>
+  <li>Converting across data formatsm such as converting XML to JSON</li>
+  <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
+</ul>
+
+### AWS Snow Family
+
+### Edge Computing
+
+### Solution Architecture: Snowball into Glacier
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
+
+### FSx File System Deployment Options
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
+
+### Hybrid Cloud for Storage
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
+
+### Storage Gateway - Hardware Appliance
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
+
+### Storage Comparison
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 

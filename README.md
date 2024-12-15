@@ -1368,7 +1368,7 @@ VPC Origin:
 
 <ul>
   <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
-  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S§ Object Lambda Access Points are created</li>
+  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S3 Object Lambda Access Points are created</li>
 </ul>
 
 Use Cases:
@@ -1444,7 +1444,7 @@ Usage process:
 
 Snowball cannot import directly into Glacier.
 
-Data must first use S§, then moved with an S§ lifecycle policy.
+Data must first use S3, then moved with an S3 lifecycle policy.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
 
@@ -1452,17 +1452,71 @@ Launch 3rd party highperformance file systems on AWS, fully managed service.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
 
-
+<ul>
+  <li>A fully managed Windows filesystem share drive</li>
+  <li>Supports SMB protocol & Windows NTFS</li>
+  <li>MS Active Directory integration, ACLs user quotas</li>
+  <li>Can be mounted on Linux EC2 instances</li>
+  <li>Support's MS's Distributed File System (DFS) Namespaces</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
 
+<ul>
+  <li>Lustre is a type of parallel distributed file system, for large-scale computing</li>
+  <li>Lustre = Linux + cluster</li>
+  <li>Machine Learning, High Performance Computing (HPC)</li>
+  <li>Video Processing, Financial modeling, electronic design automation</li>
+  <li>Scales up to 100s GB/s, millions of IOPS, sub-ms latencies</li>
+  <li>Storage options: SSD, HDD</li>
+  <li>Seamless integration with S3</li>
+</ul>
+
 ### FSx File System Deployment Options
+
+Scratch File System
+<ul>
+  <li>Temporary storage</li>
+  <li>Data is not replicated</li>
+  <li>High Burst</li>
+  <li>Usage: short-term processing, optimize costs</li>
+</ul>
+
+Persistent File System
+<ul>
+  <li>Long-term storage</li>
+  <li>Data is replicated with same AZ</li>
+  <li>Rlace failed files in minutes</li>
+  <li>sage: long-term processing, sensitive</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
 
+<ul>
+  <li>Managed NetApp ONTAP on AWS</li>
+  <li>File System compatible with NFS, SMB, iSCSI protocol</li>
+  <li>Move workloads running on ONTAP or NAS to AWS</li>
+  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
+  <li>Storage scales up or down automatically</li>
+  <li>Snapshots, replication, low-cost, compression and data de-duplication</li>
+  <li>Point-in-time instantaneous cloning</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
 
+<ul>
+  <li>Managed OpenZFS file system on AWS</li>
+  <li>File System compatible with NFS</li>
+  <li>Move workloads running on ZFS to AWS</li>
+  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
+  <li>Up to 1,000,000 IOPS with < 0.5ms latency</li>
+  <li>Snapshots, compression and low-cost</li>
+  <li>Point-in-time instantaneous cloning</li>
+</ul>
+
 ### Hybrid Cloud for Storage
+
+
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
 

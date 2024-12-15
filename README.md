@@ -1368,15 +1368,312 @@ VPC Origin:
 
 <ul>
   <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
-  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S§ Object Lambda Access Points are created</li>
+  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S3 Object Lambda Access Points are created</li>
 </ul>
 
- Use Cases:
- <ul>
-   <li>Redacting personally identifiable information for analytics or non-production environments.</li>
-   <li>Converting across data formatsm such as converting XML to JSON</li>
-   <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
- </ul>
+Use Cases:
+<ul>
+  <li>Redacting personally identifiable information for analytics or non-production environments.</li>
+  <li>Converting across data formatsm such as converting XML to JSON</li>
+  <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
+</ul>
+
+### AWS Snow Family
+
+Highly secure, portable devices to collect and process data at the edge, and migrate date into and out of AWS.
+
+<table>
+  <head>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Storage Capacity</td>
+      <td>Migration Size</td>
+      <td>DataSync Agent</td>
+      <td>Storage Clustering</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowcone.png" width="25"/></td>
+      <td>Snowcone</td>
+      <td>8TB uable</td>
+      <td>Up to 24TB, online and offline</td>
+      <td>Pre-installed</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowball-Edge.png" width="25"/></td>
+      <td>Snowball Edge</td>
+      <td>80TB uable</td>
+      <td>Up to petabytes, offline</td>
+      <td></td>
+      <td>Up to 15 nodes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Snowmobile</td>
+      <td>< 100 PB></td>
+      <td>Up to exabytes, offline</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </body>
+</table>
+
+Usage process:
+<ol>
+  <li>Request Snowball devices from the AWS console for delivery</li>
+  <li>Install snowball client / AWS OpsHub on servers</li>
+  <li>Connect snowball to servers and copy files with client</li>
+  <li>Ship device back when data uploadd</li>
+  <li>Data to be loaded into S3 bucket</li>
+  <li>Snowball is completely wiped</li>
+</ol>
+
+### Edge Computing
+
+<ul>
+  <li>Processing data while its being created on an edge location.</li>
+  <li>Locations may have limited internet connection and no access to computing power.</li>
+  <li>Snowball Edge / Snowcone devices can be setup to do edge computing.</li>
+  <li>Use cases: preprocess data, machine learning, transcoding media</li>
+</ul>
+
+### Solution Architecture: Snowball into Glacier
+
+Snowball cannot import directly into Glacier.
+
+Data must first use S3, then moved with an S3 lifecycle policy.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
+
+Launch 3rd party highperformance file systems on AWS, fully managed service.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
+
+<ul>
+  <li>A fully managed Windows filesystem share drive</li>
+  <li>Supports SMB protocol & Windows NTFS</li>
+  <li>MS Active Directory integration, ACLs user quotas</li>
+  <li>Can be mounted on Linux EC2 instances</li>
+  <li>Support's MS's Distributed File System (DFS) Namespaces</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
+
+<ul>
+  <li>Lustre is a type of parallel distributed file system, for large-scale computing</li>
+  <li>Lustre = Linux + cluster</li>
+  <li>Machine Learning, High Performance Computing (HPC)</li>
+  <li>Video Processing, Financial modeling, electronic design automation</li>
+  <li>Scales up to 100s GB/s, millions of IOPS, sub-ms latencies</li>
+  <li>Storage options: SSD, HDD</li>
+  <li>Seamless integration with S3</li>
+</ul>
+
+### FSx File System Deployment Options
+
+Scratch File System
+<ul>
+  <li>Temporary storage</li>
+  <li>Data is not replicated</li>
+  <li>High Burst</li>
+  <li>Usage: short-term processing, optimize costs</li>
+</ul>
+
+Persistent File System
+<ul>
+  <li>Long-term storage</li>
+  <li>Data is replicated with same AZ</li>
+  <li>Rlace failed files in minutes</li>
+  <li>sage: long-term processing, sensitive</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
+
+<ul>
+  <li>Managed NetApp ONTAP on AWS</li>
+  <li>File System compatible with NFS, SMB, iSCSI protocol</li>
+  <li>Move workloads running on ONTAP or NAS to AWS</li>
+  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
+  <li>Storage scales up or down automatically</li>
+  <li>Snapshots, replication, low-cost, compression and data de-duplication</li>
+  <li>Point-in-time instantaneous cloning</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
+
+<ul>
+  <li>Managed OpenZFS file system on AWS</li>
+  <li>File System compatible with NFS</li>
+  <li>Move workloads running on ZFS to AWS</li>
+  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
+  <li>Up to 1,000,000 IOPS with < 0.5ms latency</li>
+  <li>Snapshots, compression and low-cost</li>
+  <li>Point-in-time instantaneous cloning</li>
+</ul>
+
+### Hybrid Cloud for Storage
+
+<ul>
+  <li>AWS is pushing for "hybrid-cloud" (part of infrastructure in the cloud, part on-premises)</li>
+  <li>Causes: Long cloud migrations, security requirements, compliance requirements, IT strategy</li>
+  <li>Amazon Storage Gateway exposes on-premises S3 data</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
+
+Bridge between on-premises data and cloud data.
+
+Use cases:
+<ul>
+  <li>disaster recovery</li>
+  <li>backup and restore</li>
+  <li>tiered storage</li>
+  <li>on-premises cache & low latency files access</li>
+</ul>
+
+Types of storage gateway:
+<ul>
+  <li>S3 File Gateway</li>
+  <li>FSx File Gateway</li>
+  <li>Volume Gateway</li>
+  <li>Tape Gateway</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
+
+<ul>
+  <li>Configured S3 buckets are accessible using the NFS and SMB protocol</li>
+  <li>Most recently used data is cached in the file gateway</li>
+  <li>Supports S3 Standard, S3 Standard IA, S3 One Zone A, S3 Intelligent Tiering</li>
+  <li>Transition to S3 Glacier using a Lifecycle Policy</li>
+  <li>Bucket Access using IAM roles for each File Gateway</li>
+  <li>SMB Protocol has integration with Active Directory (AD) for user authentication</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
+
+<ul>
+  <li>Native access to Amazon FSx for Windows File Server</li>
+  <li>Local cache for frequently accessed data</li>
+  <li>Windows native compatibility</li>
+  <li>Useful for group file shares and home directories</li>
+</ul>
+
+### Volume Gateway
+
+<ul>
+  <li>Block storage using iSCSI protocol backed by S3</li>
+  <li>Backed by EBS Snapshot which can help restore on premises volumes</li>
+  <li>Cached volumes: low latency access to most recent data</li>
+  <li>Stored Volumes: entire dataset is on premise, scheduled backups to S3</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
+
+<ul>
+  <li>Some companies have backup processes using physical tapes</li>
+  <li>With Tape Gateway, companies use the same processes but, in the cloud</li>
+  <li>Virtual Tape Library (VTL) backed by Amazon S3 and Glacier</li>
+  <li>Back up data using existing tape-based processes (and iSCSI interface)</li>
+  <li>Works with leading backup software vendors</li>
+</ul>
+
+### Storage Gateway - Hardware Appliance
+
+Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.
+
+Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
+
+A fully managed service for file transfers into and out of Amazon S3 or Amazon EFS using the FTP protocol.
+
+Supported protocols:
+<ul>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTP.png" width="50"/>AWS Transfer for FTP</li>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTPS.png" width="50"/>AWS Transfer for FTPS</li>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-SFTP.png" width="50"/>AWS Transfer for SFTP</li>
+</ul>
+
+Managed infrastructure, Scalable, Reliable, Highly Available (multi-AZ). Pay per provisioned endpoint per hour + data transfers in GB.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
+
+Moves large amount of data from on-premises/AWS to AWS.
+
+Can syncronize to Amazon S3, EFS, FSx.
+
+Replication tasks can be scheduled hourly, daily, or weekly.
+
+File permissions and metadata are preserved.
+
+### Storage Comparison
+
+<table>
+  <head>
+  </head>
+  <body>
+    <tr>
+      <td>S3</td>
+      <td>Object Storage</td>
+    </tr>
+    <tr>
+      <td>S3 Glacier</td>
+      <td>Object Archival</td>
+    </tr>
+    <tr>
+      <td>EBS Volumes</td>
+      <td>Network storage for one EC2 instance at a time</td>
+    </tr>
+    <tr>
+      <td>Instance Storage</td>
+      <td>Physical for your EC2 instance (high IOPS)</td>
+    </tr>
+    <tr>
+      <td>EFS</td>
+      <td>Network File Sytem fort Linux Instances, POSIX filesystem</td>
+    </tr>
+    <tr>
+      <td>FSx for Windows</td>
+      <td>Network File System for Windows Servers</td>
+    </tr>
+    <tr>
+      <td>FSx for Lustre</td>
+      <td>High Performance Computing Linux file system</td>
+    </tr>
+    <tr>
+      <td>FSx for NetApp ONTAP</td>
+      <td>High OS Compatibility</td>
+    </tr>
+    <tr>
+      <td>FSx for OpenZFS</td>
+      <td>Managed ZFS file system</td>
+    </tr>
+    <tr>
+      <td>Storage Gateway</td>
+      <td>S3 and FSx File Gateway, Volume Gateway (cache and stored), Tape Gateway</td>
+    </tr>
+    <tr>
+      <td>Transfer Family</td>
+      <td>FTP, FTPS, SFTP interface on top of Amazon S3 or Amazon EFS</td>
+    </tr>
+    <tr>
+      <td>DataSync</td>
+      <td>Schedule data sync from on-premises to AWS, or AWS to AWS</td>
+    </tr>
+    <tr>
+      <td>Snowcone / Snowball / Snowmobile</td>
+      <td>move large amounts of data to cloud, physically</td>
+    </tr>
+    <tr>
+      <td>Database</td>
+      <td>for specific workloads, usually with indexing and querying</td>
+    </tr>
+  </body>
+</table>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 

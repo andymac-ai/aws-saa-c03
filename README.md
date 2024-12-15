@@ -1516,23 +1516,164 @@ Persistent File System
 
 ### Hybrid Cloud for Storage
 
-
+<ul>
+  <li>AWS is pushing for "hybrid-cloud" (part of infrastructure in the cloud, part on-premises)</li>
+  <li>Causes: Long cloud migrations, security requirements, compliance requirements, IT strategy</li>
+  <li>Amazon Storage Gateway exposes on-premises S3 data</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
 
+Bridge between on-premises data and cloud data.
+
+Use cases:
+<ul>
+  <li>disaster recovery</li>
+  <li>backup and restore</li>
+  <li>tiered storage</li>
+  <li>on-premises cache & low latency files access</li>
+</ul>
+
+Types of storage gateway:
+<ul>
+  <li>S3 File Gateway</li>
+  <li>FSx File Gateway</li>
+  <li>Volume Gateway</li>
+  <li>Tape Gateway</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
+
+<ul>
+  <li>Configured S3 buckets are accessible using the NFS and SMB protocol</li>
+  <li>Most recently used data is cached in the file gateway</li>
+  <li>Supports S3 Standard, S3 Standard IA, S3 One Zone A, S3 Intelligent Tiering</li>
+  <li>Transition to S3 Glacier using a Lifecycle Policy</li>
+  <li>Bucket Access using IAM roles for each File Gateway</li>
+  <li>SMB Protocol has integration with Active Directory (AD) for user authentication</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
 
+<ul>
+  <li>Native access to Amazon FSx for Windows File Server</li>
+  <li>Local cache for frequently accessed data</li>
+  <li>Windows native compatibility</li>
+  <li>Useful for group file shares and home directories</li>
+</ul>
+
+### Volume Gateway
+
+<ul>
+  <li>Block storage using iSCSI protocol backed by S3</li>
+  <li>Backed by EBS Snapshot which can help restore on premises volumes</li>
+  <li>Cached volumes: low latency access to most recent data</li>
+  <li>Stored Volumes: entire dataset is on premise, scheduled backups to S3</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
+
+<ul>
+  <li>Some companies have backup processes using physical tapes</li>
+  <li>With Tape Gateway, companies use the same processes but, in the cloud</li>
+  <li>Virtual Tape Library (VTL) backed by Amazon S3 and Glacier</li>
+  <li>Back up data using existing tape-based processes (and iSCSI interface)</li>
+  <li>Works with leading backup software vendors</li>
+</ul>
 
 ### Storage Gateway - Hardware Appliance
 
+Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.
+
+Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
+
+A fully managed service for file transfers into and out of Amazon S3 or Amazon EFS using the FTP protocol.
+
+Supported protocols:
+<ul>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTP.png" width="50"/>AWS Transfer for FTP</li>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTPS.png" width="50"/>AWS Transfer for FTPS</li>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-SFTP.png" width="50"/>AWS Transfer for SFTP</li>
+</ul>
+
+Managed infrastructure, Scalable, Reliable, Highly Available (multi-AZ). Pay per provisioned endpoint per hour + data transfers in GB.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
 
+Moves large amount of data from on-premises/AWS to AWS.
+
+Can syncronize to Amazon S3, EFS, FSx.
+
+Replication tasks can be scheduled hourly, daily, or weekly.
+
+File permissions and metadata are preserved.
+
 ### Storage Comparison
+
+<table>
+  <head>
+  </head>
+  <body>
+    <tr>
+      <td>S3</td>
+      <td>Object Storage</td>
+    </tr>
+    <tr>
+      <td>S3 Glacier</td>
+      <td>Object Archival</td>
+    </tr>
+    <tr>
+      <td>EBS Volumes</td>
+      <td>Network storage for one EC2 instance at a time</td>
+    </tr>
+    <tr>
+      <td>Instance Storage</td>
+      <td>Physical for your EC2 instance (high IOPS)</td>
+    </tr>
+    <tr>
+      <td>EFS</td>
+      <td>Network File Sytem fort Linux Instances, POSIX filesystem</td>
+    </tr>
+    <tr>
+      <td>FSx for Windows</td>
+      <td>Network File System for Windows Servers</td>
+    </tr>
+    <tr>
+      <td>FSx for Lustre</td>
+      <td>High Performance Computing Linux file system</td>
+    </tr>
+    <tr>
+      <td>FSx for NetApp ONTAP</td>
+      <td>High OS Compatibility</td>
+    </tr>
+    <tr>
+      <td>FSx for OpenZFS</td>
+      <td>Managed ZFS file system</td>
+    </tr>
+    <tr>
+      <td>Storage Gateway</td>
+      <td>S3 and FSx File Gateway, Volume Gateway (cache and stored), Tape Gateway</td>
+    </tr>
+    <tr>
+      <td>Transfer Family</td>
+      <td>FTP, FTPS, SFTP interface on top of Amazon S3 or Amazon EFS</td>
+    </tr>
+    <tr>
+      <td>DataSync</td>
+      <td>Schedule data sync from on-premises to AWS, or AWS to AWS</td>
+    </tr>
+    <tr>
+      <td>Snowcone / Snowball / Snowmobile</td>
+      <td>move large amounts of data to cloud, physically</td>
+    </tr>
+    <tr>
+      <td>Database</td>
+      <td>for specific workloads, usually with indexing and querying</td>
+    </tr>
+  </body>
+</table>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 

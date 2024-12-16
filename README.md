@@ -2271,4 +2271,15 @@ Support for:
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/App-Runner.png" width="50"/> AWS App Runner
 
+<ul>
+  <li>Fully managed service that simplifies deploying web applications and APIs at scale</li>
+  <li>No infrastructure experience required</li>
+  <li>Start with source code or container image</li>
+  <li>Automatically builds and deploy the web app</li>
+  <li>Automatic scaling, highly available, load balancer, encryption</li>
+  <li>VPC access support</li>
+  <li>Connect to database, cache, and message queue services</li>
+  <li>Use cases: web apps, APIs, microservises, rapid production deployments</li>
+</ul>
+
 ### AWS App2Container (A2C)

@@ -2105,7 +2105,7 @@ Both services integrate with AWS Shield for DDoS protection.
 
 ### Docker Container Mangement on AWS
 
-### Amazon ECS
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECS.png" width="50"/> Amazon ECS
 
 EC2 Launchtype
 
@@ -2121,9 +2121,9 @@ ECS Service Auto Scaling
 
 Auto Scaling with EC2 Launch Type
 
-### Amazon ECR
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon ECR
 
-### Amazon EKS
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EKS.png" width="50"/> Amazon EKS
 
 Overview
 
@@ -2131,6 +2131,6 @@ Node Types
 
 Data Volumes
 
-### AWS App Runner
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/App-Runner.png" width="50"/> AWS App Runner
 
 ### AWS App2Container (A2C)

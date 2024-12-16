@@ -2101,9 +2101,28 @@ Both services integrate with AWS Shield for DDoS protection.
 
 ### Docker
 
-### Docker Images
+Overview
+<ul>
+  <li>Docker is a software development platform to deploy apps.</li>
+  <li>Apps are packaged into containers that can run on any platform.</li>
+  <li>Apps run consistently, reguardless of where.</li>
+  <li>Use cases: microservices architecture, lift-and-shift apps from on-premises to AWS cloud...</li>
+</ul>
 
-### Docker Container Mangement on AWS
+Docker Images
+<ul>
+  <li>Images stored in Docker repositories.</li>
+  <li>Docker Hub: Public repository, find base images for many technologies</li>
+  <li>Amazon ECR: Private repository, Public options</li>
+</ul>
+
+Docker Container Mangement on AWS
+<ul>
+  <li>Amazon Elastic Container Service (ECS)</li>
+  <li>Amazon Elastic Kubernetes Service (EKS)</li>
+  <li>AWS Fargate</li>
+  <li>Amazon ECR</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECS.png" width="50"/> Amazon ECS
 

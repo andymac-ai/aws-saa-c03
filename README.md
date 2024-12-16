@@ -2172,10 +2172,44 @@ Load Balancer Integrations
 </ul>
 
 Data Volumes (EFS)
+<ul>
+  <li>Mount EFS file systems onto ECS tasks</li>
+  <li>Works for both EC2 and Fargate launch types</li>
+  <li>Tasks running in any AZ will share the same data in the EFS system</li>
+  <li>Fargate + EFS = serverless</li>
+  <li>Use cases: persistent multi-AZ shared storage for containers</li>
+</ul>
 
 ECS Service Auto Scaling
+<ul>
+  <li>Automatically increase/decrease the desired amount of ECS tasks</li>
+  <li>Amazon ECS Auto Scaling uses AWS Application Auto Scaling</li>
+  <li>Target Tracking - scale based on target value for a specific CloudWatch metric</li>
+  <li>Step Scaling - scale based on a specified Cloudatch Alarm</li>
+  <li>Scheduled Scaling - scale based on a specified date/time (predictable changes)</li>
+  <li>ECS Service Autoscaling != EC2 Auto Scaling</li>
+  <li>Fargate Auto Scaling is much easier to setup (serverless)</li>
+</ul>
 
 Auto Scaling with EC2 Launch Type
+<ul>
+  <li>Accomadates ECS Service Scaling by adding underlying EC2 Instances</li>
+  <li>
+    Auto Scaling Group Scaling
+    <ul>
+      <li>Scale ASG based on CPU Utilization</li>
+      <li>Add EC2 instances over time</li>
+    </ul>
+  </li>
+  <li>
+    ECS Cluster Capacity Provider
+    <ul>
+      <li>Used to automatically provision and scale the infrastructure for ECS Tasks</li>
+      <li>Capacity provider paired with an Auto Scaling Group</li>
+      <li>Add EC2 Instances when missing capacity (CPU,RAM,...)</li>
+    </ul>
+  </li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon ECR
 

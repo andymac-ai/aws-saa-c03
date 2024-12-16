@@ -2224,10 +2224,50 @@ Auto Scaling with EC2 Launch Type
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EKS.png" width="50"/> Amazon EKS
 
 Overview
+<ul>
+  <li>It is a way to launch managed Kubernetes clusters on AWS</li>
+  <li>Kubernetes is an open-source system for automatic deployment, scaling and management of containerized (ussually Docker) application</li>
+  <li>Alternative to ECS, similar goal but different API</li>
+  <li>EKS supports EC2 if deploying worker nodes or Fargate to deploy serverless containers</li>
+  <li>Use case: if company already using Kubernetes on premises or in another cloud, easier migration to AWS</li>
+  <li>Kubernetes is cloud agnostic</li>
+</ul>
 
 Node Types
+<ul>
+  <li>
+    Managed Node Groups
+    <ul>
+      <li>Creates and manages Nodes (EC2 instances)</li>
+      <li>Nodes are a part of an ASG managed by EKS</li>
+      <li>Supports On-Demand or Spot Instances</li>
+    </ul>
+  </li>
+  <li>
+    Self-Managed Nodes
+    <ul>
+      <li>Node created manually and registered to the EKS cluster and managed by an ASG</li>
+      <li>Prebuilt AMI can be used - Amazon EKS Optimized AMI</li>
+      <li>Supports On-Demand or Spot Instances</li>
+    </ul>
+  </li>
+  <li>
+    AWS Fargate
+    <ul>
+      <li>No maiuntainence required, no nodes managed</li>
+    </ul>
+  </li>
+</ul>
 
-Data Volumes
+Data Volumes - Need to specify StorageClass manifest on EKS cluster, leverage as Container Storage Interface (CSI) compliant driver.
+
+Support for:
+<ul>
+  <li>Amazon EBS</li>
+  <li>Amazon EFS</li>
+  <li>Amazon FSx for Lustre</li>
+  <li>Amazon FSx for NetApp ONTAP</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/App-Runner.png" width="50"/> AWS App Runner
 

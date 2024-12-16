@@ -2283,3 +2283,13 @@ Support for:
 </ul>
 
 ### AWS App2Container (A2C)
+
+<ul>
+  <li>CLI tool for migrating and modernizing Java adn .NET web apps into Docker Containers</li>
+  <li>Lift-and-shift apps running in on-premises bare metal, virtual machines, or in any Cloud to AWS</li>
+  <li>Accelerate modernization, no code changes, migrate legacy apps...</li>
+  <li>Generates CloudFormation templates (compute,network,...)</li>
+  <li>Register generated Docker Containers to ECR</li>
+  <li>Deploy to ECS, EKS, or App Runner</li>
+  <li>Supports pre-built CI/CD pipelines</li>
+</ul>

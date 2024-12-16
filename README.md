@@ -2211,7 +2211,15 @@ Auto Scaling with EC2 Launch Type
   </li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon ECR
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon Elastic Container Registry (ECR)
+
+<ul>
+  <li>Store and manage Docker images on AWS</li>
+  <li>Public and Private</li>
+  <li>Fully integrated with ECS, backed by S3</li>
+  <li>Access is controled through IAM</li>
+  <li>Supports image vulnerability scanning, versioning, image tage, image, life cycle</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EKS.png" width="50"/> Amazon EKS
 

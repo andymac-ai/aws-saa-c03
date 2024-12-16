@@ -2134,6 +2134,8 @@ EC2 Launchtype
   <li>AWS handles starting / stopping containers</li>
 </ul>
 
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-ec2.png" width="300"/>
+
 Fargate Launchtype
 <ul>
   <li>Docker containers on AWS, no provisioning architecture</li>
@@ -2142,6 +2144,8 @@ Fargate Launchtype
   <li>AWS runs ECS Tasks based on CPU/RAM requirements</li>
   <li>To scale: increase number of tasks - no more EC2 instances</li>
 </ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-fargate.png" width="300"/>
 
 IAM Roles for ECS
 <ul>

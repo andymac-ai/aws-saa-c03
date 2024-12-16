@@ -2127,12 +2127,49 @@ Docker Container Mangement on AWS
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECS.png" width="50"/> Amazon ECS
 
 EC2 Launchtype
+<ul>
+  <li>Launch Docker containers on AWS means launching ECS tasks on ECS clusters</li>
+  <li>EC2 Launch Type means provisioning and maintaining the infrastructure (EC2 instances)</li>
+  <li>Each EC2 instance must rin the ECS Agent to register in the ECS Cluster</li>
+  <li>AWS handles starting / stopping containers</li>
+</ul>
 
 Fargate Launchtype
+<ul>
+  <li>Docker containers on AWS, no provisioning architecture</li>
+  <li>serverless</li>
+  <li>Create task definitions</li>
+  <li>AWS runs ECS Tasks based on CPU/RAM requirements</li>
+  <li>To scale: increase number of tasks - no more EC2 instances</li>
+</ul>
 
 IAM Roles for ECS
+<ul>
+  <li>
+    EC2 Instance Profile (EC2 Launch Tye only)
+    <ul>
+      <li>Used by ECS agent</li>
+      <li>Makes API call to ECS service</li>
+      <li>Send container logs to CloudWatch Logs</li>
+      <li>Pull Docker image from ECR</li>
+      <li>Reference sensitive data in Secrets Manager or SSM Parameter Store</li>
+    </ul>
+  </li>
+  <li>
+    ECS Task Role
+    <ul>
+      <li>Allows each task a specific role</li>
+      <li>Use different roles for different ECS Services</li>
+    </ul>
+  </li>
+</ul>
 
 Load Balancer Integrations
+<ul>
+  <li>Application Load Balancer - supported and works on most use cases</li>
+  <li>Network Load Balancer - recomended only for high throughput / high performance use cases, or to pair it with AWS Private Link</li>
+  <li>Classic Load Balancer - supported but not recomended (no advanced features, no Fargate)</li>
+</ul>
 
 Data Volumes (EFS)
 

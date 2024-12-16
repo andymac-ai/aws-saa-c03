@@ -2096,3 +2096,204 @@ Both services integrate with AWS Shield for DDoS protection.
 </ul>
 
 ###
+
+## AWS Containers
+
+### Docker
+
+Overview
+<ul>
+  <li>Docker is a software development platform to deploy apps.</li>
+  <li>Apps are packaged into containers that can run on any platform.</li>
+  <li>Apps run consistently, reguardless of where.</li>
+  <li>Use cases: microservices architecture, lift-and-shift apps from on-premises to AWS cloud...</li>
+</ul>
+
+Docker Images
+<ul>
+  <li>Images stored in Docker repositories.</li>
+  <li>Docker Hub: Public repository, find base images for many technologies</li>
+  <li>Amazon ECR: Private repository, Public options</li>
+</ul>
+
+Docker Container Mangement on AWS
+<ul>
+  <li>Amazon Elastic Container Service (ECS)</li>
+  <li>Amazon Elastic Kubernetes Service (EKS)</li>
+  <li>AWS Fargate</li>
+  <li>Amazon ECR</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECS.png" width="50"/> Amazon ECS
+
+EC2 Launchtype
+<ul>
+  <li>Launch Docker containers on AWS means launching ECS tasks on ECS clusters</li>
+  <li>EC2 Launch Type means provisioning and maintaining the infrastructure (EC2 instances)</li>
+  <li>Each EC2 instance must rin the ECS Agent to register in the ECS Cluster</li>
+  <li>AWS handles starting / stopping containers</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-ec2.png" width="300"/>
+
+Fargate Launchtype
+<ul>
+  <li>Docker containers on AWS, no provisioning architecture</li>
+  <li>serverless</li>
+  <li>Create task definitions</li>
+  <li>AWS runs ECS Tasks based on CPU/RAM requirements</li>
+  <li>To scale: increase number of tasks - no more EC2 instances</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-fargate.png" width="300"/>
+
+IAM Roles for ECS
+<ul>
+  <li>
+    EC2 Instance Profile (EC2 Launch Tye only)
+    <ul>
+      <li>Used by ECS agent</li>
+      <li>Makes API call to ECS service</li>
+      <li>Send container logs to CloudWatch Logs</li>
+      <li>Pull Docker image from ECR</li>
+      <li>Reference sensitive data in Secrets Manager or SSM Parameter Store</li>
+    </ul>
+  </li>
+  <li>
+    ECS Task Role
+    <ul>
+      <li>Allows each task a specific role</li>
+      <li>Use different roles for different ECS Services</li>
+    </ul>
+  </li>
+</ul>
+
+Load Balancer Integrations
+<ul>
+  <li>Application Load Balancer - supported and works on most use cases</li>
+  <li>Network Load Balancer - recomended only for high throughput / high performance use cases, or to pair it with AWS Private Link</li>
+  <li>Classic Load Balancer - supported but not recomended (no advanced features, no Fargate)</li>
+</ul>
+
+Data Volumes (EFS)
+<ul>
+  <li>Mount EFS file systems onto ECS tasks</li>
+  <li>Works for both EC2 and Fargate launch types</li>
+  <li>Tasks running in any AZ will share the same data in the EFS system</li>
+  <li>Fargate + EFS = serverless</li>
+  <li>Use cases: persistent multi-AZ shared storage for containers</li>
+</ul>
+
+ECS Service Auto Scaling
+<ul>
+  <li>Automatically increase/decrease the desired amount of ECS tasks</li>
+  <li>Amazon ECS Auto Scaling uses AWS Application Auto Scaling</li>
+  <li>Target Tracking - scale based on target value for a specific CloudWatch metric</li>
+  <li>Step Scaling - scale based on a specified Cloudatch Alarm</li>
+  <li>Scheduled Scaling - scale based on a specified date/time (predictable changes)</li>
+  <li>ECS Service Autoscaling != EC2 Auto Scaling</li>
+  <li>Fargate Auto Scaling is much easier to setup (serverless)</li>
+</ul>
+
+Auto Scaling with EC2 Launch Type
+<ul>
+  <li>Accomadates ECS Service Scaling by adding underlying EC2 Instances</li>
+  <li>
+    Auto Scaling Group Scaling
+    <ul>
+      <li>Scale ASG based on CPU Utilization</li>
+      <li>Add EC2 instances over time</li>
+    </ul>
+  </li>
+  <li>
+    ECS Cluster Capacity Provider
+    <ul>
+      <li>Used to automatically provision and scale the infrastructure for ECS Tasks</li>
+      <li>Capacity provider paired with an Auto Scaling Group</li>
+      <li>Add EC2 Instances when missing capacity (CPU,RAM,...)</li>
+    </ul>
+  </li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon Elastic Container Registry (ECR)
+
+<ul>
+  <li>Store and manage Docker images on AWS</li>
+  <li>Public and Private</li>
+  <li>Fully integrated with ECS, backed by S3</li>
+  <li>Access is controled through IAM</li>
+  <li>Supports image vulnerability scanning, versioning, image tage, image, life cycle</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EKS.png" width="50"/> Amazon EKS
+
+Overview
+<ul>
+  <li>It is a way to launch managed Kubernetes clusters on AWS</li>
+  <li>Kubernetes is an open-source system for automatic deployment, scaling and management of containerized (ussually Docker) application</li>
+  <li>Alternative to ECS, similar goal but different API</li>
+  <li>EKS supports EC2 if deploying worker nodes or Fargate to deploy serverless containers</li>
+  <li>Use case: if company already using Kubernetes on premises or in another cloud, easier migration to AWS</li>
+  <li>Kubernetes is cloud agnostic</li>
+</ul>
+
+Node Types
+<ul>
+  <li>
+    Managed Node Groups
+    <ul>
+      <li>Creates and manages Nodes (EC2 instances)</li>
+      <li>Nodes are a part of an ASG managed by EKS</li>
+      <li>Supports On-Demand or Spot Instances</li>
+    </ul>
+  </li>
+  <li>
+    Self-Managed Nodes
+    <ul>
+      <li>Node created manually and registered to the EKS cluster and managed by an ASG</li>
+      <li>Prebuilt AMI can be used - Amazon EKS Optimized AMI</li>
+      <li>Supports On-Demand or Spot Instances</li>
+    </ul>
+  </li>
+  <li>
+    AWS Fargate
+    <ul>
+      <li>No maiuntainence required, no nodes managed</li>
+    </ul>
+  </li>
+</ul>
+
+Data Volumes - Need to specify StorageClass manifest on EKS cluster, leverage as Container Storage Interface (CSI) compliant driver.
+
+Support for:
+<ul>
+  <li>Amazon EBS</li>
+  <li>Amazon EFS</li>
+  <li>Amazon FSx for Lustre</li>
+  <li>Amazon FSx for NetApp ONTAP</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/App-Runner.png" width="50"/> AWS App Runner
+
+<ul>
+  <li>Fully managed service that simplifies deploying web applications and APIs at scale</li>
+  <li>No infrastructure experience required</li>
+  <li>Start with source code or container image</li>
+  <li>Automatically builds and deploy the web app</li>
+  <li>Automatic scaling, highly available, load balancer, encryption</li>
+  <li>VPC access support</li>
+  <li>Connect to database, cache, and message queue services</li>
+  <li>Use cases: web apps, APIs, microservises, rapid production deployments</li>
+</ul>
+
+### AWS App2Container (A2C)
+
+<ul>
+  <li>CLI tool for migrating and modernizing Java adn .NET web apps into Docker Containers</li>
+  <li>Lift-and-shift apps running in on-premises bare metal, virtual machines, or in any Cloud to AWS</li>
+  <li>Accelerate modernization, no code changes, migrate legacy apps...</li>
+  <li>Generates CloudFormation templates (compute,network,...)</li>
+  <li>Register generated Docker Containers to ECR</li>
+  <li>Deploy to ECS, EKS, or App Runner</li>
+  <li>Supports pre-built CI/CD pipelines</li>
+</ul>

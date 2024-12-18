@@ -168,8 +168,6 @@ Metrics to scale on:
 
 During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
-
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumes.png" width="50"/> EBS Volumes
@@ -1065,6 +1063,24 @@ Oracle RDS: 1521
 MSSQL Server: 1433
 MariaDB: 3306 (same as MySQL)
 Aurora: 5432
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
+
+<ul>
+  <li>AWS proprietary, managed serverless NoSQL database, millisecond latency</li>
+  <li>Capacity modes: provisioned capacitiy with optional scaling or on-demand capacity</li>
+  <li>Can replace ElastiCache as key/value store</li>
+  <li>Highly Available, Multi AZ by default, Read and Write are decoupled, transaction capability</li>
+  <li>DAX cluster for read cache, microsecond read latency</li>
+  <li>Security, authentication and authorization through IAM</li>
+  <li>Event Processing: DynamoDB Streams to integrate with AWS Lambda, or Kinesis Data Streams</li>
+  <li>Global Table feature: active-active setup</li>
+  <li>Automated backup op to 35 days with PITR, or on-demand backups</li>
+  <li>Export to S3 without using RCU within the PITR window, import from S3 without using WCU</li>
+  <li>Great to rapidly evolve schemas</li>
+</ul>
+
+Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 

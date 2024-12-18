@@ -1082,6 +1082,18 @@ Aurora: 5432
 
 Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DocumentDB.png" width="50"/> DocumentDB
+
+<ul>
+  <li>Aurora is AWS's implementation of PostgreSQL / MySQL</li>
+  <li>Document is the same for MongoDB</li>
+  <li>MongoDB is used to store, query, and index JSON data</li>
+  <li>Similar deployment concepts as Aurora</li>
+  <li>Fully managed, highly available and replication across 3 AZ</li>
+  <li>DocumentDB storage grow automatically at 10GB increments</li>
+  <li>Automatically scales to workoads with millions of requests per second</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

@@ -674,9 +674,27 @@ Control Tower Guardrails:
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS - Relational Database Service
+## Databases
 
-### RDS Overview
+### Database Types
+
+**RDBMS** - RDS, Aurora - great for joins
+
+**NoSQL** - no joins, no SQL: DynamoDB (~JSON), ElstiCache (key value pairs), Neptune (graphs), DocumentDB (for MongoDB), Kyspaces (for Apache Cassandra)
+
+**Object Store** - S3 (for big objects), Glacier (for backups and achives)
+
+**Data Warehouse** - RedShift (OLAP), Athena, EMR
+
+**Search** - OpenSearch (JSON) - free text, unstructured searches
+
+**Graphs** - Amazon Neptune - displays relationships between data
+
+**Ledger** - Amazon Quantum Ledger Database
+
+**Time Series** - Amazon Timestream
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS Overview
 
 Managed service for SQL databases
 

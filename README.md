@@ -1134,6 +1134,21 @@ Use cases: store IoT devices info, time-series data...
   <li>Difference with Amazon Managed Blockchain: no decentralization component, in accordance with financial regulation rules</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Timestream.png" width="50"/> Amazon Timestream
+
+<ul>
+  <li>Fully managed, fast, scalable, serverless time series database</li>
+  <li>Automatically scales up or down to adjust capacity</li>
+  <li>Store and analyze trillions of events per day</li>
+  <li>1000s times faster and 1/10th cost of relational databases</li>
+  <li>Scheduled queries, multi-measure records, SQL compatibility</li>
+  <li>Data storage tiering recent data kept in memory and historical data kept in a cost-optimized storage</li>
+  <li>Built-in time series analytics functions (helps identify patterns inn data in near real-time)</li>
+  <li>Encryption in transit and at rest</li>
+</ul>
+
+Use cases: IoT apps, operational applications, real-time analytics...
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

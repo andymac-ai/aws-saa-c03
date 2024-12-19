@@ -1105,6 +1105,23 @@ Use case: serverless applications development (small documents 100s KB), distrin
 
 Use cases: send notifications when certain changes are made, maintain graph data synced in another data store, replicate data across regions
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Keyspaces.png" width="50"/> Amazon Keyspaces
+
+<ul>
+  <li>For Apache Cassandra</li>
+  <li>Apache Cassandra is an open sourced NoSQL distibuted database</li>
+  <li>Keyspaces is a managed Apache Cassandra-compatible database service</li>
+  <li>Serverles, scalable, highly scalable, fully managed</li>
+  <li>Automatically scale tables up/down based on the applications's traffic</li>
+  <li>Tables are replicated 3 times across multi AZ's</li>
+  <li>Uses the Cassandra Query Language (CQL)</li>
+  <li>Single millisecond latency at any scale, 1000s of requests per second</li>
+  <li>Capacity: on-demand mode or provisioned mode with auto scaling</li>
+  <li>Encryption, backup, Point-In-Time Recovery (PITR) up to 35 days</li>
+</ul>
+
+Use cases: store IoT devices info, time-series data...
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

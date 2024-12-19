@@ -168,8 +168,6 @@ Metrics to scale on:
 
 During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
-
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumes.png" width="50"/> EBS Volumes
@@ -674,9 +672,27 @@ Control Tower Guardrails:
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS - Relational Database Service
+## Databases
 
-### RDS Overview
+### Database Types
+
+**RDBMS** - RDS, Aurora - great for joins
+
+**NoSQL** - no joins, no SQL: DynamoDB (~JSON), ElstiCache (key value pairs), Neptune (graphs), DocumentDB (for MongoDB), Kyspaces (for Apache Cassandra)
+
+**Object Store** - S3 (for big objects), Glacier (for backups and achives)
+
+**Data Warehouse** - RedShift (OLAP), Athena, EMR
+
+**Search** - OpenSearch (JSON) - free text, unstructured searches
+
+**Graphs** - Amazon Neptune - displays relationships between data
+
+**Ledger** - Amazon Quantum Ledger Database
+
+**Time Series** - Amazon Timestream
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS Overview
 
 Managed service for SQL databases
 
@@ -1047,6 +1063,91 @@ Oracle RDS: 1521
 MSSQL Server: 1433
 MariaDB: 3306 (same as MySQL)
 Aurora: 5432
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
+
+<ul>
+  <li>AWS proprietary, managed serverless NoSQL database, millisecond latency</li>
+  <li>Capacity modes: provisioned capacitiy with optional scaling or on-demand capacity</li>
+  <li>Can replace ElastiCache as key/value store</li>
+  <li>Highly Available, Multi AZ by default, Read and Write are decoupled, transaction capability</li>
+  <li>DAX cluster for read cache, microsecond read latency</li>
+  <li>Security, authentication and authorization through IAM</li>
+  <li>Event Processing: DynamoDB Streams to integrate with AWS Lambda, or Kinesis Data Streams</li>
+  <li>Global Table feature: active-active setup</li>
+  <li>Automated backup op to 35 days with PITR, or on-demand backups</li>
+  <li>Export to S3 without using RCU within the PITR window, import from S3 without using WCU</li>
+  <li>Great to rapidly evolve schemas</li>
+</ul>
+
+Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DocumentDB.png" width="50"/> DocumentDB
+
+<ul>
+  <li>Aurora is AWS's implementation of PostgreSQL / MySQL</li>
+  <li>Document is the same for MongoDB</li>
+  <li>MongoDB is used to store, query, and index JSON data</li>
+  <li>Similar deployment concepts as Aurora</li>
+  <li>Fully managed, highly available and replication across 3 AZ</li>
+  <li>DocumentDB storage grow automatically at 10GB increments</li>
+  <li>Automatically scales to workoads with millions of requests per second</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Neptune.png" width="50"/> Neptune
+
+<ul>
+  <il>Real-time ordered sequence of every change to graph data</li>
+  <il>Changes are available immediately after writing</li>
+  <il>No duplicates, strict order</li>
+  <il>Streams data accessible in an HTTP REST API</li>
+</ul>
+
+Use cases: send notifications when certain changes are made, maintain graph data synced in another data store, replicate data across regions
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Keyspaces.png" width="50"/> Amazon Keyspaces
+
+<ul>
+  <li>For Apache Cassandra</li>
+  <li>Apache Cassandra is an open sourced NoSQL distibuted database</li>
+  <li>Keyspaces is a managed Apache Cassandra-compatible database service</li>
+  <li>Serverles, scalable, highly scalable, fully managed</li>
+  <li>Automatically scale tables up/down based on the applications's traffic</li>
+  <li>Tables are replicated 3 times across multi AZ's</li>
+  <li>Uses the Cassandra Query Language (CQL)</li>
+  <li>Single millisecond latency at any scale, 1000s of requests per second</li>
+  <li>Capacity: on-demand mode or provisioned mode with auto scaling</li>
+  <li>Encryption, backup, Point-In-Time Recovery (PITR) up to 35 days</li>
+</ul>
+
+Use cases: store IoT devices info, time-series data...
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/QLDB.png" width="50"/> Amazon QLDB
+
+<ul>
+  <li>Quantum Ledger Database</li>
+  <li>A ledger is a book for financial records</li>
+  <li>Fully managed, serverless, highly scalable, replication across 3 AZs</li>
+  <li>Used to review history of all the changes made to your application data over time</li>
+  <li>Immutable system: no entry can be removed or modified, cryptographically verifiable</li>
+  <li>2-3x better performance than common ledger blockchain frameworks, manupulate data using SQL</li>
+  <li>Difference with Amazon Managed Blockchain: no decentralization component, in accordance with financial regulation rules</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Timestream.png" width="50"/> Amazon Timestream
+
+<ul>
+  <li>Fully managed, fast, scalable, serverless time series database</li>
+  <li>Automatically scales up or down to adjust capacity</li>
+  <li>Store and analyze trillions of events per day</li>
+  <li>1000s times faster and 1/10th cost of relational databases</li>
+  <li>Scheduled queries, multi-measure records, SQL compatibility</li>
+  <li>Data storage tiering recent data kept in memory and historical data kept in a cost-optimized storage</li>
+  <li>Built-in time series analytics functions (helps identify patterns inn data in near real-time)</li>
+  <li>Encryption in transit and at rest</li>
+</ul>
+
+Use cases: IoT apps, operational applications, real-time analytics...
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 

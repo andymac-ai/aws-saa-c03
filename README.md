@@ -1094,6 +1094,17 @@ Use case: serverless applications development (small documents 100s KB), distrin
   <li>Automatically scales to workoads with millions of requests per second</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Neptune.png" width="50"/> Neptune
+
+<ul>
+  <il>Real-time ordered sequence of every change to graph data</li>
+  <il>Changes are available immediately after writing</li>
+  <il>No duplicates, strict order</li>
+  <il>Streams data accessible in an HTTP REST API</li>
+</ul>
+
+Use cases: send notifications when certain changes are made, maintain graph data synced in another data store, replicate data across regions
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

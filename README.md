@@ -1122,6 +1122,18 @@ Use cases: send notifications when certain changes are made, maintain graph data
 
 Use cases: store IoT devices info, time-series data...
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/QLDB.png" width="50"/> Amazon QLDB
+
+<ul>
+  <li>Quantum Ledger Database</li>
+  <li>A ledger is a book for financial records</li>
+  <li>Fully managed, serverless, highly scalable, replication across 3 AZs</li>
+  <li>Used to review history of all the changes made to your application data over time</li>
+  <li>Immutable system: no entry can be removed or modified, cryptographically verifiable</li>
+  <li>2-3x better performance than common ledger blockchain frameworks, manupulate data using SQL</li>
+  <li>Difference with Amazon Managed Blockchain: no decentralization component, in accordance with financial regulation rules</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

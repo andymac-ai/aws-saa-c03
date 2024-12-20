@@ -1776,7 +1776,7 @@ File permissions and metadata are preserved.
   </body>
 </table>
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
+## App Decoupling
 
 ### Messaging
 
@@ -1785,6 +1785,32 @@ File permissions and metadata are preserved.
 **Asynchronous / Event Based Communications** - application to queue to application
 
 Decoupling applications allow for spikes in traffic. SQS, SNS, and Kinesis allow scaling independently from application.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> Amazon SQS - Simple Queue Service 
+
+Oldest offering, fully managed.
+
+Attributes:
+<ul>
+  <li>Unlimited throughput, unlimited messages in queue</li>
+  <li>Default retention of message: 4 days, max 14 days</li>
+  <li>Low latency ( < 10ms on publish and recieve)</li>
+  <li>Limited to 256KB per message</li>
+</ul>
+
+Messages are produced to SQS using SDK, and message is persisted in SQS until a consumer deletes it.
+
+Messages consumers (running on EC2 instances, servers, AWS Lambda, etc.), poll SQS for messages, process messages, and delete messages.
+
+Consumers can be arranged in parallel to handle messages, and can scale horizontally to improve throughput.
+
+### SQS - Security
+
+Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.
+
+Access Controls: IAM policies to regulate access to SQS API.
+
+SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 

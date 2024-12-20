@@ -1778,6 +1778,14 @@ File permissions and metadata are preserved.
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> SQS - Simple Queue Service
 
+### Messaging
+
+**Synchronous Communications** - application to application
+
+**Asynchronous / Event Based Communications** - application to queue to application
+
+Decoupling applications allow for spikes in traffic. SQS, SNS, and Kinesis allow scaling independently from application.
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

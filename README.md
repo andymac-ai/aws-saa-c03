@@ -1923,11 +1923,6 @@ Ingests real-time data such as: Application Logs, Metrics, Website clickstreams,
   </head>
   <body>
     <tr>
-      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/></td>
-      <td>Kinesis Data Streams</td>
-      <td>Capture, processs, and store data streams</td>
-    </tr>
-    <tr>
       <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td>
       <td>Kinesis Data Firehose</td>
       <td>load data streams with AWS data stores</td>
@@ -1944,6 +1939,43 @@ Ingests real-time data such as: Application Logs, Metrics, Website clickstreams,
     </tr>
   </body>
 </table>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/> Kinesis Data Streams
+
+Capture, process, and store data streams
+<ul>
+  <li>Retention between 1 day and 365 days</li>
+  <li>Ability to reprocess (peplay) data</li>
+  <li>Once data is inserted in Kineses, it cant be deleted (immutability)</li>
+  <li>Data that shares the same partition goes to the same shard (ordering)</li>
+  <li>Producers: AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
+  <li>Consumers: self made (Kinesis Client Library, AWS SDK), managed (AWS Lambda, Kinesis Data Firehose, Kinesis Data Analytics)</li>
+</ul>
+
+Provisioned mode:
+<ul>
+  <li>Choose the number of shards provisioned, scale manually or using API</li>
+  <li>Each shard gets 1MB/s in (or 1000 records per second)</li>
+  <li>Each shard gets 2MB/s out (classic or enhanced fan-out consumer)</li>
+  <li>Pay per shard provisioned per hour</li>
+</ul>
+
+On-demand mode:
+<ul>
+  <li>No need to provision or manage capacity</li>
+  <li>Default capacity provisioned (4MB/s in or 4000 records per second)</li>
+  <li>Scales automatically based on observed throughput peak during the last 30 days</li>
+  <li>Pay per stream per hour and data in/out per GB</li>
+</ul>
+
+Security:
+<ul>
+  <li>Control access / authorization using IAM policies</li>
+  <li>Encryption in-flight with HTTPS endpoints, at-rest with KMS</li>
+  <li>Able to implement client-side encryption</li>
+  <li>VPC Endpoints available for Kineses to access within VPC</li>
+  <li>Monitor API calls using CloudTrail</li>
+</ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 

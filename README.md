@@ -1812,6 +1812,39 @@ Access Controls: IAM policies to regulate access to SQS API.
 
 SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.
 
+### Message Visibility Timeout
+
+<ul>
+  <li>After a messages if pooled by consumer, it becomes invisible to other consumers.</li>
+  <li>By default the message visibility timeout is 30 seconds.</li>
+  <li>That means the message has 30 seconds to be processed.</li>
+  <li>After the message visibility timeout is over. the message is visible again.</li>
+  <li>If a message is not processed within the visibility timeout, it will be processed twice</li>
+  <li>A consumer could cal the ChangeMessageVisibility API to get one more time</li>
+  <li>If visibility timeout is high (hours), and consumer crashes, re-processing will take time</li>
+  <li>If visibility is too low (seconds), duplicates may occcur.</li>
+</ul>
+
+### Long Polling
+
+**Long Polling** - when a consumer requests messages from the queue, it can optionally "wait" for messages to arrive if there are none in the queue.
+
+<ul>
+  <li>Decreasses the number of API calls made to SQS while increasing the efficiency and reducing latency of application.</li>
+  <li>The wait time can be between 1s to 20s (20s preferable)</li>
+  <li>Preferable short polling</li>
+  <li>Can be enabled at the queue level or at the API level using WaitTimeSeconds</li>
+</ul>
+
+### FIFO Queue
+
+<ul>
+  <li>FIFO - First In First Out (ordering of messages in the queue)</li>
+  <li>Limited throughput: 300 msgs/s without batching, 3000 with</li>
+  <li>Exactly-once send capability</li>
+  <li>Messages are processed in order by the consumer</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

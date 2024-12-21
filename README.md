@@ -2007,6 +2007,28 @@ Security:
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
 
+### Ordering Data in Kinesis
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+### Ordering Data in SQS
+
+Without a GroupID, messages are consued as sent: 
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+Using a GroupID:
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+### Kinesis vs SQS Ordering
+
+**Scenario** - 100 trucks, 5 kinesis shards, 1 SQS FIFO
+
+**Kinesis Data Streams** - On average 10 trucks per shard, trucks wil have the data ordered within each shard, maximum amount of consumers in parallel is 5, can recieve up to 5MB/s of data
+
+**SQS FIFO** - only one SQS FIFO queue, 100 group IDs, up to 100 consumers possible, up to 300 messages per second
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

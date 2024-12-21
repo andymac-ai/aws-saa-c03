@@ -2029,6 +2029,18 @@ Using a GroupID:
 
 **SQS FIFO** - only one SQS FIFO queue, 100 group IDs, up to 100 consumers possible, up to 300 messages per second
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/MQ.png" width="50"/> Amazon MQ
+
+<ul>
+  <li>SQS, SNS are cloud native services, proprietary protocols from AWS</li>
+  <li>Traditional applications running from on-premises may use open protocols such as MQTT, AMQP, STOMP, Openwire, WSS</li>
+  <li>When migrating to the cloud, instead of re-engineering the app to use SQS and SNS, Amazon MQ can be used</li>
+  <li>Is a managed message broker service for RabbitMQ and ActiveMQ</li>
+  <li>Doesn't scale as much as SQS and SNS</li>
+  <li>Runs on servers, can run in Multi AZ with failover</li>
+  <li>Has both queue feature and topic features</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

@@ -1845,6 +1845,10 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
   <li>Messages are processed in order by the consumer</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SNS.png" width="50"/> Amazon SNS - Simple Notification Service
+
+
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

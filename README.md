@@ -1912,6 +1912,39 @@ SNS Access Policies: useful for cross-account access to SNS topics, useful for a
   <li>If a subscription doesn't have a filter policy, it recieves every message</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis.png" width="50"/> Amazon Kinesis
+
+Simplifies collecting, processing, and analyzing streaming data in real-time.
+
+Ingests real-time data such as: Application Logs, Metrics, Website clickstreams, IoT telemetry data...
+
+<table>
+  <head>
+  </head>
+  <body>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/></td>
+      <td>Kinesis Data Streams</td>
+      <td>Capture, processs, and store data streams</td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td>
+      <td>Kinesis Data Firehose</td>
+      <td>load data streams with AWS data stores</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Kinesis Data Analytics</td>
+      <td>amalyze data streams with SQL or Apache Flink</td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td>
+      <td>Kinesis Video Streams</td>
+      <td>capture, process, and store video streams</td>
+    </tr>
+  </body>
+</table>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

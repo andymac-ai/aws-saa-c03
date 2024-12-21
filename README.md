@@ -1918,26 +1918,6 @@ Simplifies collecting, processing, and analyzing streaming data in real-time.
 
 Ingests real-time data such as: Application Logs, Metrics, Website clickstreams, IoT telemetry data...
 
-<table>
-  <head>
-  </head>
-  <body>
-    <tr>
-      <td>load data streams with AWS data stores</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Kinesis Data Analytics</td>
-      <td>amalyze data streams with SQL or Apache Flink</td>
-    </tr>
-    <tr>
-      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td>
-      <td>Kinesis Video Streams</td>
-      <td>capture, process, and store video streams</td>
-    </tr>
-  </body>
-</table>
-
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/> Kinesis Data Streams
 
 Capture, process, and store data streams
@@ -2022,6 +2002,10 @@ Security:
     </tr>
   </body>
 </table>
+
+### Kinesis Data Analytics
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 

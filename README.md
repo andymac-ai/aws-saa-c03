@@ -1178,7 +1178,49 @@ Federated Query:
   <li>Store the results back in S3</li>
 </ul>
 
-### Redshift
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Redshift.png" width="50"/> Redshift
+
+<ul>
+  <li>Based on PostgreSQL, but not used for OLTP</li>
+  <li>OLAP - online, analytical processing (analytics and data warehousing)</li>
+  <li>10x better performance than other data warehouses, sclae of PBs of data</li>
+  <li>Columnar storage of data & parallel query engine</li>
+  <li>Two modes: provisioned cluster or serverless cluster</li>
+  <li>Has an SQL interface for querying</li>
+  <li>BI tools such as Quicksight and Tableau integrate with it</li>
+  <li>vs. Athena: fatser queries / joins / aggregations thanks to indexes</li>
+</ul>
+
+### Redshift Cluster
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/redshift_cluster.png" width="300" />
+
+<ul>
+  <li>Leader node: for query planning, results aggregation</li>
+  <li>Compute node: for performing the queries, send results to leader</li>
+  <li>Provisioned mode: choose instance types in advance, can reserve instances for cost savings</li>
+</ul>
+
+### Snapshots and DR
+
+<ul>
+  <li>Redshift has Multi AZ mode for some clusters</li>
+  <li>Snapshots are point-in-tim backups of cluster, stored in S3</li>
+  <li>Snapshots are incremental</li>
+  <li>Snapshots can be restored into a new cluster</li>
+  <li>Automated: every 8 hours, every 5 GB, or on a schedule, set retention</li>
+  <li>Manual: snapshot is retained until deleted</li>
+</ul>
+
+### Redshift Spectrum
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/redshift_spectrum.png" width="300" />
+
+<ul>
+  <li>Query data that is already in S3 without loading it</li>
+  <li>Must have Redshift cluster available to start the query</li>
+  <li>Query is then submitted to thousands of Redshift Spectrum nodes</li>
+</ul>
 
 ### OpenSearch
 

@@ -1847,6 +1847,45 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SNS.png" width="50"/> Amazon SNS - Simple Notification Service
 
+Used to send one message to many recievers.
+
+<ul>
+  <li>The "event producer" only sends one messgage to one SNS topic.</li>
+  <li>As many "event recievers as wanted listen to SNS topic notifications.</li>
+  <li>Each subscriber to the topic will get all the messages.</li>
+  <li>Up tp 12.5mil subs per topic</li>
+  <li>100,000 topics max.</li>
+</ul>
+
+Event producers - CloudWatch Alarms, AWS Budgets, Lambda, Auto Scaling Group, S3 Bucket, DynamoDB, CloudFormation, AWS DMS, RDS Events, etc.
+
+Event subscribers - SQS, Lambda, Kinesis Data Firehose, Emails, SMS & Mobile, HTTP(S) endpoints
+
+### How to Publish
+
+Topic Publish
+<ul>
+  <li>Create a topic</li>
+  <li>Create a or more subscriptions</li>
+  <li>Publish a topic</li>
+</ul>
+
+Direct Publish
+<ul>
+  <li>Create a platform application</li>
+  <li>Create a platform endpoint</li>
+  <li>Publish to the platform endpoint</li>
+  <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+</ul>
+
+### Security
+
+Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage
+
+Access Controls: IAM policies to regulate access to the SNS API
+
+SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
+
 
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud

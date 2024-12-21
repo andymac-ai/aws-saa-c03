@@ -1923,8 +1923,6 @@ Ingests real-time data such as: Application Logs, Metrics, Website clickstreams,
   </head>
   <body>
     <tr>
-      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td>
-      <td>Kinesis Data Firehose</td>
       <td>load data streams with AWS data stores</td>
     </tr>
     <tr>
@@ -1976,6 +1974,54 @@ Security:
   <li>VPC Endpoints available for Kineses to access within VPC</li>
   <li>Monitor API calls using CloudTrail</li>
 </ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td> Kinesis Data Firehose
+
+<ul>
+  <li>Fully managed service with Redshift, S3, OpenSearch, 3rd party partners (Splunk, MongoDB, DataDog, NewRelic...), can customize sending to any HTTP enpoint</li>
+  <li>Pay dor data going through firehose</li>
+  <li>Near Real Time</li>
+  <li>Supports mana data formats, conversions, transformations, compression</li>
+  <li>Supports custom data transformations with AWS Lambda</li>
+  <li>Can send failed or all data to a backup S3 bucket</li>
+</ul>
+
+### Data Streams vs. Firehose
+
+<table>
+  <head>
+    <tr>
+      <td>Kineses Data Streams</td>
+      <td>Kineses Data Firehose</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Streaming service for ingest at scale</td>
+      <td>Load streaming data into S3 / Redshift / OpenSearch / 3rd Party / custom HTTP</td>
+    </tr>
+    <tr>
+      <td>Write custom code (producer / consumer)</td>
+      <td>Fully managed</td>
+    </tr>
+    <tr>
+      <td>Real-time (~200 ms)</td>
+      <td>Near real time</td>
+    </tr>
+    <tr>
+      <td>Managed scaling (shard splitting / merging)</td>
+      <td>Automatic scaling</td>
+    </tr>
+    <tr>
+      <td>Data storage for 1 to 365 days</td>
+      <td>No data storage</td>
+    </tr>
+    <tr>
+      <td>Supports replay capability</td>
+      <td>Doesn't support replay capability</td>
+    </tr>
+  </body>
+</table>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 

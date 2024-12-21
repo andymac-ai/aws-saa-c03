@@ -1149,6 +1149,26 @@ Use cases: store IoT devices info, time-series data...
 
 Use cases: IoT apps, operational applications, real-time analytics...
 
+## Data Analysis
+
+### Athena
+
+### Redshift
+
+### OpenSearch
+
+### EMR
+
+### Quicksight
+
+### Glue
+
+### Lake Formation
+
+### MSK - Managed Streaming for Apache Kafka
+
+### Big Data Ingestion Pipeline
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes
@@ -2004,6 +2024,9 @@ Security:
 </table>
 
 ### Kinesis Data Analytics
+
+
+
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
 

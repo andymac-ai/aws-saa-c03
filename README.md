@@ -1886,7 +1886,31 @@ Access Controls: IAM policies to regulate access to the SNS API
 
 SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
 
+### SQS + SNS - Fan Out
 
+<ul>
+  <li>Push once to SNS, recieve in all SQS queues that are subscribers</li>
+  <li>Fully decoupled, no data loss</li>
+  <li>SQS allows for: data persistence, delayed processing and retries of work</li>
+  <li>Ability to add more SQS subscribers over time</li>
+  <li>Make sure SQS queue access policy allows for SNS to write</li>
+  <li>Cross-Region Delivery: works with SQS Queues in other regions</li>
+</ul>
+
+### FIFO Topics
+
+<ul>
+  <li>Similar as SQS FIFO: ordered by message group ID, duplication using a deduplication ID or content based deduplication</li>
+  <li>Can have SQS Standard and FIFO queues as subscribers</li>
+  <li>Limited throughput</li>
+</ul>
+
+### Message filtering
+
+<ul>
+  <li>JSON policy used to filter messages sent to SNS topic's subscriptions</li>
+  <li>If a subscription doesn't have a filter policy, it recieves every message</li>
+</ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 

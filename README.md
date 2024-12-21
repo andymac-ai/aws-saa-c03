@@ -1191,7 +1191,7 @@ Federated Query:
   <li>vs. Athena: fatser queries / joins / aggregations thanks to indexes</li>
 </ul>
 
-### Redshift Cluster
+Redshift Cluster
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/redshift_cluster.png" width="300" />
 
@@ -1201,7 +1201,7 @@ Federated Query:
   <li>Provisioned mode: choose instance types in advance, can reserve instances for cost savings</li>
 </ul>
 
-### Snapshots and DR
+Snapshots and DR
 
 <ul>
   <li>Redshift has Multi AZ mode for some clusters</li>
@@ -1212,7 +1212,7 @@ Federated Query:
   <li>Manual: snapshot is retained until deleted</li>
 </ul>
 
-### Redshift Spectrum
+Redshift Spectrum
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/redshift_spectrum.png" width="300" />
 
@@ -1222,7 +1222,19 @@ Federated Query:
   <li>Query is then submitted to thousands of Redshift Spectrum nodes</li>
 </ul>
 
-### OpenSearch
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/OpenSearch.png" width="50"/> OpenSearch
+
+<ul>
+  <li>OpenSearch is the successor to ElastiSearch</li>
+  <li>In DynamoDB, queries only exist by primary key or indexes</li>
+  <li>Any field can be searched, includes partial matches</li>
+  <li>It's common to use OpenSearch as a complement to another database</li>
+  <li>Two nodes: managed cluster or serverless cluster</li>
+  <li>Does not natively support SQL (plugin possible)</li>
+  <li>Integration from Kinesis Data Firehose, AWS IoT, and CloudWatch Logs</li>
+  <li>Security through Cognito and IAM, KMS encryption, TLS</li>
+  <li>Comes with OpenSearch Dashboards</li>
+</ul>
 
 ### EMR
 

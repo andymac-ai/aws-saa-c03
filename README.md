@@ -1151,7 +1151,32 @@ Use cases: IoT apps, operational applications, real-time analytics...
 
 ## Data Analysis
 
-### Athena
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Athena.png" width="50"/> Athena
+
+<ul>
+  <li>Serverless query service to analyze data stored in S3</li>
+  <li>Uses standard SQL language to query files</li>
+  <li>Supports CSV, JSON, ORC, Avro, Parquet</li>
+  <li>Pricing: $5 per TB of scanned data</li>
+  <li>Commonly used with Quicksight for reporting/dashboards</li>
+</ul>
+
+Use cases: Busines intelligence, analytics, reporting analyzing and querying VPC flow logsm ELB Logs, CloudTrail trails, etc.
+
+Performance Improvement:
+<ul>
+  <li>Use columnar data for cost savings, Apache Parquet or ORC is recomended, huge performance growth, use Glue to convert to Parquet or ORC</li>
+  <li>Compress data for smaller retrievals</li>
+  <li>Partition datasets in S3 for easy querying on virtual columns</li>
+  <li>Use larger files to minimize overhead</li>
+</ul>
+
+Federated Query:
+<ul>
+  <li>Allows running SQL queries across data stored in relational, non-relational, object, and custom data stores</li>
+  <li>Uses Data Source Connectors that run on AWS Lambda to run federated Queries</li>
+  <li>Store the results back in S3</li>
+</ul>
 
 ### Redshift
 

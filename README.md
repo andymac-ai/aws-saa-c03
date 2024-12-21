@@ -1845,6 +1845,202 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
   <li>Messages are processed in order by the consumer</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SNS.png" width="50"/> Amazon SNS - Simple Notification Service
+
+Used to send one message to many recievers.
+
+<ul>
+  <li>The "event producer" only sends one messgage to one SNS topic.</li>
+  <li>As many "event recievers as wanted listen to SNS topic notifications.</li>
+  <li>Each subscriber to the topic will get all the messages.</li>
+  <li>Up tp 12.5mil subs per topic</li>
+  <li>100,000 topics max.</li>
+</ul>
+
+Event producers - CloudWatch Alarms, AWS Budgets, Lambda, Auto Scaling Group, S3 Bucket, DynamoDB, CloudFormation, AWS DMS, RDS Events, etc.
+
+Event subscribers - SQS, Lambda, Kinesis Data Firehose, Emails, SMS & Mobile, HTTP(S) endpoints
+
+### How to Publish
+
+Topic Publish
+<ul>
+  <li>Create a topic</li>
+  <li>Create a or more subscriptions</li>
+  <li>Publish a topic</li>
+</ul>
+
+Direct Publish
+<ul>
+  <li>Create a platform application</li>
+  <li>Create a platform endpoint</li>
+  <li>Publish to the platform endpoint</li>
+  <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+</ul>
+
+### Security
+
+Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage
+
+Access Controls: IAM policies to regulate access to the SNS API
+
+SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
+
+### SQS + SNS - Fan Out
+
+<ul>
+  <li>Push once to SNS, recieve in all SQS queues that are subscribers</li>
+  <li>Fully decoupled, no data loss</li>
+  <li>SQS allows for: data persistence, delayed processing and retries of work</li>
+  <li>Ability to add more SQS subscribers over time</li>
+  <li>Make sure SQS queue access policy allows for SNS to write</li>
+  <li>Cross-Region Delivery: works with SQS Queues in other regions</li>
+</ul>
+
+### FIFO Topics
+
+<ul>
+  <li>Similar as SQS FIFO: ordered by message group ID, duplication using a deduplication ID or content based deduplication</li>
+  <li>Can have SQS Standard and FIFO queues as subscribers</li>
+  <li>Limited throughput</li>
+</ul>
+
+### Message filtering
+
+<ul>
+  <li>JSON policy used to filter messages sent to SNS topic's subscriptions</li>
+  <li>If a subscription doesn't have a filter policy, it recieves every message</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis.png" width="50"/> Amazon Kinesis
+
+Simplifies collecting, processing, and analyzing streaming data in real-time.
+
+Ingests real-time data such as: Application Logs, Metrics, Website clickstreams, IoT telemetry data...
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/> Kinesis Data Streams
+
+Capture, process, and store data streams
+<ul>
+  <li>Retention between 1 day and 365 days</li>
+  <li>Ability to reprocess (peplay) data</li>
+  <li>Once data is inserted in Kineses, it cant be deleted (immutability)</li>
+  <li>Data that shares the same partition goes to the same shard (ordering)</li>
+  <li>Producers: AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
+  <li>Consumers: self made (Kinesis Client Library, AWS SDK), managed (AWS Lambda, Kinesis Data Firehose, Kinesis Data Analytics)</li>
+</ul>
+
+Provisioned mode:
+<ul>
+  <li>Choose the number of shards provisioned, scale manually or using API</li>
+  <li>Each shard gets 1MB/s in (or 1000 records per second)</li>
+  <li>Each shard gets 2MB/s out (classic or enhanced fan-out consumer)</li>
+  <li>Pay per shard provisioned per hour</li>
+</ul>
+
+On-demand mode:
+<ul>
+  <li>No need to provision or manage capacity</li>
+  <li>Default capacity provisioned (4MB/s in or 4000 records per second)</li>
+  <li>Scales automatically based on observed throughput peak during the last 30 days</li>
+  <li>Pay per stream per hour and data in/out per GB</li>
+</ul>
+
+Security:
+<ul>
+  <li>Control access / authorization using IAM policies</li>
+  <li>Encryption in-flight with HTTPS endpoints, at-rest with KMS</li>
+  <li>Able to implement client-side encryption</li>
+  <li>VPC Endpoints available for Kineses to access within VPC</li>
+  <li>Monitor API calls using CloudTrail</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td> Kinesis Data Firehose
+
+<ul>
+  <li>Fully managed service with Redshift, S3, OpenSearch, 3rd party partners (Splunk, MongoDB, DataDog, NewRelic...), can customize sending to any HTTP enpoint</li>
+  <li>Pay dor data going through firehose</li>
+  <li>Near Real Time</li>
+  <li>Supports mana data formats, conversions, transformations, compression</li>
+  <li>Supports custom data transformations with AWS Lambda</li>
+  <li>Can send failed or all data to a backup S3 bucket</li>
+</ul>
+
+### Data Streams vs. Firehose
+
+<table>
+  <head>
+    <tr>
+      <td>Kineses Data Streams</td>
+      <td>Kineses Data Firehose</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Streaming service for ingest at scale</td>
+      <td>Load streaming data into S3 / Redshift / OpenSearch / 3rd Party / custom HTTP</td>
+    </tr>
+    <tr>
+      <td>Write custom code (producer / consumer)</td>
+      <td>Fully managed</td>
+    </tr>
+    <tr>
+      <td>Real-time (~200 ms)</td>
+      <td>Near real time</td>
+    </tr>
+    <tr>
+      <td>Managed scaling (shard splitting / merging)</td>
+      <td>Automatic scaling</td>
+    </tr>
+    <tr>
+      <td>Data storage for 1 to 365 days</td>
+      <td>No data storage</td>
+    </tr>
+    <tr>
+      <td>Supports replay capability</td>
+      <td>Doesn't support replay capability</td>
+    </tr>
+  </body>
+</table>
+
+### Kinesis Data Analytics
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
+
+### Ordering Data in Kinesis
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+### Ordering Data in SQS
+
+Without a GroupID, messages are consued as sent: 
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+Using a GroupID:
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+### Kinesis vs SQS Ordering
+
+**Scenario** - 100 trucks, 5 kinesis shards, 1 SQS FIFO
+
+**Kinesis Data Streams** - On average 10 trucks per shard, trucks wil have the data ordered within each shard, maximum amount of consumers in parallel is 5, can recieve up to 5MB/s of data
+
+**SQS FIFO** - only one SQS FIFO queue, 100 group IDs, up to 100 consumers possible, up to 300 messages per second
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/MQ.png" width="50"/> Amazon MQ
+
+<ul>
+  <li>SQS, SNS are cloud native services, proprietary protocols from AWS</li>
+  <li>Traditional applications running from on-premises may use open protocols such as MQTT, AMQP, STOMP, Openwire, WSS</li>
+  <li>When migrating to the cloud, instead of re-engineering the app to use SQS and SNS, Amazon MQ can be used</li>
+  <li>Is a managed message broker service for RabbitMQ and ActiveMQ</li>
+  <li>Doesn't scale as much as SQS and SNS</li>
+  <li>Runs on servers, can run in Multi AZ with failover</li>
+  <li>Has both queue feature and topic features</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53

@@ -1333,6 +1333,28 @@ Dashboards:
 
 ### Big Data Ingestion Pipeline
 
+Used when:
+<ul>
+  <li>Need ingestion pipeline to be fully serverless</li>
+  <li>Need to collect data in real-time</li>
+  <li>Need to transform the data</li>
+  <li>Need to query transfored data using SQL</li>
+  <li>The reports created need to be in S3</li>
+  <li>Need to load the data into a warehouse nad create dashboards</li>
+</ul>
+
+Discussion of data ingestion pipeline:
+<ul>
+  <li>IoT core allows harvesting data from IoT devices</li>
+  <li>Kinesis is great for real-time data collection</li>
+  <li>Firehose helps with data delivery to S3 in near real-time</li>
+  <li>Lambda can help Firehose with data transformations</li>
+  <li>S3 can trigger notifications to SQS</li>
+  <li>Lambda can subscribe to SQS</li>
+  <li>Athena is a servelss SQL service and results are stored in S3</li>
+  <li>Reporting bucket contains analyzed data and can be used by reporting tool such as AWS QuickSight, Redshift, etc.</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

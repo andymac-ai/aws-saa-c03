@@ -1236,7 +1236,7 @@ Redshift Spectrum
   <li>Comes with OpenSearch Dashboards</li>
 </ul>
 
-### EMR - Elastic MapReduce
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EMR.png" width="50"/> EMR - Elastic MapReduce
 
 <ul>
   <li>Helps create Hadoop clusters toa analyze and process vast amounts of data</li>
@@ -1248,7 +1248,42 @@ Redshift Spectrum
 
 Use case: data processing, machine learning, web indexing, big data...
 
-### Quicksight
+Node types:
+
+**Master Node** - manage the cluster, coordintate, manage health - long running
+
+**Core Node** - Run tasks and store data - long running
+
+**Task Node** - Join to run tasks - ussually spot
+
+Purschasing Options:
+
+**On-Demand** - reliable, predictable, wont be terminated
+
+**Reserved** - min 1 year, cost savings (EMR automatically used if available)
+
+**Spot Instances** - cheaper, can be terminated, less reliable
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/QuickSight.png" width="50"/> Quicksight
+
+<ul>
+  <li>Serverless machine-learning-powered business intelligence service to create interactive dashboards</li>
+  <li>Fast, automatically scalable, embeddable, per-session pricing</li>
+  <li>Integrated with RDS, Aurora, Athena, Redshift, S3, etc.</li>
+  <li>In-memory computation using SPICE engine if data is imported into QuickSight</li>
+  <li>Enterprise edition: abel to setup Column-Level security (CLS)</li>
+</ul>
+
+Use cases: business analyticsm building visualizations, perform ad-hoc analysis, get business insights using data
+
+Dashboards:
+<ul>
+  <li>Define users (standard) and groups (enterprise), only exist in Quicksight and not IAM</li>
+  <li>A dshboard is a read only snapshot fo an analysis, preserves the configuration of analysis</li>
+  <li>Can share the analysis or dashboard with Users or Groups</li>
+  <li></li>
+  <li></li>
+</ul>
 
 ### Glue
 

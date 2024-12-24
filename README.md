@@ -1285,7 +1285,23 @@ Dashboards:
   <li></li>
 </ul>
 
-### Glue
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Glue.png" width="50"/> Glue
+
+<ul>
+  <li>Managed stract, transform and load (ETL) service</li>
+  <li>Useful to prepare and transform data for analytics</li>
+  <li>Fully serverless</li>
+</ul>
+
+**Glue Job Bookmarks** - prevent re-processing old data
+
+**Glue Elastic Views** - combine and replicate data across multiple data stores using SQL, no custom code, leverages a "virtual table"
+
+**Glue DataBrew** - clean and normalize data using pre-uilt transformation
+
+**Glue Studio** - new GUI to create, run, and monitor ETL jobs in Glue
+
+**Glue Streaming ETL** - (built on Apache Spark Structured Streaming) compatible with Kinesis Data Streaming, Kafka, MSK (managed Kafka)
 
 ### Lake Formation
 

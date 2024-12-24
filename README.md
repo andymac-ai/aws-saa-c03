@@ -1374,6 +1374,17 @@ Content moderation:
   <li>Help comply with regulations</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transcribe.png" width="50"/> Amazon Transcribe
+
+<ul>
+  <li>Automatically convert speech to text</li>
+  <li>Uses deep learning process called automatic speech recognition (ASR) to convert speech to text</li>
+  <li>Automatically remove personaly identifiable information (PII) using redaction</li>
+  <li>Supports automatic language identification for multi-lingual audio</li>
+</ul>
+
+Use cases: transcribe customer service calls, automate closed captioning and subtitling, generate metadata for media assets to create fully searchable archive
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

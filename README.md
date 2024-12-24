@@ -1236,7 +1236,17 @@ Redshift Spectrum
   <li>Comes with OpenSearch Dashboards</li>
 </ul>
 
-### EMR
+### EMR - Elastic MapReduce
+
+<ul>
+  <li>Helps create Hadoop clusters toa analyze and process vast amounts of data</li>
+  <li>Clusters can be made from hundreds of EC2 instances</li>
+  <li>Comes bundles with Apache Spark, HBase, Flink, etc.</li>
+  <li>Manages all provisioning and configuration</li>
+  <li>Auto-scaling and integrated with Spot instances</li>
+</ul>
+
+Use case: data processing, machine learning, web indexing, big data...
 
 ### Quicksight
 

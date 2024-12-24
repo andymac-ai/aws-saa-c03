@@ -1325,6 +1325,12 @@ Dashboards:
 
 ### MSK - Managed Streaming for Apache Kafka
 
+<ul>
+  <li>Alternative to Amazon Kinesis</li>
+  <li>Fully managed Apache Kafka on AWS - create, update, and delete clusters; MSK creates and manages Kafka brokers nodes and Zookeeper nodes; deploy MSK cluster in VPC with Multi AZ; auto recovery from Kafka; data stored in EBS volumes</li>
+  <li>MSK serverless - run Kafka on MSK without managing the capacity, MSK automatically provisionins resources and scales compute and sotrage </li>
+</ul>
+
 ### Big Data Ingestion Pipeline
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service

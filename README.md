@@ -1355,6 +1355,16 @@ Discussion of data ingestion pipeline:
   <li>Reporting bucket contains analyzed data and can be used by reporting tool such as AWS QuickSight, Redshift, etc.</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Rekognition.png" width="50"/> Amazon Rekognition
+
+<ul>
+  <li>Find objects, people, text, and scenes in images and videos using ML</li>
+  <li>Facial analysis and facial search to do user verification, people counting</li>
+  <li>Create a database of "familiar faces" or compare against celebrities</li>
+</ul>
+
+Use cases: labeling, content moderation, text detection, face detection and analysis, face search and verification, celebrity recognition, pathing
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

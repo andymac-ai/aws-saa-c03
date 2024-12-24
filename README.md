@@ -1316,6 +1316,10 @@ Dashboards:
   <li>Built on top of AWS Glue</li>
 </ul>
 
+### Amazon Managed Analytics for Apache Flink
+
+
+
 ### MSK - Managed Streaming for Apache Kafka
 
 ### Big Data Ingestion Pipeline
@@ -2176,8 +2180,21 @@ Security:
 
 ### Kinesis Data Analytics
 
+<ul>
+  <li>Real-time analytics on Kinesis analytics on Kinesis Data Streams and Firehose using SQL</li>
+  <li>Add reference data from S3 to enrich streaming data</li>
+  <li>Fully managed, no servers to provision</li>
+  <li>Automatic Scaling</li>
+  <li>Pay for actual compunsation rate</li>
+</ul>
 
+Output:
+<ul>
+  <li>Kinesis Data Streams: create streams out of real-time analytics queries</li>
+  <li>Kinesis Data Firehose: send analytics query results to desitinations</li>
+</ul>
 
+Use cases: Time-series analytics, Real-time dashboards, Real-time metrics
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
 

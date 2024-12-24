@@ -1318,7 +1318,10 @@ Dashboards:
 
 ### Amazon Managed Analytics for Apache Flink
 
-
+<ul>
+  <li>Use Flink to process or analyze streaming data</li>
+  <li>Run any Apache Flink application on a manged cluster on AWS</li>
+</ul>
 
 ### MSK - Managed Streaming for Apache Kafka
 

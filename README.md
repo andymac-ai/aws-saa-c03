@@ -1385,6 +1385,23 @@ Content moderation:
 
 Use cases: transcribe customer service calls, automate closed captioning and subtitling, generate metadata for media assets to create fully searchable archive
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Polly.png" width="50"/> Amazon Polly
+
+<ul>
+  <li>turn text into speech with deep learning</li>
+  <li>Allows creation of talking applications</li>
+</ul>
+
+Customize the pronunciation of words with Prnunciation Lexicons. Update the lexicons with the SynthesisSpeech operation.
+
+Generate speach from plain text using Speech Synthesis Markup Language (SSML)
+<ul>
+  <li>Emphasize specific words or phrases</li>
+  <li>Using Phonetic pronunciation</li>
+  <li>Including breathing sounds, whispering</li>
+  <li>Using the Newscaster speaking style</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

@@ -1303,7 +1303,18 @@ Dashboards:
 
 **Glue Streaming ETL** - (built on Apache Spark Structured Streaming) compatible with Kinesis Data Streaming, Kafka, MSK (managed Kafka)
 
-### Lake Formation
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lake-Formation.png" width="50"/> Lake Formation
+
+<ul>
+  <li>Data lake - central place for sata storage for analytics</li>
+  <li>Fully managed service that simplifies data lake setup in days</li>
+  <li>Discover, cleanse, transform, and ingest data into Data Lake</li>
+  <li>Automates many complex manual steps (collecting, cleansing, moving, cataloging data) and de-duplicate (using ML transforms)</li>
+  <li>Combine structured and unstructured data into the data lake</li>
+  <li>Out-of-the-box source blueprints: S3, RDS, Relational & NoSQL DB...</li>
+  <li>Fine-grained Access Control for applications</li>
+  <li>Built on top of AWS Glue</li>
+</ul>
 
 ### MSK - Managed Streaming for Apache Kafka
 

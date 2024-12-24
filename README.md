@@ -1149,6 +1149,212 @@ Use cases: store IoT devices info, time-series data...
 
 Use cases: IoT apps, operational applications, real-time analytics...
 
+## Data Analysis
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Athena.png" width="50"/> Athena
+
+<ul>
+  <li>Serverless query service to analyze data stored in S3</li>
+  <li>Uses standard SQL language to query files</li>
+  <li>Supports CSV, JSON, ORC, Avro, Parquet</li>
+  <li>Pricing: $5 per TB of scanned data</li>
+  <li>Commonly used with Quicksight for reporting/dashboards</li>
+</ul>
+
+Use cases: Busines intelligence, analytics, reporting analyzing and querying VPC flow logsm ELB Logs, CloudTrail trails, etc.
+
+Performance Improvement:
+<ul>
+  <li>Use columnar data for cost savings, Apache Parquet or ORC is recomended, huge performance growth, use Glue to convert to Parquet or ORC</li>
+  <li>Compress data for smaller retrievals</li>
+  <li>Partition datasets in S3 for easy querying on virtual columns</li>
+  <li>Use larger files to minimize overhead</li>
+</ul>
+
+Federated Query:
+<ul>
+  <li>Allows running SQL queries across data stored in relational, non-relational, object, and custom data stores</li>
+  <li>Uses Data Source Connectors that run on AWS Lambda to run federated Queries</li>
+  <li>Store the results back in S3</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Redshift.png" width="50"/> Redshift
+
+<ul>
+  <li>Based on PostgreSQL, but not used for OLTP</li>
+  <li>OLAP - online, analytical processing (analytics and data warehousing)</li>
+  <li>10x better performance than other data warehouses, sclae of PBs of data</li>
+  <li>Columnar storage of data & parallel query engine</li>
+  <li>Two modes: provisioned cluster or serverless cluster</li>
+  <li>Has an SQL interface for querying</li>
+  <li>BI tools such as Quicksight and Tableau integrate with it</li>
+  <li>vs. Athena: fatser queries / joins / aggregations thanks to indexes</li>
+</ul>
+
+Redshift Cluster
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/redshift_cluster.png" width="300" />
+
+<ul>
+  <li>Leader node: for query planning, results aggregation</li>
+  <li>Compute node: for performing the queries, send results to leader</li>
+  <li>Provisioned mode: choose instance types in advance, can reserve instances for cost savings</li>
+</ul>
+
+Snapshots and DR
+
+<ul>
+  <li>Redshift has Multi AZ mode for some clusters</li>
+  <li>Snapshots are point-in-tim backups of cluster, stored in S3</li>
+  <li>Snapshots are incremental</li>
+  <li>Snapshots can be restored into a new cluster</li>
+  <li>Automated: every 8 hours, every 5 GB, or on a schedule, set retention</li>
+  <li>Manual: snapshot is retained until deleted</li>
+</ul>
+
+Redshift Spectrum
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/redshift_spectrum.png" width="300" />
+
+<ul>
+  <li>Query data that is already in S3 without loading it</li>
+  <li>Must have Redshift cluster available to start the query</li>
+  <li>Query is then submitted to thousands of Redshift Spectrum nodes</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/OpenSearch.png" width="50"/> OpenSearch
+
+<ul>
+  <li>OpenSearch is the successor to ElastiSearch</li>
+  <li>In DynamoDB, queries only exist by primary key or indexes</li>
+  <li>Any field can be searched, includes partial matches</li>
+  <li>It's common to use OpenSearch as a complement to another database</li>
+  <li>Two nodes: managed cluster or serverless cluster</li>
+  <li>Does not natively support SQL (plugin possible)</li>
+  <li>Integration from Kinesis Data Firehose, AWS IoT, and CloudWatch Logs</li>
+  <li>Security through Cognito and IAM, KMS encryption, TLS</li>
+  <li>Comes with OpenSearch Dashboards</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EMR.png" width="50"/> EMR - Elastic MapReduce
+
+<ul>
+  <li>Helps create Hadoop clusters toa analyze and process vast amounts of data</li>
+  <li>Clusters can be made from hundreds of EC2 instances</li>
+  <li>Comes bundles with Apache Spark, HBase, Flink, etc.</li>
+  <li>Manages all provisioning and configuration</li>
+  <li>Auto-scaling and integrated with Spot instances</li>
+</ul>
+
+Use case: data processing, machine learning, web indexing, big data...
+
+Node types:
+
+**Master Node** - manage the cluster, coordintate, manage health - long running
+
+**Core Node** - Run tasks and store data - long running
+
+**Task Node** - Join to run tasks - ussually spot
+
+Purschasing Options:
+
+**On-Demand** - reliable, predictable, wont be terminated
+
+**Reserved** - min 1 year, cost savings (EMR automatically used if available)
+
+**Spot Instances** - cheaper, can be terminated, less reliable
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/QuickSight.png" width="50"/> Quicksight
+
+<ul>
+  <li>Serverless machine-learning-powered business intelligence service to create interactive dashboards</li>
+  <li>Fast, automatically scalable, embeddable, per-session pricing</li>
+  <li>Integrated with RDS, Aurora, Athena, Redshift, S3, etc.</li>
+  <li>In-memory computation using SPICE engine if data is imported into QuickSight</li>
+  <li>Enterprise edition: abel to setup Column-Level security (CLS)</li>
+</ul>
+
+Use cases: business analyticsm building visualizations, perform ad-hoc analysis, get business insights using data
+
+Dashboards:
+<ul>
+  <li>Define users (standard) and groups (enterprise), only exist in Quicksight and not IAM</li>
+  <li>A dshboard is a read only snapshot fo an analysis, preserves the configuration of analysis</li>
+  <li>Can share the analysis or dashboard with Users or Groups</li>
+  <li></li>
+  <li></li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Glue.png" width="50"/> Glue
+
+<ul>
+  <li>Managed stract, transform and load (ETL) service</li>
+  <li>Useful to prepare and transform data for analytics</li>
+  <li>Fully serverless</li>
+</ul>
+
+**Glue Job Bookmarks** - prevent re-processing old data
+
+**Glue Elastic Views** - combine and replicate data across multiple data stores using SQL, no custom code, leverages a "virtual table"
+
+**Glue DataBrew** - clean and normalize data using pre-uilt transformation
+
+**Glue Studio** - new GUI to create, run, and monitor ETL jobs in Glue
+
+**Glue Streaming ETL** - (built on Apache Spark Structured Streaming) compatible with Kinesis Data Streaming, Kafka, MSK (managed Kafka)
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lake-Formation.png" width="50"/> Lake Formation
+
+<ul>
+  <li>Data lake - central place for sata storage for analytics</li>
+  <li>Fully managed service that simplifies data lake setup in days</li>
+  <li>Discover, cleanse, transform, and ingest data into Data Lake</li>
+  <li>Automates many complex manual steps (collecting, cleansing, moving, cataloging data) and de-duplicate (using ML transforms)</li>
+  <li>Combine structured and unstructured data into the data lake</li>
+  <li>Out-of-the-box source blueprints: S3, RDS, Relational & NoSQL DB...</li>
+  <li>Fine-grained Access Control for applications</li>
+  <li>Built on top of AWS Glue</li>
+</ul>
+
+### Amazon Managed Analytics for Apache Flink
+
+<ul>
+  <li>Use Flink to process or analyze streaming data</li>
+  <li>Run any Apache Flink application on a manged cluster on AWS</li>
+</ul>
+
+### MSK - Managed Streaming for Apache Kafka
+
+<ul>
+  <li>Alternative to Amazon Kinesis</li>
+  <li>Fully managed Apache Kafka on AWS - create, update, and delete clusters; MSK creates and manages Kafka brokers nodes and Zookeeper nodes; deploy MSK cluster in VPC with Multi AZ; auto recovery from Kafka; data stored in EBS volumes</li>
+  <li>MSK serverless - run Kafka on MSK without managing the capacity, MSK automatically provisionins resources and scales compute and sotrage </li>
+</ul>
+
+### Big Data Ingestion Pipeline
+
+Used when:
+<ul>
+  <li>Need ingestion pipeline to be fully serverless</li>
+  <li>Need to collect data in real-time</li>
+  <li>Need to transform the data</li>
+  <li>Need to query transfored data using SQL</li>
+  <li>The reports created need to be in S3</li>
+  <li>Need to load the data into a warehouse nad create dashboards</li>
+</ul>
+
+Discussion of data ingestion pipeline:
+<ul>
+  <li>IoT core allows harvesting data from IoT devices</li>
+  <li>Kinesis is great for real-time data collection</li>
+  <li>Firehose helps with data delivery to S3 in near real-time</li>
+  <li>Lambda can help Firehose with data transformations</li>
+  <li>S3 can trigger notifications to SQS</li>
+  <li>Lambda can subscribe to SQS</li>
+  <li>Athena is a servelss SQL service and results are stored in S3</li>
+  <li>Reporting bucket contains analyzed data and can be used by reporting tool such as AWS QuickSight, Redshift, etc.</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes
@@ -2004,6 +2210,22 @@ Security:
 </table>
 
 ### Kinesis Data Analytics
+
+<ul>
+  <li>Real-time analytics on Kinesis analytics on Kinesis Data Streams and Firehose using SQL</li>
+  <li>Add reference data from S3 to enrich streaming data</li>
+  <li>Fully managed, no servers to provision</li>
+  <li>Automatic Scaling</li>
+  <li>Pay for actual compunsation rate</li>
+</ul>
+
+Output:
+<ul>
+  <li>Kinesis Data Streams: create streams out of real-time analytics queries</li>
+  <li>Kinesis Data Firehose: send analytics query results to desitinations</li>
+</ul>
+
+Use cases: Time-series analytics, Real-time dashboards, Real-time metrics
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
 

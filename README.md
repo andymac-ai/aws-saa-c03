@@ -1365,6 +1365,15 @@ Discussion of data ingestion pipeline:
 
 Use cases: labeling, content moderation, text detection, face detection and analysis, face search and verification, celebrity recognition, pathing
 
+Content moderation:
+<ul>
+  <li>Detect content that is inappropriate, unwanted, or offensive</li>
+  <li>Used in social media, broadcast media, advertising, e-commerce</li>
+  <li>Set minimum confidence threshold for items that will be flagged</li>
+  <li>Flag sensitive content for manual review in Amazon ugmented AI (A2I)</li>
+  <li>Help comply with regulations</li>
+</ul>
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

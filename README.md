@@ -1402,6 +1402,26 @@ Generate speach from plain text using Speech Synthesis Markup Language (SSML)
   <li>Using the Newscaster speaking style</li>
 </ul>
 
+### Amazon Translate
+
+### Amazon Lex
+
+### Amazon Connect
+
+### Amazon Comprehend
+
+### Amazon Comprehend Medical
+
+### Amazon SageMaker
+
+### Amazon Forecast
+
+### Amazon Kendra
+
+### Amazon Personalize
+
+### Amazon Textract
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

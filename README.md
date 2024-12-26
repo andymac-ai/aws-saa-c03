@@ -1473,7 +1473,17 @@ Use cases: Product demand planning, financial planning, resource planning, etc.
   <li>Ability to anually fine-tune search results (importance of data, freshness, custom, etc.)</li>
 </ul>
 
-### Amazon Personalize
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Personalize.png" width="50"/> Amazon Personalize
+
+<ul>
+  <li>Fully managed ML-service to build aps with real-time personalized recomendations</li>
+  <li>Example: personalized product recomendations/re-ranking, customize direct marketing</li>
+  <li>Same technology used by Amazon.com</li>
+  <li>Integrates into existing websites, applications, SMS, email marketing systems...</li>
+  <li>Implement in days, not months</li>
+</ul>
+
+Use cases: retailstores, media and entertainment
 
 ### Amazon Textract
 

@@ -1402,7 +1402,12 @@ Generate speach from plain text using Speech Synthesis Markup Language (SSML)
   <li>Using the Newscaster speaking style</li>
 </ul>
 
-### Amazon Translate
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Translate.png" width="50"/> Amazon Translate
+
+<ul>
+  <li>Natural and accurate language translation</li>
+  <li>Localize content for international users, translate large text volumes</li>
+</ul>
 
 ### Amazon Lex
 

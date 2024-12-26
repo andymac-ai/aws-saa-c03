@@ -1463,7 +1463,15 @@ Use cases: analyze customer interactions to find causes for positive and negativ
 
 Use cases: Product demand planning, financial planning, resource planning, etc. 
 
-### Amazon Kendra
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kendra.png" width="50"/> Amazon Kendra
+
+<ul>
+  <li>Fully managed document and search powered by machine learning</li>
+  <li>Extract answers from within a document</li>
+  <li>Natural language search capabilities</li>
+  <li>Learn from user interactions/feedback to promote preferred results (Incremental Learning)</li>
+  <li>Ability to anually fine-tune search results (importance of data, freshness, custom, etc.)</li>
+</ul>
 
 ### Amazon Personalize
 

@@ -1425,7 +1425,16 @@ Generate speach from plain text using Speech Synthesis Markup Language (SSML)
   <li>No upfront payments, 80% cheaper than traditional contact center solutions</li>
 </ul>
 
-### Amazon Comprehend
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Comprehend.png" width="50"/> Amazon Comprehend
+
+<ul>
+  <li>Natural Language Processing</li>
+  <li>Fully managed and serverless servess</li>
+  <li>Uses machine learning to find insights and relationships in text</li>
+  <li>Finds language of the text, extract key phrases or details, understand sentiment, analyze text with tokenization and parts of speech, automatically organize cllct of text based on topic</li>
+</ul>
+
+Use cases: analyze customer interactions to find causes for positive and negative experiences, create and group articles by topic uncovered by Comprehend
 
 ### Amazon Comprehend Medical
 

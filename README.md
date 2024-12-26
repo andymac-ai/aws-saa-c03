@@ -1436,7 +1436,14 @@ Generate speach from plain text using Speech Synthesis Markup Language (SSML)
 
 Use cases: analyze customer interactions to find causes for positive and negative experiences, create and group articles by topic uncovered by Comprehend
 
-### Amazon Comprehend Medical
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Comprehend-Medical.png" width="50"/> Amazon Comprehend Medical
+
+<ul>
+  <li>Detects and turns useful information in unstructures clinical text</li>
+  <li>Takes physician's notes, discharge summaries, test results, case notes</li>
+  <li>Uses NLP to detect Protected Health Information (PHI) - DetectPHI API</li>
+  <li>Store your documentsin S3, analyze real-time data with Kinesis Data Firehose, or use Amazon Transcribe to transcribe patient naratives that can be analyzed by Amazon Comprehend Medical</li>
+</ul>
 
 ### Amazon SageMaker
 

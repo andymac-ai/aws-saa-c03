@@ -1409,7 +1409,13 @@ Generate speach from plain text using Speech Synthesis Markup Language (SSML)
   <li>Localize content for international users, translate large text volumes</li>
 </ul>
 
-### Amazon Lex
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lex.png" width="50"/> Amazon Lex
+
+<ul>
+  <li>Automatic speech recognition (ASR) to convert speech to text</li>
+  <li>Natural language understanding to recognize the inten of text, callers</li>
+  <li>Helps build chatbots, call center bots</li>
+</ul>
 
 ### Amazon Connect
 

@@ -1417,7 +1417,13 @@ Generate speach from plain text using Speech Synthesis Markup Language (SSML)
   <li>Helps build chatbots, call center bots</li>
 </ul>
 
-### Amazon Connect
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Connect.png" width="50"/> Amazon Connect
+
+<ul>
+  <li>Recieve calls. create contact flows, cloud-based virtual contact center</li>
+  <li>Cant integrate with other CRM systems or AWS</li>
+  <li>No upfront payments, 80% cheaper than traditional contact center solutions</li>
+</ul>
 
 ### Amazon Comprehend
 

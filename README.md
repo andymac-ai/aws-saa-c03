@@ -1452,7 +1452,16 @@ Use cases: analyze customer interactions to find causes for positive and negativ
   <li>Tyically difficult to do all the processes in one place and provision servers</li>
 </ul>
 
-### Amazon Forecast
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Forecast.png" width="50"/> Amazon Forecast
+
+<ul>
+  <li>Fully managed service that uses ML to deliver highly accurate forecasts</li>
+  <li>Example: predict the future sales of a raincoat</li>
+  <li>50% more accurate than looking at the data itself</li>
+  <li>Reduce forecasting time from months to hours</li>
+</ul>
+
+Use cases: Product demand planning, financial planning, resource planning, etc. 
 
 ### Amazon Kendra
 

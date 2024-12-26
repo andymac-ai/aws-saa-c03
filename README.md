@@ -1445,7 +1445,12 @@ Use cases: analyze customer interactions to find causes for positive and negativ
   <li>Store your documentsin S3, analyze real-time data with Kinesis Data Firehose, or use Amazon Transcribe to transcribe patient naratives that can be analyzed by Amazon Comprehend Medical</li>
 </ul>
 
-### Amazon SageMaker
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SageMaker.png" width="50"/> Amazon SageMaker
+
+<ul>
+  <li>Fully managed service for developers / data scientists to build ML models</li>
+  <li>Tyically difficult to do all the processes in one place and provision servers</li>
+</ul>
 
 ### Amazon Forecast
 

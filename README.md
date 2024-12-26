@@ -1485,7 +1485,15 @@ Use cases: Product demand planning, financial planning, resource planning, etc.
 
 Use cases: retailstores, media and entertainment
 
-### Amazon Textract
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Textract.png" width="50"/> Amazon Textract
+
+<ul>
+  <li>Automaticaly extracts text, handwriting, and data rom any scaned documents using AI and ML</li>
+  <li>Extract data from forms and tables</li>
+  <li>Read and process any type of document</li>
+</ul>
+
+Use cases: financial services, healthcare, public sector
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 

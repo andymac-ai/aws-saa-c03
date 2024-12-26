@@ -1355,6 +1355,146 @@ Discussion of data ingestion pipeline:
   <li>Reporting bucket contains analyzed data and can be used by reporting tool such as AWS QuickSight, Redshift, etc.</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Rekognition.png" width="50"/> Amazon Rekognition
+
+<ul>
+  <li>Find objects, people, text, and scenes in images and videos using ML</li>
+  <li>Facial analysis and facial search to do user verification, people counting</li>
+  <li>Create a database of "familiar faces" or compare against celebrities</li>
+</ul>
+
+Use cases: labeling, content moderation, text detection, face detection and analysis, face search and verification, celebrity recognition, pathing
+
+Content moderation:
+<ul>
+  <li>Detect content that is inappropriate, unwanted, or offensive</li>
+  <li>Used in social media, broadcast media, advertising, e-commerce</li>
+  <li>Set minimum confidence threshold for items that will be flagged</li>
+  <li>Flag sensitive content for manual review in Amazon ugmented AI (A2I)</li>
+  <li>Help comply with regulations</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transcribe.png" width="50"/> Amazon Transcribe
+
+<ul>
+  <li>Automatically convert speech to text</li>
+  <li>Uses deep learning process called automatic speech recognition (ASR) to convert speech to text</li>
+  <li>Automatically remove personaly identifiable information (PII) using redaction</li>
+  <li>Supports automatic language identification for multi-lingual audio</li>
+</ul>
+
+Use cases: transcribe customer service calls, automate closed captioning and subtitling, generate metadata for media assets to create fully searchable archive
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Polly.png" width="50"/> Amazon Polly
+
+<ul>
+  <li>turn text into speech with deep learning</li>
+  <li>Allows creation of talking applications</li>
+</ul>
+
+Customize the pronunciation of words with Prnunciation Lexicons. Update the lexicons with the SynthesisSpeech operation.
+
+Generate speach from plain text using Speech Synthesis Markup Language (SSML)
+<ul>
+  <li>Emphasize specific words or phrases</li>
+  <li>Using Phonetic pronunciation</li>
+  <li>Including breathing sounds, whispering</li>
+  <li>Using the Newscaster speaking style</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Translate.png" width="50"/> Amazon Translate
+
+<ul>
+  <li>Natural and accurate language translation</li>
+  <li>Localize content for international users, translate large text volumes</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lex.png" width="50"/> Amazon Lex
+
+<ul>
+  <li>Automatic speech recognition (ASR) to convert speech to text</li>
+  <li>Natural language understanding to recognize the inten of text, callers</li>
+  <li>Helps build chatbots, call center bots</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Connect.png" width="50"/> Amazon Connect
+
+<ul>
+  <li>Recieve calls. create contact flows, cloud-based virtual contact center</li>
+  <li>Cant integrate with other CRM systems or AWS</li>
+  <li>No upfront payments, 80% cheaper than traditional contact center solutions</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Comprehend.png" width="50"/> Amazon Comprehend
+
+<ul>
+  <li>Natural Language Processing</li>
+  <li>Fully managed and serverless servess</li>
+  <li>Uses machine learning to find insights and relationships in text</li>
+  <li>Finds language of the text, extract key phrases or details, understand sentiment, analyze text with tokenization and parts of speech, automatically organize cllct of text based on topic</li>
+</ul>
+
+Use cases: analyze customer interactions to find causes for positive and negative experiences, create and group articles by topic uncovered by Comprehend
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Comprehend-Medical.png" width="50"/> Amazon Comprehend Medical
+
+<ul>
+  <li>Detects and turns useful information in unstructures clinical text</li>
+  <li>Takes physician's notes, discharge summaries, test results, case notes</li>
+  <li>Uses NLP to detect Protected Health Information (PHI) - DetectPHI API</li>
+  <li>Store your documentsin S3, analyze real-time data with Kinesis Data Firehose, or use Amazon Transcribe to transcribe patient naratives that can be analyzed by Amazon Comprehend Medical</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SageMaker.png" width="50"/> Amazon SageMaker
+
+<ul>
+  <li>Fully managed service for developers / data scientists to build ML models</li>
+  <li>Tyically difficult to do all the processes in one place and provision servers</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Forecast.png" width="50"/> Amazon Forecast
+
+<ul>
+  <li>Fully managed service that uses ML to deliver highly accurate forecasts</li>
+  <li>Example: predict the future sales of a raincoat</li>
+  <li>50% more accurate than looking at the data itself</li>
+  <li>Reduce forecasting time from months to hours</li>
+</ul>
+
+Use cases: Product demand planning, financial planning, resource planning, etc. 
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kendra.png" width="50"/> Amazon Kendra
+
+<ul>
+  <li>Fully managed document and search powered by machine learning</li>
+  <li>Extract answers from within a document</li>
+  <li>Natural language search capabilities</li>
+  <li>Learn from user interactions/feedback to promote preferred results (Incremental Learning)</li>
+  <li>Ability to anually fine-tune search results (importance of data, freshness, custom, etc.)</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Personalize.png" width="50"/> Amazon Personalize
+
+<ul>
+  <li>Fully managed ML-service to build aps with real-time personalized recomendations</li>
+  <li>Example: personalized product recomendations/re-ranking, customize direct marketing</li>
+  <li>Same technology used by Amazon.com</li>
+  <li>Integrates into existing websites, applications, SMS, email marketing systems...</li>
+  <li>Implement in days, not months</li>
+</ul>
+
+Use cases: retailstores, media and entertainment
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Textract.png" width="50"/> Amazon Textract
+
+<ul>
+  <li>Automaticaly extracts text, handwriting, and data rom any scaned documents using AI and ML</li>
+  <li>Extract data from forms and tables</li>
+  <li>Read and process any type of document</li>
+</ul>
+
+Use cases: financial services, healthcare, public sector
+
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
 ### Moving Between Storage Classes

@@ -15,7 +15,6 @@ Domains of material covered in the exam:
 
 
 
-
 ## Databases
 
 ### Database Types
@@ -1120,276 +1119,7 @@ Using a GroupID:
   <li>Has both queue feature and topic features</li>
 </ul>
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53
 
-### DNS
-
-<ul>
-  <li>Domain Name System translates human friendly hostnames into the machine IP addresses.</li>
-  <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
-</ul>
-
-### DNS Terminology
-
-<ul>
-  <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
-  <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
-  <li>**Zone File:** contains DNS records</li>
-  <li>**Name Server:** resolves DNS queries</li>
-  <li>**Top Level Domain (TLD):** .com, .us, .in, .gov, ...</li>
-  <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
-</ul>
-
-### DNS Functionality
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
-
-### Amazon Route 53
-
-<ul>
-  <li>High available, scalable, fully managed and Authoritative DNS, Authoritative: user can update the DNS records</li>
-  <li>Route 53 is also a domain registrar</li>
-  <li>Has the ability to check health of resources</li>
-  <li>Only AWS service providing 100% availability SLA</li>
-  <li>53: reference to the traditional DNS port</li>
-</ul>
-
-### Route 53 - Records
-
-<ul>
-  <li>How to the traffic should be routed for a domain</li>
-  <li>
-    Each record contains:
-    <ul>
-      <li>Domina/subdomain Name: eg example.com</li>
-      <li>Record Type: eg A or AAAA</li>
-      <li>Value: eg 12.34.56.78</li>
-      <li>Routing Policy: how Route 53 responds to queries</li>
-      <li>TTL: amount of time the record cached at DNS Resolvers</li>
-    </ul>
-  </li>
-  <li>
-    Supports the following DNS types
-    <ul>
-      <li>(must know) A / AAA / CNAME / NS</li>
-      <li>(advanced) CAA / DS / MX / NAPTR / PTR / SOA / TXT / SPF / SRV</li>
-    </ul>
-  </li>
-</ul>
-
-### Route 53 - Record Types
-
-<ul>
-  <li>A: maps a hostname to IPv4</li>
-  <li>AAAA: maps a hostname to IPv6</li>
-  <li>
-    CNAME: mapse a hostname to another hostname
-    <ul>
-      <li>Target is a domain name with an A or AAAA record</li>
-      <li>Cant create a CNAME record for the top node of a DNS namespace (Zone Apex)</li>
-      <li>eg: cant create for example.com but can for www.example.com</li>
-    </ul>
-  </li>
-  <li>NS: Name servers for the hosted zone</li>
-</ul>
-
-### Route 53 - Hosted Zones
-
-Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
-
-Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
-
-### Records TTL (Time to Live)
-
-**High TTL:** eg 24hr
-<ul>
-  <li>Less traffic on Route 53</li>
-  <li>Possibly outdated records</li>
-</ul>
-
-**Low TTL:** eg 60sec
-<ul>
-  <li>More traffic on Route 53</li>
-  <li>Records are outdated for less time</li>
-  <li>Easy to change records</li>
-</ul>
-
-### CNAME vs Alias
-
-**CNAME:** Points a hostname to any other hostname, only for non root domain
-
-**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
-
-### Alias Records
-
-<ul>
-  <li>Maps a hostname to an AWS resource</li>
-  <li>an extension to DNS functionality</li>
-  <li>Automatically recognizes changes in the resource's IP adresses</li>
-  <li>Unlike CNAME, can be used for the top node of a DNS namespace</li>
-  <li>Alias Record is always of type A/AAAA for AWS resources</li>
-  <li>TTL cannot be set</li>
-</ul>
-
-**Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
-
-### Routing Policies
-
-<ul>
-  <li>Define how Route 53 responds to DNS queries</li>
-  <li>DNS does not route traffic, only responds to DNS queries</li>
-</ul>
-
-<table>
-  <head>
-    <tr>
-      <td colspan=2>Routing Policies</td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td>Simple</td>
-      <td>
-        <ul>
-          <li>Typically route traffic to a single resource.</li>
-          <li>Can specify multiple values in the same record.</li>
-          <li>If random values are returned, a random one is chosen by the client.</li>
-          <li>When Alias enabled, specify only one AWS resource.</li>
-          <li>Can't be associated with Health Checks.</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Weighted</td>
-      <td>
-        <ul>
-          <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
-          <li>DNS records must have the same name and type.</li>
-          <li>Can be associated with Health Checks.</li>
-          <li>Use cases: load balancing between regions, testing new application versions...</li>
-          <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
-          <li>If all records have weight of 0, then all records will be returned equally</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Latency-based</td>
-      <td>
-        <ul>
-          <li>Redirect to the resource that has the least latency close to us</li>
-          <li>Super helpful when latency for users is a priority</li>
-          <li>Latency is based on traffic between users and AWS Regions</li>
-          <li>Can be associated with health checks</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Failover</td>
-      <td>
-        <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
-      </td>
-    </tr>
-    <tr>
-      <td>Geolocation</td>
-      <td>
-        <ul>
-          <li>Different from letency based.</li>
-          <li>Routing based on user location.</li>
-          <li>Specified by Continent, Country, or by US State.</li>
-          <li>Should create "Default" record.</li>
-          <li>Use case: website localization, restrict content distribution, load balancing,...</li>
-          <li>Can be associated with health checks.</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Geoproximity</td>
-      <td>
-        <ul>
-          <li>Route traffic to resources based on geographic location of users and resources.</li>
-          <li>Ability to shift more traffic to resources based on the defined bias.</li>
-          <li>Bias values set size of region.</li>
-          <li>Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).</li>
-          <li>Must use Route 53 Traffic Flow (advanced) to used this feature.</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>IP-based</td>
-      <td>
-        <ul>
-          <li>Routing based on clients' IP addresses.</li>
-          <li>List of CIDRs provided for clients and the corresponding endpoints/locations.</li>
-          <li>Use case: optimize performance, reduce network costs...</li>
-          <li>Example: route end users from a particular ISP to a specific endpoint.</li>
-          <li></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Multi-Value</td>
-      <td>
-        <ul>
-          <li>Use when routing traffic to multiple resources.</li>
-          <li>Route 53 return multiple values/resources.</li>
-          <li>Can be associated with Health Checks (return values for healthy resources).</li>
-          <li>Up to 8 healthy records are returned for each Multi-Value query.</li>
-          <li>Multi-Value is not a substitute for having an ELB.</li>
-        </ul>
-      </td>
-    </tr>
-  </body>
-</table>
-
-### Health Checks
-
-<ul>
-  <li>HTTP Health Checks are only for public resources</li>
-  <li>
-    Health Check => Automated DNS Failover:
-    <ul>
-      <li>Monitor an Endpoint</li>
-      <li>Monitor other Health Checks</li>
-      <li>Monitor CloudWatch Alarms</li>
-    </ul>
-  </li>
-</ul>
-
-### Health Checks - Monitor an Endpoint
-
-<ul>
-  <li>About 15 global health checkers will check endpoint health.</li>
-  <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
-  <li>Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.</li>
-  <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
-</ul>
-
-### Health Checks - Calculated
-
-<ul>
-  <li>Combine the results of multiple health checks into a single health check.</li>
-  <li>Can use OR, AND, or NOT.</li>
-  <li>Can monitor up to 256 health checks.</li>
-  <li>Specify how many health checks are needed to pass.</li>
-  <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
-</ul>
-
-### Health Checks - Private Hosted Zones
-
-<ul>
-  <li>Route 53 health checkers are outside the VPC.</li>
-  <li>They can't process private endpoints.</li>
-  <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
-</ul>
-
-### Domain Registar vs DNS Service
-
-<ul>
-  <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
-  <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
-  <li>Other DNS servec can be selected to manage DNS records.</li>
-  <li>Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.</li>
-</ul>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront
 
@@ -1908,6 +1638,275 @@ Only works for ALB, NLB, and CloudFront.
 Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
+
+### DNS
+
+<ul>
+  <li>Domain Name System translates human friendly hostnames into the machine IP addresses.</li>
+  <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
+</ul>
+
+### DNS Terminology
+
+<ul>
+  <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
+  <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
+  <li>**Zone File:** contains DNS records</li>
+  <li>**Name Server:** resolves DNS queries</li>
+  <li>**Top Level Domain (TLD):** .com, .us, .in, .gov, ...</li>
+  <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
+</ul>
+
+### DNS Functionality
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Amazon Route 53
+
+<ul>
+  <li>High available, scalable, fully managed and Authoritative DNS, Authoritative: user can update the DNS records</li>
+  <li>Route 53 is also a domain registrar</li>
+  <li>Has the ability to check health of resources</li>
+  <li>Only AWS service providing 100% availability SLA</li>
+  <li>53: reference to the traditional DNS port</li>
+</ul>
+
+### Route 53 - Records
+
+<ul>
+  <li>How to the traffic should be routed for a domain</li>
+  <li>
+    Each record contains:
+    <ul>
+      <li>Domina/subdomain Name: eg example.com</li>
+      <li>Record Type: eg A or AAAA</li>
+      <li>Value: eg 12.34.56.78</li>
+      <li>Routing Policy: how Route 53 responds to queries</li>
+      <li>TTL: amount of time the record cached at DNS Resolvers</li>
+    </ul>
+  </li>
+  <li>
+    Supports the following DNS types
+    <ul>
+      <li>(must know) A / AAA / CNAME / NS</li>
+      <li>(advanced) CAA / DS / MX / NAPTR / PTR / SOA / TXT / SPF / SRV</li>
+    </ul>
+  </li>
+</ul>
+
+### Route 53 - Record Types
+
+<ul>
+  <li>A: maps a hostname to IPv4</li>
+  <li>AAAA: maps a hostname to IPv6</li>
+  <li>
+    CNAME: mapse a hostname to another hostname
+    <ul>
+      <li>Target is a domain name with an A or AAAA record</li>
+      <li>Cant create a CNAME record for the top node of a DNS namespace (Zone Apex)</li>
+      <li>eg: cant create for example.com but can for www.example.com</li>
+    </ul>
+  </li>
+  <li>NS: Name servers for the hosted zone</li>
+</ul>
+
+### Route 53 - Hosted Zones
+
+Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
+
+Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
+
+### Records TTL (Time to Live)
+
+**High TTL:** eg 24hr
+<ul>
+  <li>Less traffic on Route 53</li>
+  <li>Possibly outdated records</li>
+</ul>
+
+**Low TTL:** eg 60sec
+<ul>
+  <li>More traffic on Route 53</li>
+  <li>Records are outdated for less time</li>
+  <li>Easy to change records</li>
+</ul>
+
+### CNAME vs Alias
+
+**CNAME:** Points a hostname to any other hostname, only for non root domain
+
+**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
+
+### Alias Records
+
+<ul>
+  <li>Maps a hostname to an AWS resource</li>
+  <li>an extension to DNS functionality</li>
+  <li>Automatically recognizes changes in the resource's IP adresses</li>
+  <li>Unlike CNAME, can be used for the top node of a DNS namespace</li>
+  <li>Alias Record is always of type A/AAAA for AWS resources</li>
+  <li>TTL cannot be set</li>
+</ul>
+
+**Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
+
+### Routing Policies
+
+<ul>
+  <li>Define how Route 53 responds to DNS queries</li>
+  <li>DNS does not route traffic, only responds to DNS queries</li>
+</ul>
+
+<table>
+  <head>
+    <tr>
+      <td colspan=2>Routing Policies</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Simple</td>
+      <td>
+        <ul>
+          <li>Typically route traffic to a single resource.</li>
+          <li>Can specify multiple values in the same record.</li>
+          <li>If random values are returned, a random one is chosen by the client.</li>
+          <li>When Alias enabled, specify only one AWS resource.</li>
+          <li>Can't be associated with Health Checks.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Weighted</td>
+      <td>
+        <ul>
+          <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
+          <li>DNS records must have the same name and type.</li>
+          <li>Can be associated with Health Checks.</li>
+          <li>Use cases: load balancing between regions, testing new application versions...</li>
+          <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
+          <li>If all records have weight of 0, then all records will be returned equally</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Latency-based</td>
+      <td>
+        <ul>
+          <li>Redirect to the resource that has the least latency close to us</li>
+          <li>Super helpful when latency for users is a priority</li>
+          <li>Latency is based on traffic between users and AWS Regions</li>
+          <li>Can be associated with health checks</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Failover</td>
+      <td>
+        <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Geolocation</td>
+      <td>
+        <ul>
+          <li>Different from letency based.</li>
+          <li>Routing based on user location.</li>
+          <li>Specified by Continent, Country, or by US State.</li>
+          <li>Should create "Default" record.</li>
+          <li>Use case: website localization, restrict content distribution, load balancing,...</li>
+          <li>Can be associated with health checks.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Geoproximity</td>
+      <td>
+        <ul>
+          <li>Route traffic to resources based on geographic location of users and resources.</li>
+          <li>Ability to shift more traffic to resources based on the defined bias.</li>
+          <li>Bias values set size of region.</li>
+          <li>Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).</li>
+          <li>Must use Route 53 Traffic Flow (advanced) to used this feature.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>IP-based</td>
+      <td>
+        <ul>
+          <li>Routing based on clients' IP addresses.</li>
+          <li>List of CIDRs provided for clients and the corresponding endpoints/locations.</li>
+          <li>Use case: optimize performance, reduce network costs...</li>
+          <li>Example: route end users from a particular ISP to a specific endpoint.</li>
+          <li></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Multi-Value</td>
+      <td>
+        <ul>
+          <li>Use when routing traffic to multiple resources.</li>
+          <li>Route 53 return multiple values/resources.</li>
+          <li>Can be associated with Health Checks (return values for healthy resources).</li>
+          <li>Up to 8 healthy records are returned for each Multi-Value query.</li>
+          <li>Multi-Value is not a substitute for having an ELB.</li>
+        </ul>
+      </td>
+    </tr>
+  </body>
+</table>
+
+### Health Checks
+
+<ul>
+  <li>HTTP Health Checks are only for public resources</li>
+  <li>
+    Health Check => Automated DNS Failover:
+    <ul>
+      <li>Monitor an Endpoint</li>
+      <li>Monitor other Health Checks</li>
+      <li>Monitor CloudWatch Alarms</li>
+    </ul>
+  </li>
+</ul>
+
+### Health Checks - Monitor an Endpoint
+
+<ul>
+  <li>About 15 global health checkers will check endpoint health.</li>
+  <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
+  <li>Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.</li>
+  <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
+</ul>
+
+### Health Checks - Calculated
+
+<ul>
+  <li>Combine the results of multiple health checks into a single health check.</li>
+  <li>Can use OR, AND, or NOT.</li>
+  <li>Can monitor up to 256 health checks.</li>
+  <li>Specify how many health checks are needed to pass.</li>
+  <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
+</ul>
+
+### Health Checks - Private Hosted Zones
+
+<ul>
+  <li>Route 53 health checkers are outside the VPC.</li>
+  <li>They can't process private endpoints.</li>
+  <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
+</ul>
+
+### Domain Registar vs DNS Service
+
+<ul>
+  <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
+  <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
+  <li>Other DNS servec can be selected to manage DNS records.</li>
+  <li>Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.</li>
+</ul>
 
 ## Computing
 

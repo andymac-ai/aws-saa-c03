@@ -11,667 +11,6 @@ Domains of material covered in the exam:
 * Design Secure Architectures
 * Design Cost-Optimized Architectures
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
-
-### IP Types
-
-Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space
-
-Private IP - Only devices on network can see the IP address
-
-Elastic IP - can change to work when instance is stopped and started (not rebooted)
-
-### Placement Groups
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
-
-#### Cluster Placement Group
-
-Use Case: Low latency and fast, mostly for data processing and in bursts
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
-
-#### Spread Placement Group
-
-Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
-
-#### Partition Placement Group
-
-Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ENI.png" width="50"/> ENI - Elastic Network Interface
-
-<ul>
-  <li>component in a VPC that represents a virtual network card</li>
-  <li>implemented in same AZ as EC2 instance</li>
-  <li>
-    can have:
-    <ol>
-      <li>1 primary IPv4, one or more scondary IPv4</li>
-      <li>1 elastic IP (IPv4) per private IP</li>
-      <li>1 public IP</li>
-      <li>1 or more security groups</li>
-      <li>a MAC address</li>
-    </ol>
-  </li>
-</ul>
-
-### EC2 Hibernate
-
-*stop* - data on the disk of the instance is held until start
-
-*terminate* - data on the disk is lost
-
-*hibernate* - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted
-
-### EC2 Instance Store
-
-EBS Volumes are network drives with good but limited performance. EC2 is a high-performance hardware disk-like network drive. The instance store features:
-<ul>
-  <li>Better I/O performance</li>
-  <li>Lose storage if they are stopped (ephemeral)</li>
-</ul>
-
-Use case: Good buffer, cache, scratch data, temporary content, Risk data loss if hardware fails, backups and replications are admin's responsibility.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/AMI.png" width="50"/> AMI Overview
-
-Description: AMI's are a customization of an EC2 Insance. AMI's are built for specific regions and can be copied for a specific region. EC2 instances can be launched from:
-<ul>
-  <li>a public AMI (amazon provided)</li>
-  <li>your own AMI</li>
-  <li>AWS Marketplace AMS</li>
-</ul>
-
-Process:
-<ol>
-  <li>Start an EC2 instance and customize it.</li>
-  <li>Stop the instance.</li>
-  <li>Build an AMI - this will also create EBS Snapshots</li>
-  <li>Launch instances from other AMI's.</li>
-</ol>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Auto-Scaling.png" width="50"/> Auto Scaling
-
-### Auto Scaling Groups
-
-Goals:
-<ul>
-  <li>scale out (add EC2 instances) to match an increased load</li>
-  <li>scale in (remove EC2 instances) to match decreased load</li>
-  <li>ensure minimum and maximum EC2 instances running</li>
-  <li>automatically register as load balancer</li>
-  <li>recreate unhealthy instances</li>
-</ul>
-
-### ASG Attributes
-
-**Launch Template** - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information
-
-**Min/Max Size**
-
-**Initial Capacity**
-
-### ASG CloudWatch Alarms
-
-Can be used to trigger ASG
-
-### ASG Scaling Policies
-
-<ul>
-  <li>
-    Dynamic Scaling
-    <ul>
-      <li>
-        Target Tracking Scaling
-        <ul>
-          <li>simple setup</li>
-          <li>ex: avg. ASG CPU to stay around 40%</li>
-        </ul>
-      </li>
-      <li>
-        Simple/Step Scaling
-        <ul>
-          <li>CloudWatch Alarm (CPU > 70%), add 2 units</li>
-          <li>CloudWatch Alarm (CPU < 30%), remove 1 unit</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    Scheduled Scaling
-    <ul>
-      <li>anticipate scaling based on known usage patterns</li>
-    </ul>
-  </li>
-  <li>
-    Predictive Scaling
-    <ul>
-      <li>control forecast and schedule scaling ahead</li>
-    </ul>
-  </li>
-</ul>
-
-Metrics to scale on:
-<ul>
-  <li>CPU Utilization: average CPU utilization across instances</li>
-  <li>Request Count Per Target: stable number of requests per instance</li>
-  <li>Average network In/Out</li>
-  <li>Custom Metric</li>
-</ul>
-
-### ASG Scaling Cooldowns
-
-During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumes.png" width="50"/> EBS Volumes
-
-<ul>
-  <li>these are network drives that you can attach to your instances while they can.</li>
-  <li>allows EC2 instances to persist data</li>
-  <li>mounted to one instance at a time</li>
-  <li>bound to specific availability zone</li>
-  <li>free under 30GB/month</li>
-</ul>
-
-Can be detached and reattached to other instances. Capacity must be provisioned in advance (size in GB and IOPS). Volumes delete upon termination by default for root volumes and off for all other volumes.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSSnapshots.png" width="50"/> EBS Snapshots
-
-<ul>
-  <li>backup of an EBS volume at a point in time</li>
-  <li>not necessary to attach volume but recomended</li>
-  <li>can copy snapshots across AZ's or regions</li>
-</ul>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
-
-### EBS Snapshot Archive
-
-Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
-
-### Recycle Bin for EBS Snapshots
-
-Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
-
-### FSR - Fast Snapshot Restore
-
-Forces full initialization of snapshot to have no latency on first use, but is very expensive.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
-
-<table>
-  <head>
-    <tr>
-      <td>Type</td>
-      <td>Description</td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td>gp2/gp3 (SSD)</td>
-      <td>General purpose SSD vlume that balances price and performance for wide variety of workloads.</td>
-    </tr>
-    <tr>
-      <td>io1/io2 Block Express (SSD)</td>
-      <td>Highest performance SSD volume for mission-critical low latency or high throughput workloads.</td>
-    </tr>
-    <tr>
-      <td>stl (HDD)</td>
-      <td>Low cost HDD volume designed for frequently accessed throughput-intense workloads.</td>
-    </tr>
-    <tr>
-      <td>sol (HDD)</td>
-      <td>Lowest cost HDD volume designed for less frequently accessed workloads.</td>
-    </tr>
-  </body>
-</table>
-
-Characterized by size/throughput/IOPS (I/O Operations per second). Only gp2/gp3 and io1/io2 Block Express can be used as boot volumes.
-
-<table>
-  <head>
-    <tr>
-      <td colspan="4"><h2>Use Cases</h2></td>
-    </tr>
-    <tr>
-      <td colspan="2"><h4>General Purpose SSD</h4></td>
-      <td colspan="2"><h4>Provisioned IOPS (PIOPS) SSD</h4></td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td colspan="2">cost effective storage, low latency</td>
-      <td colspan="2">critical business applications with sustained IOPS performance</td>
-    </tr>
-    <tr>
-      <td colspan="2">system boot volumes, virtual desktops, development and test environments</td>
-      <td colspan="2">applications that need more than 16,000 IOPS</td>
-    </tr>
-    <tr>
-      <td colspan="2">1GiB - 16GiB</td>
-      <td colspan="2">great for database workloads (sensitive to storage performance and consistency)</td>
-    </tr>
-    <tr>
-      <td>gp3</td>
-      <td>gp2</td>
-      <td>io1 (4GiB - 16GiB)</td>
-      <td>io2 Block Express (4GiB - 64GiB)</td>
-    </tr>
-    <tr>
-      <td>baseline: 3000 IOPS / 125MiB/s</td>
-      <td>small volumes, burst up to 3000 IOPS</td>
-      <td>max PIOPS: 64000 for Nitro EC2 instances and 32000 for other</td>
-      <td>sub millisecond latency</td>
-    </tr>
-    <tr>
-      <td>max: 16000 IOPS / 1000 MiB/s independently</td>
-      <td>volume and IOPS are linked: max 16000 IOPS</td>
-      <td>can increase PIOPS independently from storage size</td>
-      <td>max PIOPS: 256000</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>3 IOPS per GB -> means 5334GB have max IOPS</td>
-      <td></td>
-      <td></td>
-    </tr>
-  </body>
-</table>
-
-### EBS Multi-Attach - (io1/io2 family)
-
-Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).
-
-Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.
-
-### EBS Encryption
-
-Advantages of EBS volumes:
-<ul>
-  <li>data at rest is encrypted indie the volume</li>
-  <li>all data in-flight moving between the instance and the volume is encrypted</li>
-  <li>all snapshots are encrypted</li>
-  <li>all volumes created from snapshot are encrypted</li>
-</ul>
-
-Encryption and decryption are handled transparently (no admin action needed). Encryption has minimal impact on latency. EBS Encryption leverages keys from KMS (AES-256). Copying an unencrypted snapshot allows encryption. Snapshots of encrypted volumes are encrypted.
-
-Process of encrypting an unencrypted volume:
-<ol>
-  <li>Create EBS Volume and EBS Snapshot of Volume.</li>
-  <li>Encrypt the EBS Snapshot (using a copy).</li>
-  <li>Create new EBS volume from snapshot.</li>
-  <li>Now move encrypted volume to original instance.</li>
-</ol>
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
-
-EFS is a manages NFS (Network File System) that can be mounted on many EC2 instances. Works with EC2 instances in multiple AZ's. Highliy reliable, scalable, and expensive (3x gp2) - pay per use.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EFS.png" width="300"/>
-
-Use case:
-<ul>
-  <li>Content management, web serving, data sharing, wordpress</li>
-  <li>NFSv4.1 protocol</li>
-  <li>use security group to control access to EFS</li>
-  <li>compatible with Linux based AMI (not Windows)</li>
-  <li>encryption as rest using KMS</li>
-  <li>POSIX file system</li>
-  <li>file system scales automatically, billed by GB (size)</li>
-</ul>
-
-### EFS Performance Classes
-
-<table>
-  <body>
-    <tr>
-      <td><b>EFS Scale</b></td>
-      <td>1000s of concurrent NFS clients, 10GB/s throughput</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>grow to petabyte scale network file systems, automatically</td>
-    </tr>
-    <tr>
-      <td>Performance Mode</td>
-      <td>General Purpose (default) - latency-sensitive use cases (web server, CMS, etc.)</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Max I/O - higher latency, throughput, highly parallel (big data, media processing)</td>
-    </tr>
-    <tr>
-      <td>Throughput Mode</td>
-      <td>Bursting - 1 TB & 50MiB/s and bursts of up to 100MiB/s</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Provisioned - set your throughput regardless of storage size (ex 1GiB for 1TB)</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Elastic - automatically scales troughput up or down based on workloads</td>
-    </tr>
-  </body>
-</table>
-
-### EFS Storage Classes
-
-Storage Tiers:
-<ul>
-  <li><b>standard</b> - frequently accessed files</li>
-  <li><b>infrequent access (EFS IA)</b> - cost to retrieve files, lower storage price</li>
-  <li><b>archive</b> - rarely accessed data</li>
-  <li><b>implement life cycle policies</b> - move files between storage tiers</li>
-</ul>
-
-Availability
-
-Standard: Multi AZ, great for production
-
-One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A
-
-### EBS vs EFS
-
-<table>
-  <head>
-    <tr>
-      <td><b>EBS</b></td>
-      <td><b>EFS</b></td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td>one instance (except multi-attach io1/io2)</td>
-      <td>share files</td>
-    </tr>
-    <tr>
-      <td>are locked at Availability Zone level</td>
-      <td>only for Linux Instances (POSIX)</td>
-    </tr>
-    <tr>
-      <td>gp2: IO increases if disk sizes increases</td>
-      <td>EFS has higher price point than EBS</td>
-    </tr>
-    <tr>
-      <td>gp3 and io1: can increase IO increasingly</td>
-      <td>can leverage storage tiers for cost savings</td>
-    </tr>
-  </body>
-</table>
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
-
-### High Availability and Scalability
-
-**Scalability** - ability of a web application to adapt to greater workloads
-
-**Vertically Scalability** - increasing instance size, common for non-distributed systems
-
-**EC2 vertical scaling** - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)
-
-**Horizontal Scalability** - increasing instance amount
-
-**EC2 horizontal scaling** - Auto Scaling Group, Load Balancer
-
-**High Availability** - Auto scaling group with multiple AZ, Load balancing with multiple AZ
-
-### Load Balancing
-
-These are servers that forward traffic to multiple servers downstream.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ELB.png" width="250"/>
-
-Use case:
-<ul>
-  <li>Spread load accross multiple downstream servers</li>
-  <li>Expose a single point of access (DNS) to application</li>
-  <li>Seamlessly handles features downstream</li>
-  <li>Do regular health checks</li>
-  <li>Provide SSL termination (HTTP) for your websites</li>
-  <li>Enforce stickiness with cookies</li>
-  <li>Seperate public and private traffic</li>
-</ul>
-
-Elastic Load Balacer use case:
-<ul>
-  <li>managed</li>
-  <li>lower setup costs</li>
-  <li>integrated with AWS offerings/services</li>
-  <ul>
-    <li>EC2, EC2 Auto Scaling Group, Amazon ECS</li>
-    <li>AWS Certificate Manager (ACM), CoudWatch</li>
-    <li>Route 53, AWS WAF, AWS Global Accelerator</li>
-  </ul>
-</ul>
-
-### Health Checks
-
-Crusial for load balancers. They enable load balancers to know whether instances it forwards traffic to are available. Health checks are performed on port and route (/health is common).
-
-### Load Balancer Types
-
-**Application Load Balancer (v2)** - HTTP, HTTPS, WebSocket
-
-**Network Load Balancer (v2)** - TCP, TLS (secure TCP), UDP
-
-**Gateway Load Balancer** - operates at Network layer - IP Protocol
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ALB.png" width="50"/> ALB - Application Load Balancer
-
-Application load balancer is layer 7 (HTTP). ALB performs load balancing to multiple HTTP appliances (ex target groups) or applications (ex containers) on the same machine. Supports HTTP, HTTPS and WebSocket and redirects.
-
-Routing tables to different target groups based on:
-<ul>
-  <li>path URL (example.com/<ins>users</ins> and example.com/<ins>posts</ins>)</li>
-  <li>hostname in URL (<ins>one</ins>.example.com and <ins>other</ins>.example.com)</li>
-  <li>query string, headers (example.com/users?<ins>id=123&order=false</ins>)</li>
-</ul>
-
-### ALB Target Groups
-
-<ul>
-  <li>EC2 instances - HTTP</li>
-  <li>ECS tasks - HTTP</li>
-  <li>Lambda functions - HTTP request is translated into JSON event</li>
-  <li>private IP addresses</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NLB.png" width="50"/> NLB - Network Load Balancer
-
-Network load balancer is layer 4 (TCP). NLB forwards TCP and UDP traffic to instances. Supports millions of requests per seconds with ultra-latency. One static IP per AZ and supports assigning Elastic IPs. NLBs are used for extreme performance, TCP or UDP traffic. Not in the AWS free tier.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/NLB.png" width="300"/>
-
-### NLB Target Groups
-
-<ul>
-  <li>EC2 instances</li>
-  <li>IP addresses (must e private)</li>
-  <li>Application Load Balancer</li>
-  <li>Health checks support the TCL, HTTP, and HTTPS protocols</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/GLB.png" width="50"/> GLB - Gateway Load Balancer
-
-Deploy, scale, and manage a fleet of 3rd party network appliances in AWS (ex. Firewalls, Intrusion Detection, and Prevention systems, Deep Packet Inspection Systems, payload manipulation. Operates at laver 3 (Network layer, IP sockets). Combines transparent Network Gateway (single entry/exit for all traffic) and load balancer (distributes traffic to virtual appliances). Uses GENEVE protocol on port 6081.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/GWLB.png" width="250"/>
-
-### GLB Target Groups
-
-<ul>
-  <li>EC2 instances</li>
-  <li>IP addresses (must e private)</li>
-</ul>
-
-### Sticky Sessions (Session Affinity)
-
-Stickiness is directing same client to same instance behind load balancer, can be used in ALB and NLB. Cookies are used for stickiness and have controllable expiration date.
-
-Use case: user can retain user data.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/StickySessions.jpg" width="300"/>
-
-### Sticky Sessions- Cookie Names
-
-**Application-based Cookies**
-
-Custom cookie - generated by target, can include custom atributes required by application, name specified for each target group (AWSALB, AWSALBAPP, AWSALBTG reserved by ELB)
-
-Application cookie - generated by load balancer, name is AWSALB for ALB
-
-**Duration-based Cookies** - generated by the load balancer, cookie name is AWSALB for ALB, AWSELB for CLB
-
-### ELB Cross-Zone Balancing
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/CrossZoneBalancing.png" width="300"/>
-
-Application load balancer - Cross zone balancing enabled by default, no charges
-
-Network and Gateway Load Balancers - disabled by default, costs $
-
-### SSL/TLS Bases
-
-SSL certificate allows traffic between clients and load balancer to be encrypted in transit (in-flight encryption). SSL refers to secure sockets layer, used to encrypt connections. TLS referes to transport layer security (newer). TLS mainly used, some still use SSL.
-
-Public SSL certificates are issued by Certificate Authorities. SSL certificates have an expiration date. 
-
-### SSL Certificates
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/LoadBalancerSSL.png" width="300"/>
-
-Load balancers use an X.509 certificate (SSL/TLS server certificate). Certificates can be managed using ACM (AWS Certificate Manager). It is possible to create and upload own certificates.
-
-HTTPS Listeners:
-<ul>
-  <li>must specify a default certificate</li>
-  <li>can add list of certificates to support multiple domains</li>
-  <li>clients can use SNI to specify the hostname</li>
-</ul>
-
-### SNI - Server Name Identification
-
-Solves the proble, of having multiple SSL certificates on one web server. "Newer" protocol client to indicate the hostname target server of initial SSL handshake. Server finds correct certificate, or returns default.
-
-Only works for ALB, NLB, and CloudFront.
-
-### Elastic Load Balancers - SSL Certificates
-
-**Application Load Balancers** - support multiple listeners with multiple SSL certificates, ise SNI to make it work
-
-**Network Load Balancers** - supports multiple listeners with multiple SSL certificates
-
-### Connection Draining
-
-Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Organizations.png" width="50"/> AWS Orgnaizations
-
-Global service that allows management of multiple accounts.
-
-Main account is the management account, the others are members. Members can be part of only one organization.
-
-Allows for consolidated billing and pricing from aggregated usage. API available for automation.
-
-Advantages:
-<ul>
-  <li>Multi Account vs One Account VPC</li>
-  <li>Use tagging standards for billing purposes</li>
-  <li>Enable CloudTrail on all accounts, send logs to central S3 account</li>
-  <li>Establish Cross Account Roles for Aministration</li>
-</ul>
-
-Service Control Policies (SPC)
-<ul>
-  <li>IAM policies applied to OU or Accounts to restrict Users and Roles</li>
-  <li>Do not apply to management account</li>
-  <li>Must have expicit allow from the root through each OU in the direct path to the target account</li>
-</ul>
-
-### SCP Hiearchy
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/scp_hierarchy.png" width="300"/>
-
-### IAM Conditions
-
-Set conditions for applying IAM rules.
-
-### IAM S3
-
-Conditions can be bucket level or object level.
-
-### Resource Policies
-
-Principle does not give up their permissions.
-
-### IAM Roles 
-
-Assuming a role surrenders original permissions and takes new permissions.
-
-### Amazon EventBridge - Security
-
-<ul>
-  <li>When a rule runs, it needs permissions on the target.</li>
-  <li>Resource-based policy: Lambda, SNS, SQS, S3 buckets, API gatesway...</li>
-  <li>IAM Role: Kinesis stream, EC2 Auto Scaling, Systems Manager Run Command, ECS task...</li>
-</ul>
-
-### Permission Boundaries
-
-Permission boundaries are supported for users and roles. Advanced feature to use a managed policy to set the maximum permissions an IAM entity can get.
-
-### Identity Center
-
-One login for all your:
-<ul>
-  <li>AWS accounts in AWS Organizations</li>
-  <li>Business cloud applications</li>
-  <li>SAML2.0-enabled applications</li>
-  <li>EC2 Windows Instances</li>
-</ul>
-
-Identity providers: Built-in identity store in IAM Identity Center
-
-### Directory Serivces
-
-AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD
-
-AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD
-
-Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower
-
-Easy way to setup and govern a secure and compliant multiaccount AWS environment based on best practices; uses AWS Organizations to create accounts
-
-Benefits:
-<ul>
-  <li>Automate the set up of environment easily</li>
-  <li>Automate ongoing policy management using guardrails</li>
-  <li>Detect policy iolations and remediate</li>
-  <li>Monitor compliance through an interactive dashboard</li>
-</ul>
-
-Control Tower Guardrails:
-<ul>
-  <li>Provides ongoing governence for Control Tower environment</li>
-  <li>Preventive Guardrail - using SPCs</li>
-  <li>Detective Guardrail - using AWS Config</li>
-</ul>
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
-
 ## Databases
 
 ### Database Types
@@ -1495,11 +834,1166 @@ Use cases: retailstores, media and entertainment
 
 Use cases: financial services, healthcare, public sector
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
+## App Decoupling
 
-### Moving Between Storage Classes
+### Messaging
 
-Objects can be moved through the storage classes, movement is automated through the use of Lifecycle Policies.
+**Synchronous Communications** - application to application
+
+**Asynchronous / Event Based Communications** - application to queue to application
+
+Decoupling applications allow for spikes in traffic. SQS, SNS, and Kinesis allow scaling independently from application.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> Amazon SQS - Simple Queue Service 
+
+Oldest offering, fully managed.
+
+Attributes:
+<ul>
+  <li>Unlimited throughput, unlimited messages in queue</li>
+  <li>Default retention of message: 4 days, max 14 days</li>
+  <li>Low latency ( < 10ms on publish and recieve)</li>
+  <li>Limited to 256KB per message</li>
+</ul>
+
+Messages are produced to SQS using SDK, and message is persisted in SQS until a consumer deletes it.
+
+Messages consumers (running on EC2 instances, servers, AWS Lambda, etc.), poll SQS for messages, process messages, and delete messages.
+
+Consumers can be arranged in parallel to handle messages, and can scale horizontally to improve throughput.
+
+### SQS - Security
+
+Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.
+
+Access Controls: IAM policies to regulate access to SQS API.
+
+SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.
+
+### Message Visibility Timeout
+
+<ul>
+  <li>After a messages if pooled by consumer, it becomes invisible to other consumers.</li>
+  <li>By default the message visibility timeout is 30 seconds.</li>
+  <li>That means the message has 30 seconds to be processed.</li>
+  <li>After the message visibility timeout is over. the message is visible again.</li>
+  <li>If a message is not processed within the visibility timeout, it will be processed twice</li>
+  <li>A consumer could cal the ChangeMessageVisibility API to get one more time</li>
+  <li>If visibility timeout is high (hours), and consumer crashes, re-processing will take time</li>
+  <li>If visibility is too low (seconds), duplicates may occcur.</li>
+</ul>
+
+### Long Polling
+
+**Long Polling** - when a consumer requests messages from the queue, it can optionally "wait" for messages to arrive if there are none in the queue.
+
+<ul>
+  <li>Decreasses the number of API calls made to SQS while increasing the efficiency and reducing latency of application.</li>
+  <li>The wait time can be between 1s to 20s (20s preferable)</li>
+  <li>Preferable short polling</li>
+  <li>Can be enabled at the queue level or at the API level using WaitTimeSeconds</li>
+</ul>
+
+### FIFO Queue
+
+<ul>
+  <li>FIFO - First In First Out (ordering of messages in the queue)</li>
+  <li>Limited throughput: 300 msgs/s without batching, 3000 with</li>
+  <li>Exactly-once send capability</li>
+  <li>Messages are processed in order by the consumer</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SNS.png" width="50"/> Amazon SNS - Simple Notification Service
+
+Used to send one message to many recievers.
+
+<ul>
+  <li>The "event producer" only sends one messgage to one SNS topic.</li>
+  <li>As many "event recievers as wanted listen to SNS topic notifications.</li>
+  <li>Each subscriber to the topic will get all the messages.</li>
+  <li>Up tp 12.5mil subs per topic</li>
+  <li>100,000 topics max.</li>
+</ul>
+
+Event producers - CloudWatch Alarms, AWS Budgets, Lambda, Auto Scaling Group, S3 Bucket, DynamoDB, CloudFormation, AWS DMS, RDS Events, etc.
+
+Event subscribers - SQS, Lambda, Kinesis Data Firehose, Emails, SMS & Mobile, HTTP(S) endpoints
+
+### How to Publish
+
+Topic Publish
+<ul>
+  <li>Create a topic</li>
+  <li>Create a or more subscriptions</li>
+  <li>Publish a topic</li>
+</ul>
+
+Direct Publish
+<ul>
+  <li>Create a platform application</li>
+  <li>Create a platform endpoint</li>
+  <li>Publish to the platform endpoint</li>
+  <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+</ul>
+
+### Security
+
+Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage
+
+Access Controls: IAM policies to regulate access to the SNS API
+
+SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
+
+### SQS + SNS - Fan Out
+
+<ul>
+  <li>Push once to SNS, recieve in all SQS queues that are subscribers</li>
+  <li>Fully decoupled, no data loss</li>
+  <li>SQS allows for: data persistence, delayed processing and retries of work</li>
+  <li>Ability to add more SQS subscribers over time</li>
+  <li>Make sure SQS queue access policy allows for SNS to write</li>
+  <li>Cross-Region Delivery: works with SQS Queues in other regions</li>
+</ul>
+
+### FIFO Topics
+
+<ul>
+  <li>Similar as SQS FIFO: ordered by message group ID, duplication using a deduplication ID or content based deduplication</li>
+  <li>Can have SQS Standard and FIFO queues as subscribers</li>
+  <li>Limited throughput</li>
+</ul>
+
+### Message filtering
+
+<ul>
+  <li>JSON policy used to filter messages sent to SNS topic's subscriptions</li>
+  <li>If a subscription doesn't have a filter policy, it recieves every message</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis.png" width="50"/> Amazon Kinesis
+
+Simplifies collecting, processing, and analyzing streaming data in real-time.
+
+Ingests real-time data such as: Application Logs, Metrics, Website clickstreams, IoT telemetry data...
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/> Kinesis Data Streams
+
+Capture, process, and store data streams
+<ul>
+  <li>Retention between 1 day and 365 days</li>
+  <li>Ability to reprocess (peplay) data</li>
+  <li>Once data is inserted in Kineses, it cant be deleted (immutability)</li>
+  <li>Data that shares the same partition goes to the same shard (ordering)</li>
+  <li>Producers: AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
+  <li>Consumers: self made (Kinesis Client Library, AWS SDK), managed (AWS Lambda, Kinesis Data Firehose, Kinesis Data Analytics)</li>
+</ul>
+
+Provisioned mode:
+<ul>
+  <li>Choose the number of shards provisioned, scale manually or using API</li>
+  <li>Each shard gets 1MB/s in (or 1000 records per second)</li>
+  <li>Each shard gets 2MB/s out (classic or enhanced fan-out consumer)</li>
+  <li>Pay per shard provisioned per hour</li>
+</ul>
+
+On-demand mode:
+<ul>
+  <li>No need to provision or manage capacity</li>
+  <li>Default capacity provisioned (4MB/s in or 4000 records per second)</li>
+  <li>Scales automatically based on observed throughput peak during the last 30 days</li>
+  <li>Pay per stream per hour and data in/out per GB</li>
+</ul>
+
+Security:
+<ul>
+  <li>Control access / authorization using IAM policies</li>
+  <li>Encryption in-flight with HTTPS endpoints, at-rest with KMS</li>
+  <li>Able to implement client-side encryption</li>
+  <li>VPC Endpoints available for Kineses to access within VPC</li>
+  <li>Monitor API calls using CloudTrail</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td> Kinesis Data Firehose
+
+<ul>
+  <li>Fully managed service with Redshift, S3, OpenSearch, 3rd party partners (Splunk, MongoDB, DataDog, NewRelic...), can customize sending to any HTTP enpoint</li>
+  <li>Pay dor data going through firehose</li>
+  <li>Near Real Time</li>
+  <li>Supports mana data formats, conversions, transformations, compression</li>
+  <li>Supports custom data transformations with AWS Lambda</li>
+  <li>Can send failed or all data to a backup S3 bucket</li>
+</ul>
+
+### Data Streams vs. Firehose
+
+<table>
+  <head>
+    <tr>
+      <td>Kineses Data Streams</td>
+      <td>Kineses Data Firehose</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Streaming service for ingest at scale</td>
+      <td>Load streaming data into S3 / Redshift / OpenSearch / 3rd Party / custom HTTP</td>
+    </tr>
+    <tr>
+      <td>Write custom code (producer / consumer)</td>
+      <td>Fully managed</td>
+    </tr>
+    <tr>
+      <td>Real-time (~200 ms)</td>
+      <td>Near real time</td>
+    </tr>
+    <tr>
+      <td>Managed scaling (shard splitting / merging)</td>
+      <td>Automatic scaling</td>
+    </tr>
+    <tr>
+      <td>Data storage for 1 to 365 days</td>
+      <td>No data storage</td>
+    </tr>
+    <tr>
+      <td>Supports replay capability</td>
+      <td>Doesn't support replay capability</td>
+    </tr>
+  </body>
+</table>
+
+### Kinesis Data Analytics
+
+<ul>
+  <li>Real-time analytics on Kinesis analytics on Kinesis Data Streams and Firehose using SQL</li>
+  <li>Add reference data from S3 to enrich streaming data</li>
+  <li>Fully managed, no servers to provision</li>
+  <li>Automatic Scaling</li>
+  <li>Pay for actual compunsation rate</li>
+</ul>
+
+Output:
+<ul>
+  <li>Kinesis Data Streams: create streams out of real-time analytics queries</li>
+  <li>Kinesis Data Firehose: send analytics query results to desitinations</li>
+</ul>
+
+Use cases: Time-series analytics, Real-time dashboards, Real-time metrics
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
+
+### Ordering Data in Kinesis
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+### Ordering Data in SQS
+
+Without a GroupID, messages are consued as sent: 
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+Using a GroupID:
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
+
+### Kinesis vs SQS Ordering
+
+**Scenario** - 100 trucks, 5 kinesis shards, 1 SQS FIFO
+
+**Kinesis Data Streams** - On average 10 trucks per shard, trucks wil have the data ordered within each shard, maximum amount of consumers in parallel is 5, can recieve up to 5MB/s of data
+
+**SQS FIFO** - only one SQS FIFO queue, 100 group IDs, up to 100 consumers possible, up to 300 messages per second
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/MQ.png" width="50"/> Amazon MQ
+
+<ul>
+  <li>SQS, SNS are cloud native services, proprietary protocols from AWS</li>
+  <li>Traditional applications running from on-premises may use open protocols such as MQTT, AMQP, STOMP, Openwire, WSS</li>
+  <li>When migrating to the cloud, instead of re-engineering the app to use SQS and SNS, Amazon MQ can be used</li>
+  <li>Is a managed message broker service for RabbitMQ and ActiveMQ</li>
+  <li>Doesn't scale as much as SQS and SNS</li>
+  <li>Runs on servers, can run in Multi AZ with failover</li>
+  <li>Has both queue feature and topic features</li>
+</ul>
+
+
+
+
+
+## Containerization
+
+### Docker
+
+Overview
+<ul>
+  <li>Docker is a software development platform to deploy apps.</li>
+  <li>Apps are packaged into containers that can run on any platform.</li>
+  <li>Apps run consistently, reguardless of where.</li>
+  <li>Use cases: microservices architecture, lift-and-shift apps from on-premises to AWS cloud...</li>
+</ul>
+
+Docker Images
+<ul>
+  <li>Images stored in Docker repositories.</li>
+  <li>Docker Hub: Public repository, find base images for many technologies</li>
+  <li>Amazon ECR: Private repository, Public options</li>
+</ul>
+
+Docker Container Mangement on AWS
+<ul>
+  <li>Amazon Elastic Container Service (ECS)</li>
+  <li>Amazon Elastic Kubernetes Service (EKS)</li>
+  <li>AWS Fargate</li>
+  <li>Amazon ECR</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECS.png" width="50"/> Amazon ECS
+
+EC2 Launchtype
+<ul>
+  <li>Launch Docker containers on AWS means launching ECS tasks on ECS clusters</li>
+  <li>EC2 Launch Type means provisioning and maintaining the infrastructure (EC2 instances)</li>
+  <li>Each EC2 instance must rin the ECS Agent to register in the ECS Cluster</li>
+  <li>AWS handles starting / stopping containers</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-ec2.png" width="300"/>
+
+Fargate Launchtype
+<ul>
+  <li>Docker containers on AWS, no provisioning architecture</li>
+  <li>serverless</li>
+  <li>Create task definitions</li>
+  <li>AWS runs ECS Tasks based on CPU/RAM requirements</li>
+  <li>To scale: increase number of tasks - no more EC2 instances</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-fargate.png" width="300"/>
+
+IAM Roles for ECS
+<ul>
+  <li>
+    EC2 Instance Profile (EC2 Launch Tye only)
+    <ul>
+      <li>Used by ECS agent</li>
+      <li>Makes API call to ECS service</li>
+      <li>Send container logs to CloudWatch Logs</li>
+      <li>Pull Docker image from ECR</li>
+      <li>Reference sensitive data in Secrets Manager or SSM Parameter Store</li>
+    </ul>
+  </li>
+  <li>
+    ECS Task Role
+    <ul>
+      <li>Allows each task a specific role</li>
+      <li>Use different roles for different ECS Services</li>
+    </ul>
+  </li>
+</ul>
+
+Load Balancer Integrations
+<ul>
+  <li>Application Load Balancer - supported and works on most use cases</li>
+  <li>Network Load Balancer - recomended only for high throughput / high performance use cases, or to pair it with AWS Private Link</li>
+  <li>Classic Load Balancer - supported but not recomended (no advanced features, no Fargate)</li>
+</ul>
+
+Data Volumes (EFS)
+<ul>
+  <li>Mount EFS file systems onto ECS tasks</li>
+  <li>Works for both EC2 and Fargate launch types</li>
+  <li>Tasks running in any AZ will share the same data in the EFS system</li>
+  <li>Fargate + EFS = serverless</li>
+  <li>Use cases: persistent multi-AZ shared storage for containers</li>
+</ul>
+
+ECS Service Auto Scaling
+<ul>
+  <li>Automatically increase/decrease the desired amount of ECS tasks</li>
+  <li>Amazon ECS Auto Scaling uses AWS Application Auto Scaling</li>
+  <li>Target Tracking - scale based on target value for a specific CloudWatch metric</li>
+  <li>Step Scaling - scale based on a specified Cloudatch Alarm</li>
+  <li>Scheduled Scaling - scale based on a specified date/time (predictable changes)</li>
+  <li>ECS Service Autoscaling != EC2 Auto Scaling</li>
+  <li>Fargate Auto Scaling is much easier to setup (serverless)</li>
+</ul>
+
+Auto Scaling with EC2 Launch Type
+<ul>
+  <li>Accomadates ECS Service Scaling by adding underlying EC2 Instances</li>
+  <li>
+    Auto Scaling Group Scaling
+    <ul>
+      <li>Scale ASG based on CPU Utilization</li>
+      <li>Add EC2 instances over time</li>
+    </ul>
+  </li>
+  <li>
+    ECS Cluster Capacity Provider
+    <ul>
+      <li>Used to automatically provision and scale the infrastructure for ECS Tasks</li>
+      <li>Capacity provider paired with an Auto Scaling Group</li>
+      <li>Add EC2 Instances when missing capacity (CPU,RAM,...)</li>
+    </ul>
+  </li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon Elastic Container Registry (ECR)
+
+<ul>
+  <li>Store and manage Docker images on AWS</li>
+  <li>Public and Private</li>
+  <li>Fully integrated with ECS, backed by S3</li>
+  <li>Access is controled through IAM</li>
+  <li>Supports image vulnerability scanning, versioning, image tage, image, life cycle</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EKS.png" width="50"/> Amazon EKS
+
+Overview
+<ul>
+  <li>It is a way to launch managed Kubernetes clusters on AWS</li>
+  <li>Kubernetes is an open-source system for automatic deployment, scaling and management of containerized (ussually Docker) application</li>
+  <li>Alternative to ECS, similar goal but different API</li>
+  <li>EKS supports EC2 if deploying worker nodes or Fargate to deploy serverless containers</li>
+  <li>Use case: if company already using Kubernetes on premises or in another cloud, easier migration to AWS</li>
+  <li>Kubernetes is cloud agnostic</li>
+</ul>
+
+Node Types
+<ul>
+  <li>
+    Managed Node Groups
+    <ul>
+      <li>Creates and manages Nodes (EC2 instances)</li>
+      <li>Nodes are a part of an ASG managed by EKS</li>
+      <li>Supports On-Demand or Spot Instances</li>
+    </ul>
+  </li>
+  <li>
+    Self-Managed Nodes
+    <ul>
+      <li>Node created manually and registered to the EKS cluster and managed by an ASG</li>
+      <li>Prebuilt AMI can be used - Amazon EKS Optimized AMI</li>
+      <li>Supports On-Demand or Spot Instances</li>
+    </ul>
+  </li>
+  <li>
+    AWS Fargate
+    <ul>
+      <li>No maiuntainence required, no nodes managed</li>
+    </ul>
+  </li>
+</ul>
+
+Data Volumes - Need to specify StorageClass manifest on EKS cluster, leverage as Container Storage Interface (CSI) compliant driver.
+
+Support for:
+<ul>
+  <li>Amazon EBS</li>
+  <li>Amazon EFS</li>
+  <li>Amazon FSx for Lustre</li>
+  <li>Amazon FSx for NetApp ONTAP</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/App-Runner.png" width="50"/> AWS App Runner
+
+<ul>
+  <li>Fully managed service that simplifies deploying web applications and APIs at scale</li>
+  <li>No infrastructure experience required</li>
+  <li>Start with source code or container image</li>
+  <li>Automatically builds and deploy the web app</li>
+  <li>Automatic scaling, highly available, load balancer, encryption</li>
+  <li>VPC access support</li>
+  <li>Connect to database, cache, and message queue services</li>
+  <li>Use cases: web apps, APIs, microservises, rapid production deployments</li>
+</ul>
+
+### AWS App2Container (A2C)
+
+<ul>
+  <li>CLI tool for migrating and modernizing Java adn .NET web apps into Docker Containers</li>
+  <li>Lift-and-shift apps running in on-premises bare metal, virtual machines, or in any Cloud to AWS</li>
+  <li>Accelerate modernization, no code changes, migrate legacy apps...</li>
+  <li>Generates CloudFormation templates (compute,network,...)</li>
+  <li>Register generated Docker Containers to ECR</li>
+  <li>Deploy to ECS, EKS, or App Runner</li>
+  <li>Supports pre-built CI/CD pipelines</li>
+</ul>
+
+## Networking
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
+
+High Availability and Scalability
+
+**Scalability** - ability of a web application to adapt to greater workloads
+
+**Vertically Scalability** - increasing instance size, common for non-distributed systems
+
+**EC2 vertical scaling** - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)
+
+**Horizontal Scalability** - increasing instance amount
+
+**EC2 horizontal scaling** - Auto Scaling Group, Load Balancer
+
+**High Availability** - Auto scaling group with multiple AZ, Load balancing with multiple AZ
+
+### Load Balancing
+
+These are servers that forward traffic to multiple servers downstream.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ELB.png" width="250"/>
+
+Use case:
+<ul>
+  <li>Spread load accross multiple downstream servers</li>
+  <li>Expose a single point of access (DNS) to application</li>
+  <li>Seamlessly handles features downstream</li>
+  <li>Do regular health checks</li>
+  <li>Provide SSL termination (HTTP) for your websites</li>
+  <li>Enforce stickiness with cookies</li>
+  <li>Seperate public and private traffic</li>
+</ul>
+
+Elastic Load Balacer use case:
+<ul>
+  <li>managed</li>
+  <li>lower setup costs</li>
+  <li>integrated with AWS offerings/services</li>
+  <ul>
+    <li>EC2, EC2 Auto Scaling Group, Amazon ECS</li>
+    <li>AWS Certificate Manager (ACM), CoudWatch</li>
+    <li>Route 53, AWS WAF, AWS Global Accelerator</li>
+  </ul>
+</ul>
+
+### Health Checks
+
+Crusial for load balancers. They enable load balancers to know whether instances it forwards traffic to are available. Health checks are performed on port and route (/health is common).
+
+### Load Balancer Types
+
+**Application Load Balancer (v2)** - HTTP, HTTPS, WebSocket
+
+**Network Load Balancer (v2)** - TCP, TLS (secure TCP), UDP
+
+**Gateway Load Balancer** - operates at Network layer - IP Protocol
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ALB.png" width="50"/> ALB - Application Load Balancer
+
+Application load balancer is layer 7 (HTTP). ALB performs load balancing to multiple HTTP appliances (ex target groups) or applications (ex containers) on the same machine. Supports HTTP, HTTPS and WebSocket and redirects.
+
+Routing tables to different target groups based on:
+<ul>
+  <li>path URL (example.com/<ins>users</ins> and example.com/<ins>posts</ins>)</li>
+  <li>hostname in URL (<ins>one</ins>.example.com and <ins>other</ins>.example.com)</li>
+  <li>query string, headers (example.com/users?<ins>id=123&order=false</ins>)</li>
+</ul>
+
+### ALB Target Groups
+
+<ul>
+  <li>EC2 instances - HTTP</li>
+  <li>ECS tasks - HTTP</li>
+  <li>Lambda functions - HTTP request is translated into JSON event</li>
+  <li>private IP addresses</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NLB.png" width="50"/> NLB - Network Load Balancer
+
+Network load balancer is layer 4 (TCP). NLB forwards TCP and UDP traffic to instances. Supports millions of requests per seconds with ultra-latency. One static IP per AZ and supports assigning Elastic IPs. NLBs are used for extreme performance, TCP or UDP traffic. Not in the AWS free tier.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/NLB.png" width="300"/>
+
+### NLB Target Groups
+
+<ul>
+  <li>EC2 instances</li>
+  <li>IP addresses (must e private)</li>
+  <li>Application Load Balancer</li>
+  <li>Health checks support the TCL, HTTP, and HTTPS protocols</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/GLB.png" width="50"/> GLB - Gateway Load Balancer
+
+Deploy, scale, and manage a fleet of 3rd party network appliances in AWS (ex. Firewalls, Intrusion Detection, and Prevention systems, Deep Packet Inspection Systems, payload manipulation. Operates at laver 3 (Network layer, IP sockets). Combines transparent Network Gateway (single entry/exit for all traffic) and load balancer (distributes traffic to virtual appliances). Uses GENEVE protocol on port 6081.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/GWLB.png" width="250"/>
+
+### GLB Target Groups
+
+<ul>
+  <li>EC2 instances</li>
+  <li>IP addresses (must e private)</li>
+</ul>
+
+### Sticky Sessions (Session Affinity)
+
+Stickiness is directing same client to same instance behind load balancer, can be used in ALB and NLB. Cookies are used for stickiness and have controllable expiration date.
+
+Use case: user can retain user data.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/StickySessions.jpg" width="300"/>
+
+### Sticky Sessions- Cookie Names
+
+**Application-based Cookies**
+
+Custom cookie - generated by target, can include custom atributes required by application, name specified for each target group (AWSALB, AWSALBAPP, AWSALBTG reserved by ELB)
+
+Application cookie - generated by load balancer, name is AWSALB for ALB
+
+**Duration-based Cookies** - generated by the load balancer, cookie name is AWSALB for ALB, AWSELB for CLB
+
+### ELB Cross-Zone Balancing
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/CrossZoneBalancing.png" width="300"/>
+
+Application load balancer - Cross zone balancing enabled by default, no charges
+
+Network and Gateway Load Balancers - disabled by default, costs $
+
+### SSL/TLS Bases
+
+SSL certificate allows traffic between clients and load balancer to be encrypted in transit (in-flight encryption). SSL refers to secure sockets layer, used to encrypt connections. TLS referes to transport layer security (newer). TLS mainly used, some still use SSL.
+
+Public SSL certificates are issued by Certificate Authorities. SSL certificates have an expiration date. 
+
+### SSL Certificates
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/LoadBalancerSSL.png" width="300"/>
+
+Load balancers use an X.509 certificate (SSL/TLS server certificate). Certificates can be managed using ACM (AWS Certificate Manager). It is possible to create and upload own certificates.
+
+HTTPS Listeners:
+<ul>
+  <li>must specify a default certificate</li>
+  <li>can add list of certificates to support multiple domains</li>
+  <li>clients can use SNI to specify the hostname</li>
+</ul>
+
+### SNI - Server Name Identification
+
+Solves the proble, of having multiple SSL certificates on one web server. "Newer" protocol client to indicate the hostname target server of initial SSL handshake. Server finds correct certificate, or returns default.
+
+Only works for ALB, NLB, and CloudFront.
+
+### Elastic Load Balancers - SSL Certificates
+
+**Application Load Balancers** - support multiple listeners with multiple SSL certificates, ise SNI to make it work
+
+**Network Load Balancers** - supports multiple listeners with multiple SSL certificates
+
+### Connection Draining
+
+Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
+
+### DNS
+
+<ul>
+  <li>Domain Name System translates human friendly hostnames into the machine IP addresses.</li>
+  <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
+</ul>
+
+### DNS Terminology
+
+<ul>
+  <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
+  <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
+  <li>**Zone File:** contains DNS records</li>
+  <li>**Name Server:** resolves DNS queries</li>
+  <li>**Top Level Domain (TLD):** .com, .us, .in, .gov, ...</li>
+  <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
+</ul>
+
+### DNS Functionality
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Amazon Route 53
+
+<ul>
+  <li>High available, scalable, fully managed and Authoritative DNS, Authoritative: user can update the DNS records</li>
+  <li>Route 53 is also a domain registrar</li>
+  <li>Has the ability to check health of resources</li>
+  <li>Only AWS service providing 100% availability SLA</li>
+  <li>53: reference to the traditional DNS port</li>
+</ul>
+
+### Route 53 - Records
+
+<ul>
+  <li>How to the traffic should be routed for a domain</li>
+  <li>
+    Each record contains:
+    <ul>
+      <li>Domina/subdomain Name: eg example.com</li>
+      <li>Record Type: eg A or AAAA</li>
+      <li>Value: eg 12.34.56.78</li>
+      <li>Routing Policy: how Route 53 responds to queries</li>
+      <li>TTL: amount of time the record cached at DNS Resolvers</li>
+    </ul>
+  </li>
+  <li>
+    Supports the following DNS types
+    <ul>
+      <li>(must know) A / AAA / CNAME / NS</li>
+      <li>(advanced) CAA / DS / MX / NAPTR / PTR / SOA / TXT / SPF / SRV</li>
+    </ul>
+  </li>
+</ul>
+
+### Route 53 - Record Types
+
+<ul>
+  <li>A: maps a hostname to IPv4</li>
+  <li>AAAA: maps a hostname to IPv6</li>
+  <li>
+    CNAME: mapse a hostname to another hostname
+    <ul>
+      <li>Target is a domain name with an A or AAAA record</li>
+      <li>Cant create a CNAME record for the top node of a DNS namespace (Zone Apex)</li>
+      <li>eg: cant create for example.com but can for www.example.com</li>
+    </ul>
+  </li>
+  <li>NS: Name servers for the hosted zone</li>
+</ul>
+
+### Route 53 - Hosted Zones
+
+Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
+
+Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
+
+### Records TTL (Time to Live)
+
+**High TTL:** eg 24hr
+<ul>
+  <li>Less traffic on Route 53</li>
+  <li>Possibly outdated records</li>
+</ul>
+
+**Low TTL:** eg 60sec
+<ul>
+  <li>More traffic on Route 53</li>
+  <li>Records are outdated for less time</li>
+  <li>Easy to change records</li>
+</ul>
+
+### CNAME vs Alias
+
+**CNAME:** Points a hostname to any other hostname, only for non root domain
+
+**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
+
+### Alias Records
+
+<ul>
+  <li>Maps a hostname to an AWS resource</li>
+  <li>an extension to DNS functionality</li>
+  <li>Automatically recognizes changes in the resource's IP adresses</li>
+  <li>Unlike CNAME, can be used for the top node of a DNS namespace</li>
+  <li>Alias Record is always of type A/AAAA for AWS resources</li>
+  <li>TTL cannot be set</li>
+</ul>
+
+**Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
+
+### Routing Policies
+
+<ul>
+  <li>Define how Route 53 responds to DNS queries</li>
+  <li>DNS does not route traffic, only responds to DNS queries</li>
+</ul>
+
+<table>
+  <head>
+    <tr>
+      <td colspan=2>Routing Policies</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Simple</td>
+      <td>
+        <ul>
+          <li>Typically route traffic to a single resource.</li>
+          <li>Can specify multiple values in the same record.</li>
+          <li>If random values are returned, a random one is chosen by the client.</li>
+          <li>When Alias enabled, specify only one AWS resource.</li>
+          <li>Can't be associated with Health Checks.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Weighted</td>
+      <td>
+        <ul>
+          <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
+          <li>DNS records must have the same name and type.</li>
+          <li>Can be associated with Health Checks.</li>
+          <li>Use cases: load balancing between regions, testing new application versions...</li>
+          <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
+          <li>If all records have weight of 0, then all records will be returned equally</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Latency-based</td>
+      <td>
+        <ul>
+          <li>Redirect to the resource that has the least latency close to us</li>
+          <li>Super helpful when latency for users is a priority</li>
+          <li>Latency is based on traffic between users and AWS Regions</li>
+          <li>Can be associated with health checks</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Failover</td>
+      <td>
+        <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Geolocation</td>
+      <td>
+        <ul>
+          <li>Different from letency based.</li>
+          <li>Routing based on user location.</li>
+          <li>Specified by Continent, Country, or by US State.</li>
+          <li>Should create "Default" record.</li>
+          <li>Use case: website localization, restrict content distribution, load balancing,...</li>
+          <li>Can be associated with health checks.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Geoproximity</td>
+      <td>
+        <ul>
+          <li>Route traffic to resources based on geographic location of users and resources.</li>
+          <li>Ability to shift more traffic to resources based on the defined bias.</li>
+          <li>Bias values set size of region.</li>
+          <li>Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).</li>
+          <li>Must use Route 53 Traffic Flow (advanced) to used this feature.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>IP-based</td>
+      <td>
+        <ul>
+          <li>Routing based on clients' IP addresses.</li>
+          <li>List of CIDRs provided for clients and the corresponding endpoints/locations.</li>
+          <li>Use case: optimize performance, reduce network costs...</li>
+          <li>Example: route end users from a particular ISP to a specific endpoint.</li>
+          <li></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Multi-Value</td>
+      <td>
+        <ul>
+          <li>Use when routing traffic to multiple resources.</li>
+          <li>Route 53 return multiple values/resources.</li>
+          <li>Can be associated with Health Checks (return values for healthy resources).</li>
+          <li>Up to 8 healthy records are returned for each Multi-Value query.</li>
+          <li>Multi-Value is not a substitute for having an ELB.</li>
+        </ul>
+      </td>
+    </tr>
+  </body>
+</table>
+
+### Health Checks
+
+<ul>
+  <li>HTTP Health Checks are only for public resources</li>
+  <li>
+    Health Check => Automated DNS Failover:
+    <ul>
+      <li>Monitor an Endpoint</li>
+      <li>Monitor other Health Checks</li>
+      <li>Monitor CloudWatch Alarms</li>
+    </ul>
+  </li>
+</ul>
+
+### Health Checks - Monitor an Endpoint
+
+<ul>
+  <li>About 15 global health checkers will check endpoint health.</li>
+  <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
+  <li>Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.</li>
+  <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
+</ul>
+
+### Health Checks - Calculated
+
+<ul>
+  <li>Combine the results of multiple health checks into a single health check.</li>
+  <li>Can use OR, AND, or NOT.</li>
+  <li>Can monitor up to 256 health checks.</li>
+  <li>Specify how many health checks are needed to pass.</li>
+  <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
+</ul>
+
+### Health Checks - Private Hosted Zones
+
+<ul>
+  <li>Route 53 health checkers are outside the VPC.</li>
+  <li>They can't process private endpoints.</li>
+  <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
+</ul>
+
+### Domain Registar vs DNS Service
+
+<ul>
+  <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
+  <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
+  <li>Other DNS servec can be selected to manage DNS records.</li>
+  <li>Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront
+
+<ul>
+  <li>Content Delivery Network</li>
+  <li>Improves read performance, content is cahced at the edge.</li>
+  <li>Improves user experience</li>
+  <li>216 Point of Presense globally (edge locations)</li>
+  <li>DDoS Protection, integration with Shield, AWS Web Application Firewall</li>
+</ul>
+
+### Origins
+
+**S3 Bucket:**
+<ul>
+  <li>For distirbuting files and caching at the edge</li>
+  <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
+  <li>OAC replaces Origin Access Identity (OAI)</li>
+  <li>CloudFront can be used as an ingress (uploading files to S3)</li>
+</ul>
+
+**Custom Origin (HTTP):**
+<ul>
+  <li>Application Load Balancer</li>
+  <li>EC2 instance</li>
+  <li>S3 website (bucket must be enabled as static S3 website)</li>
+  <li>Any HTTP backend</li>
+</ul>
+
+### CloudFront vs S3 Cross Region Replication
+
+**CloudFront:**
+<ul>
+  <li>Global edge network</li>
+  <li>Files are cached or a TTL (maybe delay)</li>
+  <li>Great for static content that must be globally available</li>
+</ul>
+
+**S3 Cross Region Replication:**
+<ul>
+  <li>Must be setup in each region for replication</li>
+  <li>Files are updated in near real-time</li>
+  <li>Read only</li>
+  <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
+</ul>
+
+### Geo Restriction
+
+**Allowlist:** Allow users to access content only if they are in one of the countries on the aproved list
+
+**Blocklist:** Prevent users from accessing your content if they are in one of the countries in the banned list
+
+### Pricing
+
+Cost of data out of CloudFront Edge location varies.
+
+<table>
+  <head>
+    <tr>
+      <td colspan=2>Price Classes</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Price Class All</td>
+      <td>All regions - best performance</td>
+    </tr>
+    <tr>
+      <td>Price Class 200</td>
+      <td>Most regions, but not the most expensive</td>
+    </tr>
+    <tr>
+      <td>Price Class 100</td>
+      <td>Only the least expensive regions</td>
+    </tr>
+  </body>
+</table>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cloudfront_price.png" width="300"/>
+
+### Cache Invalidations
+
+<ul>
+  <li>If the back-end origin is updated, CloudFront only gets refreshed content after the TTL has expired</li>
+  <li>A partial cache refresh can be forced using CloudFront invalidation</li>
+  <li>All files can be invalidated (*) or only a special path (images/*)</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Global-Accelerator.png" width="50"/> AWS Global Accelerator
+
+**Unicast IP** - one server holds one IP address
+
+**Anycaast IP** - all servers hold the same IP address and the client is routed to the nearest one
+
+<ul>
+  <li>Leverage the AWS internal network to route to the application</li>
+  <li>2 Anycast IP send traffic directly to Edge Locations</li>
+  <li>Edge Locations send traffic to the application</li>
+  <li>Works with Elastic IP, EC2 instances, ALB, NLB, public or private</li>
+  <li>
+    Consistent Performance
+    <ul>
+      <li>Intelligent routing to lowest latency and fast region failover</li>
+      <li>No issue with client cache</li>
+      <li>Internal AWS network</li>
+    </ul>
+  </li>
+  <li>
+    Health Checks
+    <ul>
+      <li>Global Accelerator performs health check of applications</li>
+      <li>Helps make application global</li>
+      <li>Great for disaster recovery</li>
+    </ul>
+  </li>
+  <li>
+    Security
+    <ul>
+      <li>only 2 external IP need to be whitelisted</li>
+      <li>DDoS protection thanks to AWS Shield</li>
+    </ul>
+  </li>
+</ul>
+
+### Global Accelerator vs CloudFront
+
+Both use AWS global network and its edge locations around the world.
+
+Both services integrate with AWS Shield for DDoS protection.
+
+**CloudFront**
+<ul>
+  <li>improves performance for both cacheable content</li>
+  <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
+  <li>Content served on the edge</li>
+</ul>
+
+**Global Accelerator**
+<ul>
+  <li>Improve performance for a wide range of applications over TCP or UDP</li>
+  <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
+  <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
+  <li>Good for HTTP with static IP addresses</li>
+  <li>Good for HTTP with required deterministic, fast regional failover</li>
+</ul>
+
+## Computing
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
+
+IP Types
+<ul>
+  <li>Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space</li>
+  <li>Private IP - Only devices on network can see the IP address</li>
+  <li>Elastic IP - can change to work when instance is stopped and started (not rebooted)</li>
+</ul>
+
+### Placement Groups
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
+
+#### Cluster Placement Group
+
+Use Case: Low latency and fast, mostly for data processing and in bursts
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
+
+#### Spread Placement Group
+
+Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
+
+#### Partition Placement Group
+
+Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ENI.png" width="50"/> ENI - Elastic Network Interface
+
+<ul>
+  <li>component in a VPC that represents a virtual network card</li>
+  <li>implemented in same AZ as EC2 instance</li>
+  <li>
+    can have:
+    <ol>
+      <li>1 primary IPv4, one or more scondary IPv4</li>
+      <li>1 elastic IP (IPv4) per private IP</li>
+      <li>1 public IP</li>
+      <li>1 or more security groups</li>
+      <li>a MAC address</li>
+    </ol>
+  </li>
+</ul>
+
+### EC2 Hibernate
+
+*stop* - data on the disk of the instance is held until start
+
+*terminate* - data on the disk is lost
+
+*hibernate* - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted
+
+### EC2 Instance Store
+
+EBS Volumes are network drives with good but limited performance. EC2 is a high-performance hardware disk-like network drive. The instance store features:
+<ul>
+  <li>Better I/O performance</li>
+  <li>Lose storage if they are stopped (ephemeral)</li>
+</ul>
+
+Use case: Good buffer, cache, scratch data, temporary content, Risk data loss if hardware fails, backups and replications are admin's responsibility.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/AMI.png" width="50"/> AMI Overview
+
+Description: AMI's are a customization of an EC2 Insance. AMI's are built for specific regions and can be copied for a specific region. EC2 instances can be launched from:
+<ul>
+  <li>a public AMI (amazon provided)</li>
+  <li>your own AMI</li>
+  <li>AWS Marketplace AMS</li>
+</ul>
+
+Process:
+<ol>
+  <li>Start an EC2 instance and customize it.</li>
+  <li>Stop the instance.</li>
+  <li>Build an AMI - this will also create EBS Snapshots</li>
+  <li>Launch instances from other AMI's.</li>
+</ol>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
+
+## Storage
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
+
+Moving Between Storage Classes - Objects can be moved through the storage classes, movement is automated through the use of Lifecycle Policies.
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
 
@@ -2122,904 +2616,417 @@ File permissions and metadata are preserved.
   </body>
 </table>
 
-## App Decoupling
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
 
-### Messaging
+EFS is a manages NFS (Network File System) that can be mounted on many EC2 instances. Works with EC2 instances in multiple AZ's. Highliy reliable, scalable, and expensive (3x gp2) - pay per use.
 
-**Synchronous Communications** - application to application
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EFS.png" width="300"/>
 
-**Asynchronous / Event Based Communications** - application to queue to application
-
-Decoupling applications allow for spikes in traffic. SQS, SNS, and Kinesis allow scaling independently from application.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SQS.png" width="50"/> Amazon SQS - Simple Queue Service 
-
-Oldest offering, fully managed.
-
-Attributes:
+Use case:
 <ul>
-  <li>Unlimited throughput, unlimited messages in queue</li>
-  <li>Default retention of message: 4 days, max 14 days</li>
-  <li>Low latency ( < 10ms on publish and recieve)</li>
-  <li>Limited to 256KB per message</li>
+  <li>Content management, web serving, data sharing, wordpress</li>
+  <li>NFSv4.1 protocol</li>
+  <li>use security group to control access to EFS</li>
+  <li>compatible with Linux based AMI (not Windows)</li>
+  <li>encryption as rest using KMS</li>
+  <li>POSIX file system</li>
+  <li>file system scales automatically, billed by GB (size)</li>
 </ul>
 
-Messages are produced to SQS using SDK, and message is persisted in SQS until a consumer deletes it.
-
-Messages consumers (running on EC2 instances, servers, AWS Lambda, etc.), poll SQS for messages, process messages, and delete messages.
-
-Consumers can be arranged in parallel to handle messages, and can scale horizontally to improve throughput.
-
-### SQS - Security
-
-Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.
-
-Access Controls: IAM policies to regulate access to SQS API.
-
-SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.
-
-### Message Visibility Timeout
-
-<ul>
-  <li>After a messages if pooled by consumer, it becomes invisible to other consumers.</li>
-  <li>By default the message visibility timeout is 30 seconds.</li>
-  <li>That means the message has 30 seconds to be processed.</li>
-  <li>After the message visibility timeout is over. the message is visible again.</li>
-  <li>If a message is not processed within the visibility timeout, it will be processed twice</li>
-  <li>A consumer could cal the ChangeMessageVisibility API to get one more time</li>
-  <li>If visibility timeout is high (hours), and consumer crashes, re-processing will take time</li>
-  <li>If visibility is too low (seconds), duplicates may occcur.</li>
-</ul>
-
-### Long Polling
-
-**Long Polling** - when a consumer requests messages from the queue, it can optionally "wait" for messages to arrive if there are none in the queue.
-
-<ul>
-  <li>Decreasses the number of API calls made to SQS while increasing the efficiency and reducing latency of application.</li>
-  <li>The wait time can be between 1s to 20s (20s preferable)</li>
-  <li>Preferable short polling</li>
-  <li>Can be enabled at the queue level or at the API level using WaitTimeSeconds</li>
-</ul>
-
-### FIFO Queue
-
-<ul>
-  <li>FIFO - First In First Out (ordering of messages in the queue)</li>
-  <li>Limited throughput: 300 msgs/s without batching, 3000 with</li>
-  <li>Exactly-once send capability</li>
-  <li>Messages are processed in order by the consumer</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/SNS.png" width="50"/> Amazon SNS - Simple Notification Service
-
-Used to send one message to many recievers.
-
-<ul>
-  <li>The "event producer" only sends one messgage to one SNS topic.</li>
-  <li>As many "event recievers as wanted listen to SNS topic notifications.</li>
-  <li>Each subscriber to the topic will get all the messages.</li>
-  <li>Up tp 12.5mil subs per topic</li>
-  <li>100,000 topics max.</li>
-</ul>
-
-Event producers - CloudWatch Alarms, AWS Budgets, Lambda, Auto Scaling Group, S3 Bucket, DynamoDB, CloudFormation, AWS DMS, RDS Events, etc.
-
-Event subscribers - SQS, Lambda, Kinesis Data Firehose, Emails, SMS & Mobile, HTTP(S) endpoints
-
-### How to Publish
-
-Topic Publish
-<ul>
-  <li>Create a topic</li>
-  <li>Create a or more subscriptions</li>
-  <li>Publish a topic</li>
-</ul>
-
-Direct Publish
-<ul>
-  <li>Create a platform application</li>
-  <li>Create a platform endpoint</li>
-  <li>Publish to the platform endpoint</li>
-  <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
-</ul>
-
-### Security
-
-Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage
-
-Access Controls: IAM policies to regulate access to the SNS API
-
-SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
-
-### SQS + SNS - Fan Out
-
-<ul>
-  <li>Push once to SNS, recieve in all SQS queues that are subscribers</li>
-  <li>Fully decoupled, no data loss</li>
-  <li>SQS allows for: data persistence, delayed processing and retries of work</li>
-  <li>Ability to add more SQS subscribers over time</li>
-  <li>Make sure SQS queue access policy allows for SNS to write</li>
-  <li>Cross-Region Delivery: works with SQS Queues in other regions</li>
-</ul>
-
-### FIFO Topics
-
-<ul>
-  <li>Similar as SQS FIFO: ordered by message group ID, duplication using a deduplication ID or content based deduplication</li>
-  <li>Can have SQS Standard and FIFO queues as subscribers</li>
-  <li>Limited throughput</li>
-</ul>
-
-### Message filtering
-
-<ul>
-  <li>JSON policy used to filter messages sent to SNS topic's subscriptions</li>
-  <li>If a subscription doesn't have a filter policy, it recieves every message</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis.png" width="50"/> Amazon Kinesis
-
-Simplifies collecting, processing, and analyzing streaming data in real-time.
-
-Ingests real-time data such as: Application Logs, Metrics, Website clickstreams, IoT telemetry data...
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Streams.png" width="25"/> Kinesis Data Streams
-
-Capture, process, and store data streams
-<ul>
-  <li>Retention between 1 day and 365 days</li>
-  <li>Ability to reprocess (peplay) data</li>
-  <li>Once data is inserted in Kineses, it cant be deleted (immutability)</li>
-  <li>Data that shares the same partition goes to the same shard (ordering)</li>
-  <li>Producers: AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
-  <li>Consumers: self made (Kinesis Client Library, AWS SDK), managed (AWS Lambda, Kinesis Data Firehose, Kinesis Data Analytics)</li>
-</ul>
-
-Provisioned mode:
-<ul>
-  <li>Choose the number of shards provisioned, scale manually or using API</li>
-  <li>Each shard gets 1MB/s in (or 1000 records per second)</li>
-  <li>Each shard gets 2MB/s out (classic or enhanced fan-out consumer)</li>
-  <li>Pay per shard provisioned per hour</li>
-</ul>
-
-On-demand mode:
-<ul>
-  <li>No need to provision or manage capacity</li>
-  <li>Default capacity provisioned (4MB/s in or 4000 records per second)</li>
-  <li>Scales automatically based on observed throughput peak during the last 30 days</li>
-  <li>Pay per stream per hour and data in/out per GB</li>
-</ul>
-
-Security:
-<ul>
-  <li>Control access / authorization using IAM policies</li>
-  <li>Encryption in-flight with HTTPS endpoints, at-rest with KMS</li>
-  <li>Able to implement client-side encryption</li>
-  <li>VPC Endpoints available for Kineses to access within VPC</li>
-  <li>Monitor API calls using CloudTrail</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Data-Firehose.png" width="25"/></td> Kinesis Data Firehose
-
-<ul>
-  <li>Fully managed service with Redshift, S3, OpenSearch, 3rd party partners (Splunk, MongoDB, DataDog, NewRelic...), can customize sending to any HTTP enpoint</li>
-  <li>Pay dor data going through firehose</li>
-  <li>Near Real Time</li>
-  <li>Supports mana data formats, conversions, transformations, compression</li>
-  <li>Supports custom data transformations with AWS Lambda</li>
-  <li>Can send failed or all data to a backup S3 bucket</li>
-</ul>
-
-### Data Streams vs. Firehose
+### EFS Performance Classes
 
 <table>
-  <head>
-    <tr>
-      <td>Kineses Data Streams</td>
-      <td>Kineses Data Firehose</td>
-    </tr>
-  </head>
   <body>
     <tr>
-      <td>Streaming service for ingest at scale</td>
-      <td>Load streaming data into S3 / Redshift / OpenSearch / 3rd Party / custom HTTP</td>
+      <td><b>EFS Scale</b></td>
+      <td>1000s of concurrent NFS clients, 10GB/s throughput</td>
     </tr>
     <tr>
-      <td>Write custom code (producer / consumer)</td>
-      <td>Fully managed</td>
+      <td></td>
+      <td>grow to petabyte scale network file systems, automatically</td>
     </tr>
     <tr>
-      <td>Real-time (~200 ms)</td>
-      <td>Near real time</td>
+      <td>Performance Mode</td>
+      <td>General Purpose (default) - latency-sensitive use cases (web server, CMS, etc.)</td>
     </tr>
     <tr>
-      <td>Managed scaling (shard splitting / merging)</td>
-      <td>Automatic scaling</td>
+      <td></td>
+      <td>Max I/O - higher latency, throughput, highly parallel (big data, media processing)</td>
     </tr>
     <tr>
-      <td>Data storage for 1 to 365 days</td>
-      <td>No data storage</td>
+      <td>Throughput Mode</td>
+      <td>Bursting - 1 TB & 50MiB/s and bursts of up to 100MiB/s</td>
     </tr>
     <tr>
-      <td>Supports replay capability</td>
-      <td>Doesn't support replay capability</td>
+      <td></td>
+      <td>Provisioned - set your throughput regardless of storage size (ex 1GiB for 1TB)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Elastic - automatically scales troughput up or down based on workloads</td>
     </tr>
   </body>
 </table>
 
-### Kinesis Data Analytics
+### EFS Storage Classes
 
+Storage Tiers:
 <ul>
-  <li>Real-time analytics on Kinesis analytics on Kinesis Data Streams and Firehose using SQL</li>
-  <li>Add reference data from S3 to enrich streaming data</li>
-  <li>Fully managed, no servers to provision</li>
-  <li>Automatic Scaling</li>
-  <li>Pay for actual compunsation rate</li>
+  <li><b>standard</b> - frequently accessed files</li>
+  <li><b>infrequent access (EFS IA)</b> - cost to retrieve files, lower storage price</li>
+  <li><b>archive</b> - rarely accessed data</li>
+  <li><b>implement life cycle policies</b> - move files between storage tiers</li>
 </ul>
 
-Output:
-<ul>
-  <li>Kinesis Data Streams: create streams out of real-time analytics queries</li>
-  <li>Kinesis Data Firehose: send analytics query results to desitinations</li>
-</ul>
+Availability
 
-Use cases: Time-series analytics, Real-time dashboards, Real-time metrics
+Standard: Multi AZ, great for production
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
+One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A
 
-### Ordering Data in Kinesis
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
-
-### Ordering Data in SQS
-
-Without a GroupID, messages are consued as sent: 
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
-
-Using a GroupID:
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
-
-### Kinesis vs SQS Ordering
-
-**Scenario** - 100 trucks, 5 kinesis shards, 1 SQS FIFO
-
-**Kinesis Data Streams** - On average 10 trucks per shard, trucks wil have the data ordered within each shard, maximum amount of consumers in parallel is 5, can recieve up to 5MB/s of data
-
-**SQS FIFO** - only one SQS FIFO queue, 100 group IDs, up to 100 consumers possible, up to 300 messages per second
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/MQ.png" width="50"/> Amazon MQ
-
-<ul>
-  <li>SQS, SNS are cloud native services, proprietary protocols from AWS</li>
-  <li>Traditional applications running from on-premises may use open protocols such as MQTT, AMQP, STOMP, Openwire, WSS</li>
-  <li>When migrating to the cloud, instead of re-engineering the app to use SQS and SNS, Amazon MQ can be used</li>
-  <li>Is a managed message broker service for RabbitMQ and ActiveMQ</li>
-  <li>Doesn't scale as much as SQS and SNS</li>
-  <li>Runs on servers, can run in Multi AZ with failover</li>
-  <li>Has both queue feature and topic features</li>
-</ul>
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
-
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Route-53.png" width="50"/> Route 53
-
-### DNS
-
-<ul>
-  <li>Domain Name System translates human friendly hostnames into the machine IP addresses.</li>
-  <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
-</ul>
-
-### DNS Terminology
-
-<ul>
-  <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
-  <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
-  <li>**Zone File:** contains DNS records</li>
-  <li>**Name Server:** resolves DNS queries</li>
-  <li>**Top Level Domain (TLD):** .com, .us, .in, .gov, ...</li>
-  <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
-</ul>
-
-### DNS Functionality
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
-
-### Amazon Route 53
-
-<ul>
-  <li>High available, scalable, fully managed and Authoritative DNS, Authoritative: user can update the DNS records</li>
-  <li>Route 53 is also a domain registrar</li>
-  <li>Has the ability to check health of resources</li>
-  <li>Only AWS service providing 100% availability SLA</li>
-  <li>53: reference to the traditional DNS port</li>
-</ul>
-
-### Route 53 - Records
-
-<ul>
-  <li>How to the traffic should be routed for a domain</li>
-  <li>
-    Each record contains:
-    <ul>
-      <li>Domina/subdomain Name: eg example.com</li>
-      <li>Record Type: eg A or AAAA</li>
-      <li>Value: eg 12.34.56.78</li>
-      <li>Routing Policy: how Route 53 responds to queries</li>
-      <li>TTL: amount of time the record cached at DNS Resolvers</li>
-    </ul>
-  </li>
-  <li>
-    Supports the following DNS types
-    <ul>
-      <li>(must know) A / AAA / CNAME / NS</li>
-      <li>(advanced) CAA / DS / MX / NAPTR / PTR / SOA / TXT / SPF / SRV</li>
-    </ul>
-  </li>
-</ul>
-
-### Route 53 - Record Types
-
-<ul>
-  <li>A: maps a hostname to IPv4</li>
-  <li>AAAA: maps a hostname to IPv6</li>
-  <li>
-    CNAME: mapse a hostname to another hostname
-    <ul>
-      <li>Target is a domain name with an A or AAAA record</li>
-      <li>Cant create a CNAME record for the top node of a DNS namespace (Zone Apex)</li>
-      <li>eg: cant create for example.com but can for www.example.com</li>
-    </ul>
-  </li>
-  <li>NS: Name servers for the hosted zone</li>
-</ul>
-
-### Route 53 - Hosted Zones
-
-Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
-
-Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
-
-### Records TTL (Time to Live)
-
-**High TTL:** eg 24hr
-<ul>
-  <li>Less traffic on Route 53</li>
-  <li>Possibly outdated records</li>
-</ul>
-
-**Low TTL:** eg 60sec
-<ul>
-  <li>More traffic on Route 53</li>
-  <li>Records are outdated for less time</li>
-  <li>Easy to change records</li>
-</ul>
-
-### CNAME vs Alias
-
-**CNAME:** Points a hostname to any other hostname, only for non root domain
-
-**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
-
-### Alias Records
-
-<ul>
-  <li>Maps a hostname to an AWS resource</li>
-  <li>an extension to DNS functionality</li>
-  <li>Automatically recognizes changes in the resource's IP adresses</li>
-  <li>Unlike CNAME, can be used for the top node of a DNS namespace</li>
-  <li>Alias Record is always of type A/AAAA for AWS resources</li>
-  <li>TTL cannot be set</li>
-</ul>
-
-**Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
-
-### Routing Policies
-
-<ul>
-  <li>Define how Route 53 responds to DNS queries</li>
-  <li>DNS does not route traffic, only responds to DNS queries</li>
-</ul>
+### EBS vs EFS
 
 <table>
   <head>
     <tr>
-      <td colspan=2>Routing Policies</td>
+      <td><b>EBS</b></td>
+      <td><b>EFS</b></td>
     </tr>
   </head>
   <body>
     <tr>
-      <td>Simple</td>
-      <td>
-        <ul>
-          <li>Typically route traffic to a single resource.</li>
-          <li>Can specify multiple values in the same record.</li>
-          <li>If random values are returned, a random one is chosen by the client.</li>
-          <li>When Alias enabled, specify only one AWS resource.</li>
-          <li>Can't be associated with Health Checks.</li>
-        </ul>
-      </td>
+      <td>one instance (except multi-attach io1/io2)</td>
+      <td>share files</td>
     </tr>
     <tr>
-      <td>Weighted</td>
-      <td>
-        <ul>
-          <li>Control the % of the requests that go to each resource, assign each record a weight.</li>
-          <li>DNS records must have the same name and type.</li>
-          <li>Can be associated with Health Checks.</li>
-          <li>Use cases: load balancing between regions, testing new application versions...</li>
-          <li>Assign a weight of 0 to record to stop traffic being directed to it</li>
-          <li>If all records have weight of 0, then all records will be returned equally</li>
-        </ul>
-      </td>
+      <td>are locked at Availability Zone level</td>
+      <td>only for Linux Instances (POSIX)</td>
     </tr>
     <tr>
-      <td>Latency-based</td>
-      <td>
-        <ul>
-          <li>Redirect to the resource that has the least latency close to us</li>
-          <li>Super helpful when latency for users is a priority</li>
-          <li>Latency is based on traffic between users and AWS Regions</li>
-          <li>Can be associated with health checks</li>
-        </ul>
-      </td>
+      <td>gp2: IO increases if disk sizes increases</td>
+      <td>EFS has higher price point than EBS</td>
     </tr>
     <tr>
-      <td>Failover</td>
-      <td>
-        <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/routing_policy_failover.png" width="300"/>
-      </td>
-    </tr>
-    <tr>
-      <td>Geolocation</td>
-      <td>
-        <ul>
-          <li>Different from letency based.</li>
-          <li>Routing based on user location.</li>
-          <li>Specified by Continent, Country, or by US State.</li>
-          <li>Should create "Default" record.</li>
-          <li>Use case: website localization, restrict content distribution, load balancing,...</li>
-          <li>Can be associated with health checks.</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Geoproximity</td>
-      <td>
-        <ul>
-          <li>Route traffic to resources based on geographic location of users and resources.</li>
-          <li>Ability to shift more traffic to resources based on the defined bias.</li>
-          <li>Bias values set size of region.</li>
-          <li>Resources can be: AWS Resources (specified by AWS Region) or Non-AWS Resources (specified by latitude/longitude).</li>
-          <li>Must use Route 53 Traffic Flow (advanced) to used this feature.</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>IP-based</td>
-      <td>
-        <ul>
-          <li>Routing based on clients' IP addresses.</li>
-          <li>List of CIDRs provided for clients and the corresponding endpoints/locations.</li>
-          <li>Use case: optimize performance, reduce network costs...</li>
-          <li>Example: route end users from a particular ISP to a specific endpoint.</li>
-          <li></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>Multi-Value</td>
-      <td>
-        <ul>
-          <li>Use when routing traffic to multiple resources.</li>
-          <li>Route 53 return multiple values/resources.</li>
-          <li>Can be associated with Health Checks (return values for healthy resources).</li>
-          <li>Up to 8 healthy records are returned for each Multi-Value query.</li>
-          <li>Multi-Value is not a substitute for having an ELB.</li>
-        </ul>
-      </td>
+      <td>gp3 and io1: can increase IO increasingly</td>
+      <td>can leverage storage tiers for cost savings</td>
     </tr>
   </body>
 </table>
 
-### Health Checks
+## Automation
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
+
+## Administration
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Organizations.png" width="50"/> AWS Orgnaizations
+
+Global service that allows management of multiple accounts.
+
+Main account is the management account, the others are members. Members can be part of only one organization.
+
+Allows for consolidated billing and pricing from aggregated usage. API available for automation.
+
+Advantages:
+<ul>
+  <li>Multi Account vs One Account VPC</li>
+  <li>Use tagging standards for billing purposes</li>
+  <li>Enable CloudTrail on all accounts, send logs to central S3 account</li>
+  <li>Establish Cross Account Roles for Aministration</li>
+</ul>
+
+Service Control Policies (SPC)
+<ul>
+  <li>IAM policies applied to OU or Accounts to restrict Users and Roles</li>
+  <li>Do not apply to management account</li>
+  <li>Must have expicit allow from the root through each OU in the direct path to the target account</li>
+</ul>
+
+### SCP Hiearchy
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/scp_hierarchy.png" width="300"/>
+
+### IAM Conditions
+
+Set conditions for applying IAM rules.
+
+### IAM S3
+
+Conditions can be bucket level or object level.
+
+### Resource Policies
+
+Principle does not give up their permissions.
+
+### IAM Roles 
+
+Assuming a role surrenders original permissions and takes new permissions.
+
+### Amazon EventBridge - Security
 
 <ul>
-  <li>HTTP Health Checks are only for public resources</li>
+  <li>When a rule runs, it needs permissions on the target.</li>
+  <li>Resource-based policy: Lambda, SNS, SQS, S3 buckets, API gatesway...</li>
+  <li>IAM Role: Kinesis stream, EC2 Auto Scaling, Systems Manager Run Command, ECS task...</li>
+</ul>
+
+### Permission Boundaries
+
+Permission boundaries are supported for users and roles. Advanced feature to use a managed policy to set the maximum permissions an IAM entity can get.
+
+### Identity Center
+
+One login for all your:
+<ul>
+  <li>AWS accounts in AWS Organizations</li>
+  <li>Business cloud applications</li>
+  <li>SAML2.0-enabled applications</li>
+  <li>EC2 Windows Instances</li>
+</ul>
+
+Identity providers: Built-in identity store in IAM Identity Center
+
+### Directory Serivces
+
+AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD
+
+AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD
+
+Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower
+
+Easy way to setup and govern a secure and compliant multiaccount AWS environment based on best practices; uses AWS Organizations to create accounts
+
+Benefits:
+<ul>
+  <li>Automate the set up of environment easily</li>
+  <li>Automate ongoing policy management using guardrails</li>
+  <li>Detect policy iolations and remediate</li>
+  <li>Monitor compliance through an interactive dashboard</li>
+</ul>
+
+Control Tower Guardrails:
+<ul>
+  <li>Provides ongoing governence for Control Tower environment</li>
+  <li>Preventive Guardrail - using SPCs</li>
+  <li>Detective Guardrail - using AWS Config</li>
+</ul>
+
+## Scaling
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Auto-Scaling.png" width="50"/> Auto Scaling
+
+Goals:
+<ul>
+  <li>scale out (add EC2 instances) to match an increased load</li>
+  <li>scale in (remove EC2 instances) to match decreased load</li>
+  <li>ensure minimum and maximum EC2 instances running</li>
+  <li>automatically register as load balancer</li>
+  <li>recreate unhealthy instances</li>
+</ul>
+
+### ASG Attributes
+
+**Launch Template** - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information
+
+**Min/Max Size**
+
+**Initial Capacity**
+
+### ASG CloudWatch Alarms
+
+Can be used to trigger ASG
+
+### ASG Scaling Policies
+
+<ul>
   <li>
-    Health Check => Automated DNS Failover:
+    Dynamic Scaling
     <ul>
-      <li>Monitor an Endpoint</li>
-      <li>Monitor other Health Checks</li>
-      <li>Monitor CloudWatch Alarms</li>
+      <li>
+        Target Tracking Scaling
+        <ul>
+          <li>simple setup</li>
+          <li>ex: avg. ASG CPU to stay around 40%</li>
+        </ul>
+      </li>
+      <li>
+        Simple/Step Scaling
+        <ul>
+          <li>CloudWatch Alarm (CPU > 70%), add 2 units</li>
+          <li>CloudWatch Alarm (CPU < 30%), remove 1 unit</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    Scheduled Scaling
+    <ul>
+      <li>anticipate scaling based on known usage patterns</li>
+    </ul>
+  </li>
+  <li>
+    Predictive Scaling
+    <ul>
+      <li>control forecast and schedule scaling ahead</li>
     </ul>
   </li>
 </ul>
 
-### Health Checks - Monitor an Endpoint
-
+Metrics to scale on:
 <ul>
-  <li>About 15 global health checkers will check endpoint health.</li>
-  <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
-  <li>Health checks can be set up to pass / fail based on the text in the first 5120 bytes of the response.</li>
-  <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
+  <li>CPU Utilization: average CPU utilization across instances</li>
+  <li>Request Count Per Target: stable number of requests per instance</li>
+  <li>Average network In/Out</li>
+  <li>Custom Metric</li>
 </ul>
 
-### Health Checks - Calculated
+### ASG Scaling Cooldowns
+
+During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumes.png" width="50"/> EBS Volumes
 
 <ul>
-  <li>Combine the results of multiple health checks into a single health check.</li>
-  <li>Can use OR, AND, or NOT.</li>
-  <li>Can monitor up to 256 health checks.</li>
-  <li>Specify how many health checks are needed to pass.</li>
-  <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
+  <li>these are network drives that you can attach to your instances while they can.</li>
+  <li>allows EC2 instances to persist data</li>
+  <li>mounted to one instance at a time</li>
+  <li>bound to specific availability zone</li>
+  <li>free under 30GB/month</li>
 </ul>
 
-### Health Checks - Private Hosted Zones
+Can be detached and reattached to other instances. Capacity must be provisioned in advance (size in GB and IOPS). Volumes delete upon termination by default for root volumes and off for all other volumes.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSSnapshots.png" width="50"/> EBS Snapshots
 
 <ul>
-  <li>Route 53 health checkers are outside the VPC.</li>
-  <li>They can't process private endpoints.</li>
-  <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
+  <li>backup of an EBS volume at a point in time</li>
+  <li>not necessary to attach volume but recomended</li>
+  <li>can copy snapshots across AZ's or regions</li>
 </ul>
 
-### Domain Registar vs DNS Service
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
 
-<ul>
-  <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
-  <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
-  <li>Other DNS servec can be selected to manage DNS records.</li>
-  <li>Example: purchase the domain from GoDaddy and use Route 53 to manage DNS records.</li>
-</ul>
+### EBS Snapshot Archive
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/CloudFront.png" width="50"/> CloudFront
+Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
 
-<ul>
-  <li>Content Delivery Network</li>
-  <li>Improves read performance, content is cahced at the edge.</li>
-  <li>Improves user experience</li>
-  <li>216 Point of Presense globally (edge locations)</li>
-  <li>DDoS Protection, integration with Shield, AWS Web Application Firewall</li>
-</ul>
+### Recycle Bin for EBS Snapshots
 
-### Origins
+Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
 
-**S3 Bucket:**
-<ul>
-  <li>For distirbuting files and caching at the edge</li>
-  <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
-  <li>OAC replaces Origin Access Identity (OAI)</li>
-  <li>CloudFront can be used as an ingress (uploading files to S3)</li>
-</ul>
+### FSR - Fast Snapshot Restore
 
-**Custom Origin (HTTP):**
-<ul>
-  <li>Application Load Balancer</li>
-  <li>EC2 instance</li>
-  <li>S3 website (bucket must be enabled as static S3 website)</li>
-  <li>Any HTTP backend</li>
-</ul>
+Forces full initialization of snapshot to have no latency on first use, but is very expensive.
 
-### CloudFront vs S3 Cross Region Replication
-
-**CloudFront:**
-<ul>
-  <li>Global edge network</li>
-  <li>Files are cached or a TTL (maybe delay)</li>
-  <li>Great for static content that must be globally available</li>
-</ul>
-
-**S3 Cross Region Replication:**
-<ul>
-  <li>Must be setup in each region for replication</li>
-  <li>Files are updated in near real-time</li>
-  <li>Read only</li>
-  <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
-</ul>
-
-### Geo Restriction
-
-**Allowlist:** Allow users to access content only if they are in one of the countries on the aproved list
-
-**Blocklist:** Prevent users from accessing your content if they are in one of the countries in the banned list
-
-### Pricing
-
-Cost of data out of CloudFront Edge location varies.
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
 
 <table>
   <head>
     <tr>
-      <td colspan=2>Price Classes</td>
+      <td>Type</td>
+      <td>Description</td>
     </tr>
   </head>
   <body>
     <tr>
-      <td>Price Class All</td>
-      <td>All regions - best performance</td>
+      <td>gp2/gp3 (SSD)</td>
+      <td>General purpose SSD vlume that balances price and performance for wide variety of workloads.</td>
     </tr>
     <tr>
-      <td>Price Class 200</td>
-      <td>Most regions, but not the most expensive</td>
+      <td>io1/io2 Block Express (SSD)</td>
+      <td>Highest performance SSD volume for mission-critical low latency or high throughput workloads.</td>
     </tr>
     <tr>
-      <td>Price Class 100</td>
-      <td>Only the least expensive regions</td>
+      <td>stl (HDD)</td>
+      <td>Low cost HDD volume designed for frequently accessed throughput-intense workloads.</td>
+    </tr>
+    <tr>
+      <td>sol (HDD)</td>
+      <td>Lowest cost HDD volume designed for less frequently accessed workloads.</td>
     </tr>
   </body>
 </table>
 
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cloudfront_price.png" width="300"/>
+Characterized by size/throughput/IOPS (I/O Operations per second). Only gp2/gp3 and io1/io2 Block Express can be used as boot volumes.
 
-### Cache Invalidations
+<table>
+  <head>
+    <tr>
+      <td colspan="4"><h2>Use Cases</h2></td>
+    </tr>
+    <tr>
+      <td colspan="2"><h4>General Purpose SSD</h4></td>
+      <td colspan="2"><h4>Provisioned IOPS (PIOPS) SSD</h4></td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td colspan="2">cost effective storage, low latency</td>
+      <td colspan="2">critical business applications with sustained IOPS performance</td>
+    </tr>
+    <tr>
+      <td colspan="2">system boot volumes, virtual desktops, development and test environments</td>
+      <td colspan="2">applications that need more than 16,000 IOPS</td>
+    </tr>
+    <tr>
+      <td colspan="2">1GiB - 16GiB</td>
+      <td colspan="2">great for database workloads (sensitive to storage performance and consistency)</td>
+    </tr>
+    <tr>
+      <td>gp3</td>
+      <td>gp2</td>
+      <td>io1 (4GiB - 16GiB)</td>
+      <td>io2 Block Express (4GiB - 64GiB)</td>
+    </tr>
+    <tr>
+      <td>baseline: 3000 IOPS / 125MiB/s</td>
+      <td>small volumes, burst up to 3000 IOPS</td>
+      <td>max PIOPS: 64000 for Nitro EC2 instances and 32000 for other</td>
+      <td>sub millisecond latency</td>
+    </tr>
+    <tr>
+      <td>max: 16000 IOPS / 1000 MiB/s independently</td>
+      <td>volume and IOPS are linked: max 16000 IOPS</td>
+      <td>can increase PIOPS independently from storage size</td>
+      <td>max PIOPS: 256000</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>3 IOPS per GB -> means 5334GB have max IOPS</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </body>
+</table>
 
+### EBS Multi-Attach - (io1/io2 family)
+
+Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).
+
+Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.
+
+### EBS Encryption
+
+Advantages of EBS volumes:
 <ul>
-  <li>If the back-end origin is updated, CloudFront only gets refreshed content after the TTL has expired</li>
-  <li>A partial cache refresh can be forced using CloudFront invalidation</li>
-  <li>All files can be invalidated (*) or only a special path (images/*)</li>
+  <li>data at rest is encrypted indie the volume</li>
+  <li>all data in-flight moving between the instance and the volume is encrypted</li>
+  <li>all snapshots are encrypted</li>
+  <li>all volumes created from snapshot are encrypted</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Global-Accelerator.png" width="50"/> AWS Global Accelerator
+Encryption and decryption are handled transparently (no admin action needed). Encryption has minimal impact on latency. EBS Encryption leverages keys from KMS (AES-256). Copying an unencrypted snapshot allows encryption. Snapshots of encrypted volumes are encrypted.
 
-**Unicast IP** - one server holds one IP address
-
-**Anycaast IP** - all servers hold the same IP address and the client is routed to the nearest one
-
-<ul>
-  <li>Leverage the AWS internal network to route to the application</li>
-  <li>2 Anycast IP send traffic directly to Edge Locations</li>
-  <li>Edge Locations send traffic to the application</li>
-  <li>Works with Elastic IP, EC2 instances, ALB, NLB, public or private</li>
-  <li>
-    Consistent Performance
-    <ul>
-      <li>Intelligent routing to lowest latency and fast region failover</li>
-      <li>No issue with client cache</li>
-      <li>Internal AWS network</li>
-    </ul>
-  </li>
-  <li>
-    Health Checks
-    <ul>
-      <li>Global Accelerator performs health check of applications</li>
-      <li>Helps make application global</li>
-      <li>Great for disaster recovery</li>
-    </ul>
-  </li>
-  <li>
-    Security
-    <ul>
-      <li>only 2 external IP need to be whitelisted</li>
-      <li>DDoS protection thanks to AWS Shield</li>
-    </ul>
-  </li>
-</ul>
-
-### Global Accelerator vs CloudFront
-
-Both use AWS global network and its edge locations around the world.
-
-Both services integrate with AWS Shield for DDoS protection.
-
-**CloudFront**
-<ul>
-  <li>improves performance for both cacheable content</li>
-  <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
-  <li>Content served on the edge</li>
-</ul>
-
-**Global Accelerator**
-<ul>
-  <li>Improve performance for a wide range of applications over TCP or UDP</li>
-  <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
-  <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
-  <li>Good for HTTP with static IP addresses</li>
-  <li>Good for HTTP with required deterministic, fast regional failover</li>
-</ul>
-
-###
-
-## AWS Containers
-
-### Docker
-
-Overview
-<ul>
-  <li>Docker is a software development platform to deploy apps.</li>
-  <li>Apps are packaged into containers that can run on any platform.</li>
-  <li>Apps run consistently, reguardless of where.</li>
-  <li>Use cases: microservices architecture, lift-and-shift apps from on-premises to AWS cloud...</li>
-</ul>
-
-Docker Images
-<ul>
-  <li>Images stored in Docker repositories.</li>
-  <li>Docker Hub: Public repository, find base images for many technologies</li>
-  <li>Amazon ECR: Private repository, Public options</li>
-</ul>
-
-Docker Container Mangement on AWS
-<ul>
-  <li>Amazon Elastic Container Service (ECS)</li>
-  <li>Amazon Elastic Kubernetes Service (EKS)</li>
-  <li>AWS Fargate</li>
-  <li>Amazon ECR</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECS.png" width="50"/> Amazon ECS
-
-EC2 Launchtype
-<ul>
-  <li>Launch Docker containers on AWS means launching ECS tasks on ECS clusters</li>
-  <li>EC2 Launch Type means provisioning and maintaining the infrastructure (EC2 instances)</li>
-  <li>Each EC2 instance must rin the ECS Agent to register in the ECS Cluster</li>
-  <li>AWS handles starting / stopping containers</li>
-</ul>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-ec2.png" width="300"/>
-
-Fargate Launchtype
-<ul>
-  <li>Docker containers on AWS, no provisioning architecture</li>
-  <li>serverless</li>
-  <li>Create task definitions</li>
-  <li>AWS runs ECS Tasks based on CPU/RAM requirements</li>
-  <li>To scale: increase number of tasks - no more EC2 instances</li>
-</ul>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ecs-fargate.png" width="300"/>
-
-IAM Roles for ECS
-<ul>
-  <li>
-    EC2 Instance Profile (EC2 Launch Tye only)
-    <ul>
-      <li>Used by ECS agent</li>
-      <li>Makes API call to ECS service</li>
-      <li>Send container logs to CloudWatch Logs</li>
-      <li>Pull Docker image from ECR</li>
-      <li>Reference sensitive data in Secrets Manager or SSM Parameter Store</li>
-    </ul>
-  </li>
-  <li>
-    ECS Task Role
-    <ul>
-      <li>Allows each task a specific role</li>
-      <li>Use different roles for different ECS Services</li>
-    </ul>
-  </li>
-</ul>
-
-Load Balancer Integrations
-<ul>
-  <li>Application Load Balancer - supported and works on most use cases</li>
-  <li>Network Load Balancer - recomended only for high throughput / high performance use cases, or to pair it with AWS Private Link</li>
-  <li>Classic Load Balancer - supported but not recomended (no advanced features, no Fargate)</li>
-</ul>
-
-Data Volumes (EFS)
-<ul>
-  <li>Mount EFS file systems onto ECS tasks</li>
-  <li>Works for both EC2 and Fargate launch types</li>
-  <li>Tasks running in any AZ will share the same data in the EFS system</li>
-  <li>Fargate + EFS = serverless</li>
-  <li>Use cases: persistent multi-AZ shared storage for containers</li>
-</ul>
-
-ECS Service Auto Scaling
-<ul>
-  <li>Automatically increase/decrease the desired amount of ECS tasks</li>
-  <li>Amazon ECS Auto Scaling uses AWS Application Auto Scaling</li>
-  <li>Target Tracking - scale based on target value for a specific CloudWatch metric</li>
-  <li>Step Scaling - scale based on a specified Cloudatch Alarm</li>
-  <li>Scheduled Scaling - scale based on a specified date/time (predictable changes)</li>
-  <li>ECS Service Autoscaling != EC2 Auto Scaling</li>
-  <li>Fargate Auto Scaling is much easier to setup (serverless)</li>
-</ul>
-
-Auto Scaling with EC2 Launch Type
-<ul>
-  <li>Accomadates ECS Service Scaling by adding underlying EC2 Instances</li>
-  <li>
-    Auto Scaling Group Scaling
-    <ul>
-      <li>Scale ASG based on CPU Utilization</li>
-      <li>Add EC2 instances over time</li>
-    </ul>
-  </li>
-  <li>
-    ECS Cluster Capacity Provider
-    <ul>
-      <li>Used to automatically provision and scale the infrastructure for ECS Tasks</li>
-      <li>Capacity provider paired with an Auto Scaling Group</li>
-      <li>Add EC2 Instances when missing capacity (CPU,RAM,...)</li>
-    </ul>
-  </li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ECR.png" width="50"/> Amazon Elastic Container Registry (ECR)
-
-<ul>
-  <li>Store and manage Docker images on AWS</li>
-  <li>Public and Private</li>
-  <li>Fully integrated with ECS, backed by S3</li>
-  <li>Access is controled through IAM</li>
-  <li>Supports image vulnerability scanning, versioning, image tage, image, life cycle</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EKS.png" width="50"/> Amazon EKS
-
-Overview
-<ul>
-  <li>It is a way to launch managed Kubernetes clusters on AWS</li>
-  <li>Kubernetes is an open-source system for automatic deployment, scaling and management of containerized (ussually Docker) application</li>
-  <li>Alternative to ECS, similar goal but different API</li>
-  <li>EKS supports EC2 if deploying worker nodes or Fargate to deploy serverless containers</li>
-  <li>Use case: if company already using Kubernetes on premises or in another cloud, easier migration to AWS</li>
-  <li>Kubernetes is cloud agnostic</li>
-</ul>
-
-Node Types
-<ul>
-  <li>
-    Managed Node Groups
-    <ul>
-      <li>Creates and manages Nodes (EC2 instances)</li>
-      <li>Nodes are a part of an ASG managed by EKS</li>
-      <li>Supports On-Demand or Spot Instances</li>
-    </ul>
-  </li>
-  <li>
-    Self-Managed Nodes
-    <ul>
-      <li>Node created manually and registered to the EKS cluster and managed by an ASG</li>
-      <li>Prebuilt AMI can be used - Amazon EKS Optimized AMI</li>
-      <li>Supports On-Demand or Spot Instances</li>
-    </ul>
-  </li>
-  <li>
-    AWS Fargate
-    <ul>
-      <li>No maiuntainence required, no nodes managed</li>
-    </ul>
-  </li>
-</ul>
-
-Data Volumes - Need to specify StorageClass manifest on EKS cluster, leverage as Container Storage Interface (CSI) compliant driver.
-
-Support for:
-<ul>
-  <li>Amazon EBS</li>
-  <li>Amazon EFS</li>
-  <li>Amazon FSx for Lustre</li>
-  <li>Amazon FSx for NetApp ONTAP</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/App-Runner.png" width="50"/> AWS App Runner
-
-<ul>
-  <li>Fully managed service that simplifies deploying web applications and APIs at scale</li>
-  <li>No infrastructure experience required</li>
-  <li>Start with source code or container image</li>
-  <li>Automatically builds and deploy the web app</li>
-  <li>Automatic scaling, highly available, load balancer, encryption</li>
-  <li>VPC access support</li>
-  <li>Connect to database, cache, and message queue services</li>
-  <li>Use cases: web apps, APIs, microservises, rapid production deployments</li>
-</ul>
-
-### AWS App2Container (A2C)
-
-<ul>
-  <li>CLI tool for migrating and modernizing Java adn .NET web apps into Docker Containers</li>
-  <li>Lift-and-shift apps running in on-premises bare metal, virtual machines, or in any Cloud to AWS</li>
-  <li>Accelerate modernization, no code changes, migrate legacy apps...</li>
-  <li>Generates CloudFormation templates (compute,network,...)</li>
-  <li>Register generated Docker Containers to ECR</li>
-  <li>Deploy to ECS, EKS, or App Runner</li>
-  <li>Supports pre-built CI/CD pipelines</li>
-</ul>
+Process of encrypting an unencrypted volume:
+<ol>
+  <li>Create EBS Volume and EBS Snapshot of Volume.</li>
+  <li>Encrypt the EBS Snapshot (using a copy).</li>
+  <li>Create new EBS volume from snapshot.</li>
+  <li>Now move encrypted volume to original instance.</li>
+</ol>

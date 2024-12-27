@@ -11,89 +11,7 @@ Domains of material covered in the exam:
 * Design Secure Architectures
 * Design Cost-Optimized Architectures
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
 
-### IP Types
-
-Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space
-
-Private IP - Only devices on network can see the IP address
-
-Elastic IP - can change to work when instance is stopped and started (not rebooted)
-
-### Placement Groups
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
-
-#### Cluster Placement Group
-
-Use Case: Low latency and fast, mostly for data processing and in bursts
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
-
-#### Spread Placement Group
-
-Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
-
-#### Partition Placement Group
-
-Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ENI.png" width="50"/> ENI - Elastic Network Interface
-
-<ul>
-  <li>component in a VPC that represents a virtual network card</li>
-  <li>implemented in same AZ as EC2 instance</li>
-  <li>
-    can have:
-    <ol>
-      <li>1 primary IPv4, one or more scondary IPv4</li>
-      <li>1 elastic IP (IPv4) per private IP</li>
-      <li>1 public IP</li>
-      <li>1 or more security groups</li>
-      <li>a MAC address</li>
-    </ol>
-  </li>
-</ul>
-
-### EC2 Hibernate
-
-*stop* - data on the disk of the instance is held until start
-
-*terminate* - data on the disk is lost
-
-*hibernate* - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted
-
-### EC2 Instance Store
-
-EBS Volumes are network drives with good but limited performance. EC2 is a high-performance hardware disk-like network drive. The instance store features:
-<ul>
-  <li>Better I/O performance</li>
-  <li>Lose storage if they are stopped (ephemeral)</li>
-</ul>
-
-Use case: Good buffer, cache, scratch data, temporary content, Risk data loss if hardware fails, backups and replications are admin's responsibility.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/AMI.png" width="50"/> AMI Overview
-
-Description: AMI's are a customization of an EC2 Insance. AMI's are built for specific regions and can be copied for a specific region. EC2 instances can be launched from:
-<ul>
-  <li>a public AMI (amazon provided)</li>
-  <li>your own AMI</li>
-  <li>AWS Marketplace AMS</li>
-</ul>
-
-Process:
-<ol>
-  <li>Start an EC2 instance and customize it.</li>
-  <li>Stop the instance.</li>
-  <li>Build an AMI - this will also create EBS Snapshots</li>
-  <li>Launch instances from other AMI's.</li>
-</ol>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Auto-Scaling.png" width="50"/> Auto Scaling
 
@@ -3027,6 +2945,89 @@ Support for:
 ## Networking
 
 ## Computing
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
+
+IP Types
+<ul>
+  <li>Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space</li>
+  <li>Private IP - Only devices on network can see the IP address</li>
+  <li>Elastic IP - can change to work when instance is stopped and started (not rebooted)</li>
+</ul>
+
+### Placement Groups
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
+
+#### Cluster Placement Group
+
+Use Case: Low latency and fast, mostly for data processing and in bursts
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
+
+#### Spread Placement Group
+
+Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
+
+#### Partition Placement Group
+
+Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ENI.png" width="50"/> ENI - Elastic Network Interface
+
+<ul>
+  <li>component in a VPC that represents a virtual network card</li>
+  <li>implemented in same AZ as EC2 instance</li>
+  <li>
+    can have:
+    <ol>
+      <li>1 primary IPv4, one or more scondary IPv4</li>
+      <li>1 elastic IP (IPv4) per private IP</li>
+      <li>1 public IP</li>
+      <li>1 or more security groups</li>
+      <li>a MAC address</li>
+    </ol>
+  </li>
+</ul>
+
+### EC2 Hibernate
+
+*stop* - data on the disk of the instance is held until start
+
+*terminate* - data on the disk is lost
+
+*hibernate* - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted
+
+### EC2 Instance Store
+
+EBS Volumes are network drives with good but limited performance. EC2 is a high-performance hardware disk-like network drive. The instance store features:
+<ul>
+  <li>Better I/O performance</li>
+  <li>Lose storage if they are stopped (ephemeral)</li>
+</ul>
+
+Use case: Good buffer, cache, scratch data, temporary content, Risk data loss if hardware fails, backups and replications are admin's responsibility.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/AMI.png" width="50"/> AMI Overview
+
+Description: AMI's are a customization of an EC2 Insance. AMI's are built for specific regions and can be copied for a specific region. EC2 instances can be launched from:
+<ul>
+  <li>a public AMI (amazon provided)</li>
+  <li>your own AMI</li>
+  <li>AWS Marketplace AMS</li>
+</ul>
+
+Process:
+<ol>
+  <li>Start an EC2 instance and customize it.</li>
+  <li>Stop the instance.</li>
+  <li>Build an AMI - this will also create EBS Snapshots</li>
+  <li>Launch instances from other AMI's.</li>
+</ol>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
 
 ## Storage
 

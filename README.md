@@ -11,8 +11,6 @@ Domains of material covered in the exam:
 * Design Secure Architectures
 * Design Cost-Optimized Architectures
 
-
-
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
 
 EFS is a manages NFS (Network File System) that can be mounted on many EC2 instances. Works with EC2 instances in multiple AZ's. Highliy reliable, scalable, and expensive (3x gp2) - pay per use.
@@ -1197,632 +1195,7 @@ Use cases: retailstores, media and entertainment
 
 Use cases: financial services, healthcare, public sector
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
 
-### Moving Between Storage Classes
-
-Objects can be moved through the storage classes, movement is automated through the use of Lifecycle Policies.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
-
-### Lifecycle Rules
-
-**Transition Actions:**
-<ul>
-  <li>configure objects to transition to another storage class</li>
-  <li>Ex: move objects to Standard 1A 60 days after creation</li>
-  <li>Ex: move objects into glacier after 6 months</li>
-</ul>
-
-**Expiration Actions:**
-<ul>
-  <li>configure object deletion after time</li>
-  <li>Ex: delete access logs after 365 days</li>
-  <li>Ex: delete old versions of files (with versioning)</li>
-  <li>Ex: delete multi-part uploads</li>
-</ul>
-
-*Rules can be created for a certain prefix, eg. s3://mybucket/mp3/xxx*
-
-### Analytics
-
-<ul>
-  <li>Helps determine timeperiods for tansitioning objects into archive</li>
-  <li>Recomentions for Standard and Standard-1A</li>
-  <li>Report updated daily</li>
-  <li>24 to 48 hours to start seeing analysis</li>
-  <li>Good starting point for creating lifecycle rules, or improving them</li>
-</ul>
-
-### Requester Pays
-
-<ul>
-  <li>Bucket owners typically pay for storage and data transfer costs for bucket</li>
-  <li>Requester Pays buckets bill the requester the cost of the request and download</li>
-  <li>Helpful when sharing large datasets with other accounts</li>
-  <li>Requester must be AWS authenticated</li>
-</ul>
-
-### Event Notifications
-
-<ul>
-  <li>notifications on s3 events</li>
-  <li>typically delivered in seconds, sometimes in minutes</li>
-  <li>can be set according to file type</li>
-  <li>can create as many "s3 events" as desired</li>
-</ul>
-
-Can be passed to SNS, SQS, or Lambda Functions as policy checks for access.
-
-Can be passed into Amazon EventBridge, and shared with other AWS services as destinations, allowing for advanced filtering, multiple destinations, EventBridge Capabilities.
-
-### Baseline Performance
-
-<ul>
-  <li>Automatically scales to high request rates, latency 100-200ms</li>
-  <li>Application can achieve at least 3500 PUT/COPY/POST/DELETE or 5500 GET/HEAD requests per second per prefix in a bucket</li>
-  <li>No limit to number of prefixes</li>
-  <li>Examples: (/folder1/sub1/, /folder1/sub2/, /1/, /2/)</li>
-  <li>spreading accross 4 prefixes evenly results in 22000 requests per second for GET and HEAD</li>
-</ul>
-
-### Performance
-
-<table>
-  <head>
-    <tr>
-      <td>Multi-Part Upload</td>
-      <td>Transfer Acceleration</td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td>Recommended for files > 100MB</td>
-      <td>Increase transfer speed by transerring file to an AWS edge location which forwards data to S3 bucket in the target region</td>
-    </tr>
-    <tr>
-      <td>Can help parallelize uploads</td>
-      <td>Compatible with multi-part upload</td>
-    </tr>
-  </body>
-</table>
-
-### S3 Byte-Range Fetches
-
-Parallelize GETs by requesting specific byte ranges, has better failure resistance.
-
-### Batch Operations
-
-<ul>
-  <li>Perform bulk operations on existing S3 objects with single request</li>
-  <li>Job consists of a list of objects, the action to perform, and optional parameters</li>
-  <li>manages retries, tracks progress, sends completion notifications, general reports</li>
-  <li>S3 Inventory can be used to get object list and use S3 Select to filter objects</li>
-</ul>
-
-### Storage Lens
-
-Default Dashboard:
-<ul>
-  <li>Visualize summarized insights and trends for both free and advanced metrics</li>
-  <li>Default dashboard shows Multi-Region and Multi-Account data</li>
-  <li>Preconfigured by Amazon S3</li>
-  <li>Can't be deleted, but can be disabled</li>
-</ul>
-
-<h4>Metrics</h4>
-
-**Summary**
-<ul>
-  <li>general insights about your s3 storage</li>
-  <li>StorageBytes, ObjectCount...</li>
-  <li>Use cases: identify the fastest-growing buckets and prefixes</li>
-</ul>
-
-**Cost-Optimization**
-<ul>
-  <li>Provide insights to manage and optimize your storage costs</li>
-  <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
-  <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
-</ul>
-
-**Free**
-<ul>
-  <li>automatically available for all</li>
-  <li>Contains 28 usage metrics</li>
-  <li>Data is available for 14 days</li>
-</ul>
-
-**Advanced**
-<ul>
-  <li>additional paid metrics and features</li>
-  <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
-  <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
-  <li>Prefix Aggregation - collect metrics at the prefix level</li>
-  <li>Data is available for queries for 15 months</li>
-</ul>
-
-### Object Encryption
-
-SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
-<ul>
-  <li>Encryption keys handled, managed, and owned by AWS</li>
-  <li>Object encryption is server-side</li>
-  <li>Encryption type is AES-256</li>
-  <li>Enabled by default for new buckets and new objects</li>
-  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
-</ul>
-
-SSE-KMS (Server-Side Encryption with KMS keys)
-<ul>
-  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
-  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
-  <li>Object is encrypted server side</li>
-  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
-</ul>
-
-<ul>
-  <li>SSE-KMS impacted by KMS limits</li>
-  <li>Upon downloads calls the GenerateDataKey KMS API</li>
-  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
-  <li>You can request a quota increase using the Service Quotas Console</li>
-</ul>
-
-DSSE-KMS (Double Server-Side Encryption with KMS keys)
-<ul>
-  <li>Encryption handled on double sides</li>
-  <li>For customers with more rigorous security standards</li>
-</ul>
-
-SSE-C (Server-Side Encryption with Customer keys)
-<ul>
-  <li>Keys fully managed by customer outside of AWS</li>
-  <li>S3 does not store the encryption key you provide</li>
-  <li>HTTPS required</li>
-  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
-</ul>
-
-Client-Side Encryption
-<ul>
-  <li>Use client libraries such as S3 Client Side Encryption Library</li>
-  <li>Clients must encrypt data themselved before sending to S3</li>
-  <li>Clients must decrpt data themselves when retrieving</li>
-  <li>Customer fully manages the keys and encryption cycle</li>
-</ul>
-
-### Ecryption in Transit (SSL/TLS)
-
-<ul>
-  <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
-  <li>HTTPS recommended</li>
-  <li>HTTPS is mandatory for SSE-C</li>
-  <li>Most clients use HTTPS endpoint by default</li>
-</ul>
-
-### Default Encryption vs Bucket Policies
-
-SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
-
-Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
-
-### CORS
-
-<ul>
-  <li>Cross-Origin Resource Sharing</li>
-  <li>Origin = scheme (protocol) + host (domain) + port</li>
-  <li>Web Browser-based mechanism to allow requests to other orignins while visiting the main origin</li>
-  <li>Same origin: "http://example.com/app1" and "http://example.com/app2"</li>
-  <li>Different origins: "http://www.example.com" and "http://other.example.com"</li>
-  <li>Requests won't be fulfilled unless the other origin allows for the requests, using CORS Headers</li>
-</ul>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cors.png" width="300"/>
-
-If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
-
-### MFA Delete
-
-<ul>
-  <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
-  <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
-  <li>MFA not required to: enable versioning, list deleted versions</li>
-  <li>Enable versioning to use MFA delete</li>
-  <li>Only bucket owner can enable/disable MFA Delete</li>
-</ul>
-
-### Access Logs
-
-<ul>
-  <li>Logging access to S3 buckets recomended for audits</li>
-  <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
-  <li>Data can be analyzed using analysis tools</li>
-  <li>Target loogin bucket must be in same AWS region</li>
-</ul>
-
-Log:Warnings
-<ul>
-  <li>do not set logging bucket to be the monitored bucket</li>
-  <li>creates logging loop, bucket will grow exponentially</li>
-</ul>
-
-### Pre-Signed URLs
-
-<ul>
-  <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
-  <li>
-    URL Expiration
-    <ul>
-      <li>S3 Console - 1min up to 720mina</li>
-      <li>AWS CLI - configure expiration with expires-in parameter (default 3600s - 604800s)</li>
-    </ul>
-  </li>
-  <li>Users given pre-signed URL inherit the permissions of the user that generated the URL for GET/PUT</li>
-</ul>
-
-Examples:
-<ul>
-  <li>Allow only logged-in users to download a premium video from your S3 bucket</li>
-  <li>Allow an ever-changing list of users to download files by generating URLs dynamically</li>
-  <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
-</ul>
-
-### Glacier Vault Lock
-
-<ul>
-  <li>adopt a WORM model (Write Once Read Man)</li>
-  <li>Create a Vault Lock Policy</li>
-  <li>Lock the policy for future edits (cannot be changed or deleted)</li>
-  <li>Helpful for compliance and data retention</li>
-</ul>
-
-### Object Lock
-
-<ul>
-  <li>adopt a WORM model (Write Once Read Man)</li>
-  <li>Block an object version deletion for a specified time</li>
-  <li>
-    Retention mode - Compliance:
-    <ul>
-      <li>Object versions can't be overwritten or deleted by any user, including root</li>
-      <li>Object retention modes can't be changed and retention periods can't be shortened</li>
-    </ul>
-  </li>
-  <li>
-    Retention mode - Governance:
-    <ul>
-      <li>Most users can overwrite or delete an object version or alter its lock settings</li>
-      <li>Some users have special permissions to change the retention or delete the object</li>
-    </ul>
-  </li>
-  <li>Retention Period - protect object for a fixed period</li>
-  <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
-</ul>
-
-### Access Points
-
-Access points simplify security management for S3 buckets. Each Access Point has:
-<ul>
-  <li>its own DNS name</li>
-  <li>ab access point policy - manage security at scale</li>
-</ul>
-
-VPC Origin:
-<ul>
-  <li>Possible to define access point to be accessible only from within VPC</li>
-  <li>VPC Enpoint must be created to acces the Access Point (Gateway or Interface Endpoint)</li>
-  <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
-</ul>
-
-### Object Lambda
-
-<ul>
-  <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
-  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S3 Object Lambda Access Points are created</li>
-</ul>
-
-Use Cases:
-<ul>
-  <li>Redacting personally identifiable information for analytics or non-production environments.</li>
-  <li>Converting across data formatsm such as converting XML to JSON</li>
-  <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
-</ul>
-
-### AWS Snow Family
-
-Highly secure, portable devices to collect and process data at the edge, and migrate date into and out of AWS.
-
-<table>
-  <head>
-    <tr>
-      <td></td>
-      <td></td>
-      <td>Storage Capacity</td>
-      <td>Migration Size</td>
-      <td>DataSync Agent</td>
-      <td>Storage Clustering</td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowcone.png" width="25"/></td>
-      <td>Snowcone</td>
-      <td>8TB uable</td>
-      <td>Up to 24TB, online and offline</td>
-      <td>Pre-installed</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowball-Edge.png" width="25"/></td>
-      <td>Snowball Edge</td>
-      <td>80TB uable</td>
-      <td>Up to petabytes, offline</td>
-      <td></td>
-      <td>Up to 15 nodes</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Snowmobile</td>
-      <td>< 100 PB></td>
-      <td>Up to exabytes, offline</td>
-      <td></td>
-      <td></td>
-    </tr>
-  </body>
-</table>
-
-Usage process:
-<ol>
-  <li>Request Snowball devices from the AWS console for delivery</li>
-  <li>Install snowball client / AWS OpsHub on servers</li>
-  <li>Connect snowball to servers and copy files with client</li>
-  <li>Ship device back when data uploadd</li>
-  <li>Data to be loaded into S3 bucket</li>
-  <li>Snowball is completely wiped</li>
-</ol>
-
-### Edge Computing
-
-<ul>
-  <li>Processing data while its being created on an edge location.</li>
-  <li>Locations may have limited internet connection and no access to computing power.</li>
-  <li>Snowball Edge / Snowcone devices can be setup to do edge computing.</li>
-  <li>Use cases: preprocess data, machine learning, transcoding media</li>
-</ul>
-
-### Solution Architecture: Snowball into Glacier
-
-Snowball cannot import directly into Glacier.
-
-Data must first use S3, then moved with an S3 lifecycle policy.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
-
-Launch 3rd party highperformance file systems on AWS, fully managed service.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
-
-<ul>
-  <li>A fully managed Windows filesystem share drive</li>
-  <li>Supports SMB protocol & Windows NTFS</li>
-  <li>MS Active Directory integration, ACLs user quotas</li>
-  <li>Can be mounted on Linux EC2 instances</li>
-  <li>Support's MS's Distributed File System (DFS) Namespaces</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
-
-<ul>
-  <li>Lustre is a type of parallel distributed file system, for large-scale computing</li>
-  <li>Lustre = Linux + cluster</li>
-  <li>Machine Learning, High Performance Computing (HPC)</li>
-  <li>Video Processing, Financial modeling, electronic design automation</li>
-  <li>Scales up to 100s GB/s, millions of IOPS, sub-ms latencies</li>
-  <li>Storage options: SSD, HDD</li>
-  <li>Seamless integration with S3</li>
-</ul>
-
-### FSx File System Deployment Options
-
-Scratch File System
-<ul>
-  <li>Temporary storage</li>
-  <li>Data is not replicated</li>
-  <li>High Burst</li>
-  <li>Usage: short-term processing, optimize costs</li>
-</ul>
-
-Persistent File System
-<ul>
-  <li>Long-term storage</li>
-  <li>Data is replicated with same AZ</li>
-  <li>Rlace failed files in minutes</li>
-  <li>sage: long-term processing, sensitive</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
-
-<ul>
-  <li>Managed NetApp ONTAP on AWS</li>
-  <li>File System compatible with NFS, SMB, iSCSI protocol</li>
-  <li>Move workloads running on ONTAP or NAS to AWS</li>
-  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
-  <li>Storage scales up or down automatically</li>
-  <li>Snapshots, replication, low-cost, compression and data de-duplication</li>
-  <li>Point-in-time instantaneous cloning</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
-
-<ul>
-  <li>Managed OpenZFS file system on AWS</li>
-  <li>File System compatible with NFS</li>
-  <li>Move workloads running on ZFS to AWS</li>
-  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
-  <li>Up to 1,000,000 IOPS with < 0.5ms latency</li>
-  <li>Snapshots, compression and low-cost</li>
-  <li>Point-in-time instantaneous cloning</li>
-</ul>
-
-### Hybrid Cloud for Storage
-
-<ul>
-  <li>AWS is pushing for "hybrid-cloud" (part of infrastructure in the cloud, part on-premises)</li>
-  <li>Causes: Long cloud migrations, security requirements, compliance requirements, IT strategy</li>
-  <li>Amazon Storage Gateway exposes on-premises S3 data</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
-
-Bridge between on-premises data and cloud data.
-
-Use cases:
-<ul>
-  <li>disaster recovery</li>
-  <li>backup and restore</li>
-  <li>tiered storage</li>
-  <li>on-premises cache & low latency files access</li>
-</ul>
-
-Types of storage gateway:
-<ul>
-  <li>S3 File Gateway</li>
-  <li>FSx File Gateway</li>
-  <li>Volume Gateway</li>
-  <li>Tape Gateway</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
-
-<ul>
-  <li>Configured S3 buckets are accessible using the NFS and SMB protocol</li>
-  <li>Most recently used data is cached in the file gateway</li>
-  <li>Supports S3 Standard, S3 Standard IA, S3 One Zone A, S3 Intelligent Tiering</li>
-  <li>Transition to S3 Glacier using a Lifecycle Policy</li>
-  <li>Bucket Access using IAM roles for each File Gateway</li>
-  <li>SMB Protocol has integration with Active Directory (AD) for user authentication</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
-
-<ul>
-  <li>Native access to Amazon FSx for Windows File Server</li>
-  <li>Local cache for frequently accessed data</li>
-  <li>Windows native compatibility</li>
-  <li>Useful for group file shares and home directories</li>
-</ul>
-
-### Volume Gateway
-
-<ul>
-  <li>Block storage using iSCSI protocol backed by S3</li>
-  <li>Backed by EBS Snapshot which can help restore on premises volumes</li>
-  <li>Cached volumes: low latency access to most recent data</li>
-  <li>Stored Volumes: entire dataset is on premise, scheduled backups to S3</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
-
-<ul>
-  <li>Some companies have backup processes using physical tapes</li>
-  <li>With Tape Gateway, companies use the same processes but, in the cloud</li>
-  <li>Virtual Tape Library (VTL) backed by Amazon S3 and Glacier</li>
-  <li>Back up data using existing tape-based processes (and iSCSI interface)</li>
-  <li>Works with leading backup software vendors</li>
-</ul>
-
-### Storage Gateway - Hardware Appliance
-
-Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.
-
-Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
-
-A fully managed service for file transfers into and out of Amazon S3 or Amazon EFS using the FTP protocol.
-
-Supported protocols:
-<ul>
-  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTP.png" width="50"/>AWS Transfer for FTP</li>
-  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTPS.png" width="50"/>AWS Transfer for FTPS</li>
-  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-SFTP.png" width="50"/>AWS Transfer for SFTP</li>
-</ul>
-
-Managed infrastructure, Scalable, Reliable, Highly Available (multi-AZ). Pay per provisioned endpoint per hour + data transfers in GB.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
-
-Moves large amount of data from on-premises/AWS to AWS.
-
-Can syncronize to Amazon S3, EFS, FSx.
-
-Replication tasks can be scheduled hourly, daily, or weekly.
-
-File permissions and metadata are preserved.
-
-### Storage Comparison
-
-<table>
-  <head>
-  </head>
-  <body>
-    <tr>
-      <td>S3</td>
-      <td>Object Storage</td>
-    </tr>
-    <tr>
-      <td>S3 Glacier</td>
-      <td>Object Archival</td>
-    </tr>
-    <tr>
-      <td>EBS Volumes</td>
-      <td>Network storage for one EC2 instance at a time</td>
-    </tr>
-    <tr>
-      <td>Instance Storage</td>
-      <td>Physical for your EC2 instance (high IOPS)</td>
-    </tr>
-    <tr>
-      <td>EFS</td>
-      <td>Network File Sytem fort Linux Instances, POSIX filesystem</td>
-    </tr>
-    <tr>
-      <td>FSx for Windows</td>
-      <td>Network File System for Windows Servers</td>
-    </tr>
-    <tr>
-      <td>FSx for Lustre</td>
-      <td>High Performance Computing Linux file system</td>
-    </tr>
-    <tr>
-      <td>FSx for NetApp ONTAP</td>
-      <td>High OS Compatibility</td>
-    </tr>
-    <tr>
-      <td>FSx for OpenZFS</td>
-      <td>Managed ZFS file system</td>
-    </tr>
-    <tr>
-      <td>Storage Gateway</td>
-      <td>S3 and FSx File Gateway, Volume Gateway (cache and stored), Tape Gateway</td>
-    </tr>
-    <tr>
-      <td>Transfer Family</td>
-      <td>FTP, FTPS, SFTP interface on top of Amazon S3 or Amazon EFS</td>
-    </tr>
-    <tr>
-      <td>DataSync</td>
-      <td>Schedule data sync from on-premises to AWS, or AWS to AWS</td>
-    </tr>
-    <tr>
-      <td>Snowcone / Snowball / Snowmobile</td>
-      <td>move large amounts of data to cloud, physically</td>
-    </tr>
-    <tr>
-      <td>Database</td>
-      <td>for specific workloads, usually with indexing and querying</td>
-    </tr>
-  </body>
-</table>
 
 ## App Decoupling
 
@@ -2814,6 +2187,631 @@ Process:
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/AMIProcess.png" width="300"/>
 
 ## Storage
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/S3.png" width="50"/> S3 - Simple Storage Service
+
+Moving Between Storage Classes - Objects can be moved through the storage classes, movement is automated through the use of Lifecycle Policies.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
+
+### Lifecycle Rules
+
+**Transition Actions:**
+<ul>
+  <li>configure objects to transition to another storage class</li>
+  <li>Ex: move objects to Standard 1A 60 days after creation</li>
+  <li>Ex: move objects into glacier after 6 months</li>
+</ul>
+
+**Expiration Actions:**
+<ul>
+  <li>configure object deletion after time</li>
+  <li>Ex: delete access logs after 365 days</li>
+  <li>Ex: delete old versions of files (with versioning)</li>
+  <li>Ex: delete multi-part uploads</li>
+</ul>
+
+*Rules can be created for a certain prefix, eg. s3://mybucket/mp3/xxx*
+
+### Analytics
+
+<ul>
+  <li>Helps determine timeperiods for tansitioning objects into archive</li>
+  <li>Recomentions for Standard and Standard-1A</li>
+  <li>Report updated daily</li>
+  <li>24 to 48 hours to start seeing analysis</li>
+  <li>Good starting point for creating lifecycle rules, or improving them</li>
+</ul>
+
+### Requester Pays
+
+<ul>
+  <li>Bucket owners typically pay for storage and data transfer costs for bucket</li>
+  <li>Requester Pays buckets bill the requester the cost of the request and download</li>
+  <li>Helpful when sharing large datasets with other accounts</li>
+  <li>Requester must be AWS authenticated</li>
+</ul>
+
+### Event Notifications
+
+<ul>
+  <li>notifications on s3 events</li>
+  <li>typically delivered in seconds, sometimes in minutes</li>
+  <li>can be set according to file type</li>
+  <li>can create as many "s3 events" as desired</li>
+</ul>
+
+Can be passed to SNS, SQS, or Lambda Functions as policy checks for access.
+
+Can be passed into Amazon EventBridge, and shared with other AWS services as destinations, allowing for advanced filtering, multiple destinations, EventBridge Capabilities.
+
+### Baseline Performance
+
+<ul>
+  <li>Automatically scales to high request rates, latency 100-200ms</li>
+  <li>Application can achieve at least 3500 PUT/COPY/POST/DELETE or 5500 GET/HEAD requests per second per prefix in a bucket</li>
+  <li>No limit to number of prefixes</li>
+  <li>Examples: (/folder1/sub1/, /folder1/sub2/, /1/, /2/)</li>
+  <li>spreading accross 4 prefixes evenly results in 22000 requests per second for GET and HEAD</li>
+</ul>
+
+### Performance
+
+<table>
+  <head>
+    <tr>
+      <td>Multi-Part Upload</td>
+      <td>Transfer Acceleration</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Recommended for files > 100MB</td>
+      <td>Increase transfer speed by transerring file to an AWS edge location which forwards data to S3 bucket in the target region</td>
+    </tr>
+    <tr>
+      <td>Can help parallelize uploads</td>
+      <td>Compatible with multi-part upload</td>
+    </tr>
+  </body>
+</table>
+
+### S3 Byte-Range Fetches
+
+Parallelize GETs by requesting specific byte ranges, has better failure resistance.
+
+### Batch Operations
+
+<ul>
+  <li>Perform bulk operations on existing S3 objects with single request</li>
+  <li>Job consists of a list of objects, the action to perform, and optional parameters</li>
+  <li>manages retries, tracks progress, sends completion notifications, general reports</li>
+  <li>S3 Inventory can be used to get object list and use S3 Select to filter objects</li>
+</ul>
+
+### Storage Lens
+
+Default Dashboard:
+<ul>
+  <li>Visualize summarized insights and trends for both free and advanced metrics</li>
+  <li>Default dashboard shows Multi-Region and Multi-Account data</li>
+  <li>Preconfigured by Amazon S3</li>
+  <li>Can't be deleted, but can be disabled</li>
+</ul>
+
+<h4>Metrics</h4>
+
+**Summary**
+<ul>
+  <li>general insights about your s3 storage</li>
+  <li>StorageBytes, ObjectCount...</li>
+  <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+</ul>
+
+**Cost-Optimization**
+<ul>
+  <li>Provide insights to manage and optimize your storage costs</li>
+  <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
+  <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+</ul>
+
+**Free**
+<ul>
+  <li>automatically available for all</li>
+  <li>Contains 28 usage metrics</li>
+  <li>Data is available for 14 days</li>
+</ul>
+
+**Advanced**
+<ul>
+  <li>additional paid metrics and features</li>
+  <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
+  <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
+  <li>Prefix Aggregation - collect metrics at the prefix level</li>
+  <li>Data is available for queries for 15 months</li>
+</ul>
+
+### Object Encryption
+
+SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS</li>
+  <li>Object encryption is server-side</li>
+  <li>Encryption type is AES-256</li>
+  <li>Enabled by default for new buckets and new objects</li>
+  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
+</ul>
+
+SSE-KMS (Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
+  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
+  <li>Object is encrypted server side</li>
+  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
+</ul>
+
+<ul>
+  <li>SSE-KMS impacted by KMS limits</li>
+  <li>Upon downloads calls the GenerateDataKey KMS API</li>
+  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
+  <li>You can request a quota increase using the Service Quotas Console</li>
+</ul>
+
+DSSE-KMS (Double Server-Side Encryption with KMS keys)
+<ul>
+  <li>Encryption handled on double sides</li>
+  <li>For customers with more rigorous security standards</li>
+</ul>
+
+SSE-C (Server-Side Encryption with Customer keys)
+<ul>
+  <li>Keys fully managed by customer outside of AWS</li>
+  <li>S3 does not store the encryption key you provide</li>
+  <li>HTTPS required</li>
+  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
+</ul>
+
+Client-Side Encryption
+<ul>
+  <li>Use client libraries such as S3 Client Side Encryption Library</li>
+  <li>Clients must encrypt data themselved before sending to S3</li>
+  <li>Clients must decrpt data themselves when retrieving</li>
+  <li>Customer fully manages the keys and encryption cycle</li>
+</ul>
+
+### Ecryption in Transit (SSL/TLS)
+
+<ul>
+  <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
+  <li>HTTPS recommended</li>
+  <li>HTTPS is mandatory for SSE-C</li>
+  <li>Most clients use HTTPS endpoint by default</li>
+</ul>
+
+### Default Encryption vs Bucket Policies
+
+SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
+
+Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
+
+### CORS
+
+<ul>
+  <li>Cross-Origin Resource Sharing</li>
+  <li>Origin = scheme (protocol) + host (domain) + port</li>
+  <li>Web Browser-based mechanism to allow requests to other orignins while visiting the main origin</li>
+  <li>Same origin: "http://example.com/app1" and "http://example.com/app2"</li>
+  <li>Different origins: "http://www.example.com" and "http://other.example.com"</li>
+  <li>Requests won't be fulfilled unless the other origin allows for the requests, using CORS Headers</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cors.png" width="300"/>
+
+If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
+
+### MFA Delete
+
+<ul>
+  <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
+  <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
+  <li>MFA not required to: enable versioning, list deleted versions</li>
+  <li>Enable versioning to use MFA delete</li>
+  <li>Only bucket owner can enable/disable MFA Delete</li>
+</ul>
+
+### Access Logs
+
+<ul>
+  <li>Logging access to S3 buckets recomended for audits</li>
+  <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
+  <li>Data can be analyzed using analysis tools</li>
+  <li>Target loogin bucket must be in same AWS region</li>
+</ul>
+
+Log:Warnings
+<ul>
+  <li>do not set logging bucket to be the monitored bucket</li>
+  <li>creates logging loop, bucket will grow exponentially</li>
+</ul>
+
+### Pre-Signed URLs
+
+<ul>
+  <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
+  <li>
+    URL Expiration
+    <ul>
+      <li>S3 Console - 1min up to 720mina</li>
+      <li>AWS CLI - configure expiration with expires-in parameter (default 3600s - 604800s)</li>
+    </ul>
+  </li>
+  <li>Users given pre-signed URL inherit the permissions of the user that generated the URL for GET/PUT</li>
+</ul>
+
+Examples:
+<ul>
+  <li>Allow only logged-in users to download a premium video from your S3 bucket</li>
+  <li>Allow an ever-changing list of users to download files by generating URLs dynamically</li>
+  <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
+</ul>
+
+### Glacier Vault Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Create a Vault Lock Policy</li>
+  <li>Lock the policy for future edits (cannot be changed or deleted)</li>
+  <li>Helpful for compliance and data retention</li>
+</ul>
+
+### Object Lock
+
+<ul>
+  <li>adopt a WORM model (Write Once Read Man)</li>
+  <li>Block an object version deletion for a specified time</li>
+  <li>
+    Retention mode - Compliance:
+    <ul>
+      <li>Object versions can't be overwritten or deleted by any user, including root</li>
+      <li>Object retention modes can't be changed and retention periods can't be shortened</li>
+    </ul>
+  </li>
+  <li>
+    Retention mode - Governance:
+    <ul>
+      <li>Most users can overwrite or delete an object version or alter its lock settings</li>
+      <li>Some users have special permissions to change the retention or delete the object</li>
+    </ul>
+  </li>
+  <li>Retention Period - protect object for a fixed period</li>
+  <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
+</ul>
+
+### Access Points
+
+Access points simplify security management for S3 buckets. Each Access Point has:
+<ul>
+  <li>its own DNS name</li>
+  <li>ab access point policy - manage security at scale</li>
+</ul>
+
+VPC Origin:
+<ul>
+  <li>Possible to define access point to be accessible only from within VPC</li>
+  <li>VPC Enpoint must be created to acces the Access Point (Gateway or Interface Endpoint)</li>
+  <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
+</ul>
+
+### Object Lambda
+
+<ul>
+  <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
+  <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S3 Object Lambda Access Points are created</li>
+</ul>
+
+Use Cases:
+<ul>
+  <li>Redacting personally identifiable information for analytics or non-production environments.</li>
+  <li>Converting across data formatsm such as converting XML to JSON</li>
+  <li>Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the object</li>
+</ul>
+
+### AWS Snow Family
+
+Highly secure, portable devices to collect and process data at the edge, and migrate date into and out of AWS.
+
+<table>
+  <head>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Storage Capacity</td>
+      <td>Migration Size</td>
+      <td>DataSync Agent</td>
+      <td>Storage Clustering</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowcone.png" width="25"/></td>
+      <td>Snowcone</td>
+      <td>8TB uable</td>
+      <td>Up to 24TB, online and offline</td>
+      <td>Pre-installed</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Snowball-Edge.png" width="25"/></td>
+      <td>Snowball Edge</td>
+      <td>80TB uable</td>
+      <td>Up to petabytes, offline</td>
+      <td></td>
+      <td>Up to 15 nodes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Snowmobile</td>
+      <td>< 100 PB></td>
+      <td>Up to exabytes, offline</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </body>
+</table>
+
+Usage process:
+<ol>
+  <li>Request Snowball devices from the AWS console for delivery</li>
+  <li>Install snowball client / AWS OpsHub on servers</li>
+  <li>Connect snowball to servers and copy files with client</li>
+  <li>Ship device back when data uploadd</li>
+  <li>Data to be loaded into S3 bucket</li>
+  <li>Snowball is completely wiped</li>
+</ol>
+
+### Edge Computing
+
+<ul>
+  <li>Processing data while its being created on an edge location.</li>
+  <li>Locations may have limited internet connection and no access to computing power.</li>
+  <li>Snowball Edge / Snowcone devices can be setup to do edge computing.</li>
+  <li>Use cases: preprocess data, machine learning, transcoding media</li>
+</ul>
+
+### Solution Architecture: Snowball into Glacier
+
+Snowball cannot import directly into Glacier.
+
+Data must first use S3, then moved with an S3 lifecycle policy.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
+
+Launch 3rd party highperformance file systems on AWS, fully managed service.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
+
+<ul>
+  <li>A fully managed Windows filesystem share drive</li>
+  <li>Supports SMB protocol & Windows NTFS</li>
+  <li>MS Active Directory integration, ACLs user quotas</li>
+  <li>Can be mounted on Linux EC2 instances</li>
+  <li>Support's MS's Distributed File System (DFS) Namespaces</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
+
+<ul>
+  <li>Lustre is a type of parallel distributed file system, for large-scale computing</li>
+  <li>Lustre = Linux + cluster</li>
+  <li>Machine Learning, High Performance Computing (HPC)</li>
+  <li>Video Processing, Financial modeling, electronic design automation</li>
+  <li>Scales up to 100s GB/s, millions of IOPS, sub-ms latencies</li>
+  <li>Storage options: SSD, HDD</li>
+  <li>Seamless integration with S3</li>
+</ul>
+
+### FSx File System Deployment Options
+
+Scratch File System
+<ul>
+  <li>Temporary storage</li>
+  <li>Data is not replicated</li>
+  <li>High Burst</li>
+  <li>Usage: short-term processing, optimize costs</li>
+</ul>
+
+Persistent File System
+<ul>
+  <li>Long-term storage</li>
+  <li>Data is replicated with same AZ</li>
+  <li>Rlace failed files in minutes</li>
+  <li>sage: long-term processing, sensitive</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
+
+<ul>
+  <li>Managed NetApp ONTAP on AWS</li>
+  <li>File System compatible with NFS, SMB, iSCSI protocol</li>
+  <li>Move workloads running on ONTAP or NAS to AWS</li>
+  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
+  <li>Storage scales up or down automatically</li>
+  <li>Snapshots, replication, low-cost, compression and data de-duplication</li>
+  <li>Point-in-time instantaneous cloning</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
+
+<ul>
+  <li>Managed OpenZFS file system on AWS</li>
+  <li>File System compatible with NFS</li>
+  <li>Move workloads running on ZFS to AWS</li>
+  <li>Works with Linux, Windows, MacOS, VMWare Cloud on AWS, Amazon Workspaces and AppStream 2.0, EC2/ECS/EKS</li>
+  <li>Up to 1,000,000 IOPS with < 0.5ms latency</li>
+  <li>Snapshots, compression and low-cost</li>
+  <li>Point-in-time instantaneous cloning</li>
+</ul>
+
+### Hybrid Cloud for Storage
+
+<ul>
+  <li>AWS is pushing for "hybrid-cloud" (part of infrastructure in the cloud, part on-premises)</li>
+  <li>Causes: Long cloud migrations, security requirements, compliance requirements, IT strategy</li>
+  <li>Amazon Storage Gateway exposes on-premises S3 data</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
+
+Bridge between on-premises data and cloud data.
+
+Use cases:
+<ul>
+  <li>disaster recovery</li>
+  <li>backup and restore</li>
+  <li>tiered storage</li>
+  <li>on-premises cache & low latency files access</li>
+</ul>
+
+Types of storage gateway:
+<ul>
+  <li>S3 File Gateway</li>
+  <li>FSx File Gateway</li>
+  <li>Volume Gateway</li>
+  <li>Tape Gateway</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
+
+<ul>
+  <li>Configured S3 buckets are accessible using the NFS and SMB protocol</li>
+  <li>Most recently used data is cached in the file gateway</li>
+  <li>Supports S3 Standard, S3 Standard IA, S3 One Zone A, S3 Intelligent Tiering</li>
+  <li>Transition to S3 Glacier using a Lifecycle Policy</li>
+  <li>Bucket Access using IAM roles for each File Gateway</li>
+  <li>SMB Protocol has integration with Active Directory (AD) for user authentication</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
+
+<ul>
+  <li>Native access to Amazon FSx for Windows File Server</li>
+  <li>Local cache for frequently accessed data</li>
+  <li>Windows native compatibility</li>
+  <li>Useful for group file shares and home directories</li>
+</ul>
+
+### Volume Gateway
+
+<ul>
+  <li>Block storage using iSCSI protocol backed by S3</li>
+  <li>Backed by EBS Snapshot which can help restore on premises volumes</li>
+  <li>Cached volumes: low latency access to most recent data</li>
+  <li>Stored Volumes: entire dataset is on premise, scheduled backups to S3</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
+
+<ul>
+  <li>Some companies have backup processes using physical tapes</li>
+  <li>With Tape Gateway, companies use the same processes but, in the cloud</li>
+  <li>Virtual Tape Library (VTL) backed by Amazon S3 and Glacier</li>
+  <li>Back up data using existing tape-based processes (and iSCSI interface)</li>
+  <li>Works with leading backup software vendors</li>
+</ul>
+
+### Storage Gateway - Hardware Appliance
+
+Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.
+
+Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
+
+A fully managed service for file transfers into and out of Amazon S3 or Amazon EFS using the FTP protocol.
+
+Supported protocols:
+<ul>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTP.png" width="50"/>AWS Transfer for FTP</li>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-FTPS.png" width="50"/>AWS Transfer for FTPS</li>
+  <li><img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family-SFTP.png" width="50"/>AWS Transfer for SFTP</li>
+</ul>
+
+Managed infrastructure, Scalable, Reliable, Highly Available (multi-AZ). Pay per provisioned endpoint per hour + data transfers in GB.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
+
+Moves large amount of data from on-premises/AWS to AWS.
+
+Can syncronize to Amazon S3, EFS, FSx.
+
+Replication tasks can be scheduled hourly, daily, or weekly.
+
+File permissions and metadata are preserved.
+
+### Storage Comparison
+
+<table>
+  <head>
+  </head>
+  <body>
+    <tr>
+      <td>S3</td>
+      <td>Object Storage</td>
+    </tr>
+    <tr>
+      <td>S3 Glacier</td>
+      <td>Object Archival</td>
+    </tr>
+    <tr>
+      <td>EBS Volumes</td>
+      <td>Network storage for one EC2 instance at a time</td>
+    </tr>
+    <tr>
+      <td>Instance Storage</td>
+      <td>Physical for your EC2 instance (high IOPS)</td>
+    </tr>
+    <tr>
+      <td>EFS</td>
+      <td>Network File Sytem fort Linux Instances, POSIX filesystem</td>
+    </tr>
+    <tr>
+      <td>FSx for Windows</td>
+      <td>Network File System for Windows Servers</td>
+    </tr>
+    <tr>
+      <td>FSx for Lustre</td>
+      <td>High Performance Computing Linux file system</td>
+    </tr>
+    <tr>
+      <td>FSx for NetApp ONTAP</td>
+      <td>High OS Compatibility</td>
+    </tr>
+    <tr>
+      <td>FSx for OpenZFS</td>
+      <td>Managed ZFS file system</td>
+    </tr>
+    <tr>
+      <td>Storage Gateway</td>
+      <td>S3 and FSx File Gateway, Volume Gateway (cache and stored), Tape Gateway</td>
+    </tr>
+    <tr>
+      <td>Transfer Family</td>
+      <td>FTP, FTPS, SFTP interface on top of Amazon S3 or Amazon EFS</td>
+    </tr>
+    <tr>
+      <td>DataSync</td>
+      <td>Schedule data sync from on-premises to AWS, or AWS to AWS</td>
+    </tr>
+    <tr>
+      <td>Snowcone / Snowball / Snowmobile</td>
+      <td>move large amounts of data to cloud, physically</td>
+    </tr>
+    <tr>
+      <td>Database</td>
+      <td>for specific workloads, usually with indexing and querying</td>
+    </tr>
+  </body>
+</table>
 
 ## Automation
 

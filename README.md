@@ -11,148 +11,7 @@ Domains of material covered in the exam:
 * Design Secure Architectures
 * Design Cost-Optimized Architectures
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumes.png" width="50"/> EBS Volumes
-
-<ul>
-  <li>these are network drives that you can attach to your instances while they can.</li>
-  <li>allows EC2 instances to persist data</li>
-  <li>mounted to one instance at a time</li>
-  <li>bound to specific availability zone</li>
-  <li>free under 30GB/month</li>
-</ul>
-
-Can be detached and reattached to other instances. Capacity must be provisioned in advance (size in GB and IOPS). Volumes delete upon termination by default for root volumes and off for all other volumes.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSSnapshots.png" width="50"/> EBS Snapshots
-
-<ul>
-  <li>backup of an EBS volume at a point in time</li>
-  <li>not necessary to attach volume but recomended</li>
-  <li>can copy snapshots across AZ's or regions</li>
-</ul>
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
-
-### EBS Snapshot Archive
-
-Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
-
-### Recycle Bin for EBS Snapshots
-
-Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
-
-### FSR - Fast Snapshot Restore
-
-Forces full initialization of snapshot to have no latency on first use, but is very expensive.
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
-
-<table>
-  <head>
-    <tr>
-      <td>Type</td>
-      <td>Description</td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td>gp2/gp3 (SSD)</td>
-      <td>General purpose SSD vlume that balances price and performance for wide variety of workloads.</td>
-    </tr>
-    <tr>
-      <td>io1/io2 Block Express (SSD)</td>
-      <td>Highest performance SSD volume for mission-critical low latency or high throughput workloads.</td>
-    </tr>
-    <tr>
-      <td>stl (HDD)</td>
-      <td>Low cost HDD volume designed for frequently accessed throughput-intense workloads.</td>
-    </tr>
-    <tr>
-      <td>sol (HDD)</td>
-      <td>Lowest cost HDD volume designed for less frequently accessed workloads.</td>
-    </tr>
-  </body>
-</table>
-
-Characterized by size/throughput/IOPS (I/O Operations per second). Only gp2/gp3 and io1/io2 Block Express can be used as boot volumes.
-
-<table>
-  <head>
-    <tr>
-      <td colspan="4"><h2>Use Cases</h2></td>
-    </tr>
-    <tr>
-      <td colspan="2"><h4>General Purpose SSD</h4></td>
-      <td colspan="2"><h4>Provisioned IOPS (PIOPS) SSD</h4></td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td colspan="2">cost effective storage, low latency</td>
-      <td colspan="2">critical business applications with sustained IOPS performance</td>
-    </tr>
-    <tr>
-      <td colspan="2">system boot volumes, virtual desktops, development and test environments</td>
-      <td colspan="2">applications that need more than 16,000 IOPS</td>
-    </tr>
-    <tr>
-      <td colspan="2">1GiB - 16GiB</td>
-      <td colspan="2">great for database workloads (sensitive to storage performance and consistency)</td>
-    </tr>
-    <tr>
-      <td>gp3</td>
-      <td>gp2</td>
-      <td>io1 (4GiB - 16GiB)</td>
-      <td>io2 Block Express (4GiB - 64GiB)</td>
-    </tr>
-    <tr>
-      <td>baseline: 3000 IOPS / 125MiB/s</td>
-      <td>small volumes, burst up to 3000 IOPS</td>
-      <td>max PIOPS: 64000 for Nitro EC2 instances and 32000 for other</td>
-      <td>sub millisecond latency</td>
-    </tr>
-    <tr>
-      <td>max: 16000 IOPS / 1000 MiB/s independently</td>
-      <td>volume and IOPS are linked: max 16000 IOPS</td>
-      <td>can increase PIOPS independently from storage size</td>
-      <td>max PIOPS: 256000</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>3 IOPS per GB -> means 5334GB have max IOPS</td>
-      <td></td>
-      <td></td>
-    </tr>
-  </body>
-</table>
-
-### EBS Multi-Attach - (io1/io2 family)
-
-Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).
-
-Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.
-
-### EBS Encryption
-
-Advantages of EBS volumes:
-<ul>
-  <li>data at rest is encrypted indie the volume</li>
-  <li>all data in-flight moving between the instance and the volume is encrypted</li>
-  <li>all snapshots are encrypted</li>
-  <li>all volumes created from snapshot are encrypted</li>
-</ul>
-
-Encryption and decryption are handled transparently (no admin action needed). Encryption has minimal impact on latency. EBS Encryption leverages keys from KMS (AES-256). Copying an unencrypted snapshot allows encryption. Snapshots of encrypted volumes are encrypted.
-
-Process of encrypting an unencrypted volume:
-<ol>
-  <li>Create EBS Volume and EBS Snapshot of Volume.</li>
-  <li>Encrypt the EBS Snapshot (using a copy).</li>
-  <li>Create new EBS volume from snapshot.</li>
-  <li>Now move encrypted volume to original instance.</li>
-</ol>
 
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
 
@@ -3032,5 +2891,148 @@ Metrics to scale on:
 ### ASG Scaling Cooldowns
 
 During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumes.png" width="50"/> EBS Volumes
+
+<ul>
+  <li>these are network drives that you can attach to your instances while they can.</li>
+  <li>allows EC2 instances to persist data</li>
+  <li>mounted to one instance at a time</li>
+  <li>bound to specific availability zone</li>
+  <li>free under 30GB/month</li>
+</ul>
+
+Can be detached and reattached to other instances. Capacity must be provisioned in advance (size in GB and IOPS). Volumes delete upon termination by default for root volumes and off for all other volumes.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSSnapshots.png" width="50"/> EBS Snapshots
+
+<ul>
+  <li>backup of an EBS volume at a point in time</li>
+  <li>not necessary to attach volume but recomended</li>
+  <li>can copy snapshots across AZ's or regions</li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
+
+### EBS Snapshot Archive
+
+Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
+
+### Recycle Bin for EBS Snapshots
+
+Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
+
+### FSR - Fast Snapshot Restore
+
+Forces full initialization of snapshot to have no latency on first use, but is very expensive.
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
+
+<table>
+  <head>
+    <tr>
+      <td>Type</td>
+      <td>Description</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>gp2/gp3 (SSD)</td>
+      <td>General purpose SSD vlume that balances price and performance for wide variety of workloads.</td>
+    </tr>
+    <tr>
+      <td>io1/io2 Block Express (SSD)</td>
+      <td>Highest performance SSD volume for mission-critical low latency or high throughput workloads.</td>
+    </tr>
+    <tr>
+      <td>stl (HDD)</td>
+      <td>Low cost HDD volume designed for frequently accessed throughput-intense workloads.</td>
+    </tr>
+    <tr>
+      <td>sol (HDD)</td>
+      <td>Lowest cost HDD volume designed for less frequently accessed workloads.</td>
+    </tr>
+  </body>
+</table>
+
+Characterized by size/throughput/IOPS (I/O Operations per second). Only gp2/gp3 and io1/io2 Block Express can be used as boot volumes.
+
+<table>
+  <head>
+    <tr>
+      <td colspan="4"><h2>Use Cases</h2></td>
+    </tr>
+    <tr>
+      <td colspan="2"><h4>General Purpose SSD</h4></td>
+      <td colspan="2"><h4>Provisioned IOPS (PIOPS) SSD</h4></td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td colspan="2">cost effective storage, low latency</td>
+      <td colspan="2">critical business applications with sustained IOPS performance</td>
+    </tr>
+    <tr>
+      <td colspan="2">system boot volumes, virtual desktops, development and test environments</td>
+      <td colspan="2">applications that need more than 16,000 IOPS</td>
+    </tr>
+    <tr>
+      <td colspan="2">1GiB - 16GiB</td>
+      <td colspan="2">great for database workloads (sensitive to storage performance and consistency)</td>
+    </tr>
+    <tr>
+      <td>gp3</td>
+      <td>gp2</td>
+      <td>io1 (4GiB - 16GiB)</td>
+      <td>io2 Block Express (4GiB - 64GiB)</td>
+    </tr>
+    <tr>
+      <td>baseline: 3000 IOPS / 125MiB/s</td>
+      <td>small volumes, burst up to 3000 IOPS</td>
+      <td>max PIOPS: 64000 for Nitro EC2 instances and 32000 for other</td>
+      <td>sub millisecond latency</td>
+    </tr>
+    <tr>
+      <td>max: 16000 IOPS / 1000 MiB/s independently</td>
+      <td>volume and IOPS are linked: max 16000 IOPS</td>
+      <td>can increase PIOPS independently from storage size</td>
+      <td>max PIOPS: 256000</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>3 IOPS per GB -> means 5334GB have max IOPS</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </body>
+</table>
+
+### EBS Multi-Attach - (io1/io2 family)
+
+Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).
+
+Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.
+
+### EBS Encryption
+
+Advantages of EBS volumes:
+<ul>
+  <li>data at rest is encrypted indie the volume</li>
+  <li>all data in-flight moving between the instance and the volume is encrypted</li>
+  <li>all snapshots are encrypted</li>
+  <li>all volumes created from snapshot are encrypted</li>
+</ul>
+
+Encryption and decryption are handled transparently (no admin action needed). Encryption has minimal impact on latency. EBS Encryption leverages keys from KMS (AES-256). Copying an unencrypted snapshot allows encryption. Snapshots of encrypted volumes are encrypted.
+
+Process of encrypting an unencrypted volume:
+<ol>
+  <li>Create EBS Volume and EBS Snapshot of Volume.</li>
+  <li>Encrypt the EBS Snapshot (using a copy).</li>
+  <li>Create new EBS volume from snapshot.</li>
+  <li>Now move encrypted volume to original instance.</li>
+</ol>
 
 ## 

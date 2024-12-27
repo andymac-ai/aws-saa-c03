@@ -11,103 +11,6 @@ Domains of material covered in the exam:
 * Design Secure Architectures
 * Design Cost-Optimized Architectures
 
-## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
-
-EFS is a manages NFS (Network File System) that can be mounted on many EC2 instances. Works with EC2 instances in multiple AZ's. Highliy reliable, scalable, and expensive (3x gp2) - pay per use.
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EFS.png" width="300"/>
-
-Use case:
-<ul>
-  <li>Content management, web serving, data sharing, wordpress</li>
-  <li>NFSv4.1 protocol</li>
-  <li>use security group to control access to EFS</li>
-  <li>compatible with Linux based AMI (not Windows)</li>
-  <li>encryption as rest using KMS</li>
-  <li>POSIX file system</li>
-  <li>file system scales automatically, billed by GB (size)</li>
-</ul>
-
-### EFS Performance Classes
-
-<table>
-  <body>
-    <tr>
-      <td><b>EFS Scale</b></td>
-      <td>1000s of concurrent NFS clients, 10GB/s throughput</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>grow to petabyte scale network file systems, automatically</td>
-    </tr>
-    <tr>
-      <td>Performance Mode</td>
-      <td>General Purpose (default) - latency-sensitive use cases (web server, CMS, etc.)</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Max I/O - higher latency, throughput, highly parallel (big data, media processing)</td>
-    </tr>
-    <tr>
-      <td>Throughput Mode</td>
-      <td>Bursting - 1 TB & 50MiB/s and bursts of up to 100MiB/s</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Provisioned - set your throughput regardless of storage size (ex 1GiB for 1TB)</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Elastic - automatically scales troughput up or down based on workloads</td>
-    </tr>
-  </body>
-</table>
-
-### EFS Storage Classes
-
-Storage Tiers:
-<ul>
-  <li><b>standard</b> - frequently accessed files</li>
-  <li><b>infrequent access (EFS IA)</b> - cost to retrieve files, lower storage price</li>
-  <li><b>archive</b> - rarely accessed data</li>
-  <li><b>implement life cycle policies</b> - move files between storage tiers</li>
-</ul>
-
-Availability
-
-Standard: Multi AZ, great for production
-
-One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A
-
-### EBS vs EFS
-
-<table>
-  <head>
-    <tr>
-      <td><b>EBS</b></td>
-      <td><b>EFS</b></td>
-    </tr>
-  </head>
-  <body>
-    <tr>
-      <td>one instance (except multi-attach io1/io2)</td>
-      <td>share files</td>
-    </tr>
-    <tr>
-      <td>are locked at Availability Zone level</td>
-      <td>only for Linux Instances (POSIX)</td>
-    </tr>
-    <tr>
-      <td>gp2: IO increases if disk sizes increases</td>
-      <td>EFS has higher price point than EBS</td>
-    </tr>
-    <tr>
-      <td>gp3 and io1: can increase IO increasingly</td>
-      <td>can leverage storage tiers for cost savings</td>
-    </tr>
-  </body>
-</table>
-
 ## <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
 
 ### High Availability and Scalability
@@ -2809,6 +2712,103 @@ File permissions and metadata are preserved.
     <tr>
       <td>Database</td>
       <td>for specific workloads, usually with indexing and querying</td>
+    </tr>
+  </body>
+</table>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EFS.png" width="50"/> EFS - Elastic File System
+
+EFS is a manages NFS (Network File System) that can be mounted on many EC2 instances. Works with EC2 instances in multiple AZ's. Highliy reliable, scalable, and expensive (3x gp2) - pay per use.
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EFS.png" width="300"/>
+
+Use case:
+<ul>
+  <li>Content management, web serving, data sharing, wordpress</li>
+  <li>NFSv4.1 protocol</li>
+  <li>use security group to control access to EFS</li>
+  <li>compatible with Linux based AMI (not Windows)</li>
+  <li>encryption as rest using KMS</li>
+  <li>POSIX file system</li>
+  <li>file system scales automatically, billed by GB (size)</li>
+</ul>
+
+### EFS Performance Classes
+
+<table>
+  <body>
+    <tr>
+      <td><b>EFS Scale</b></td>
+      <td>1000s of concurrent NFS clients, 10GB/s throughput</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>grow to petabyte scale network file systems, automatically</td>
+    </tr>
+    <tr>
+      <td>Performance Mode</td>
+      <td>General Purpose (default) - latency-sensitive use cases (web server, CMS, etc.)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Max I/O - higher latency, throughput, highly parallel (big data, media processing)</td>
+    </tr>
+    <tr>
+      <td>Throughput Mode</td>
+      <td>Bursting - 1 TB & 50MiB/s and bursts of up to 100MiB/s</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Provisioned - set your throughput regardless of storage size (ex 1GiB for 1TB)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Elastic - automatically scales troughput up or down based on workloads</td>
+    </tr>
+  </body>
+</table>
+
+### EFS Storage Classes
+
+Storage Tiers:
+<ul>
+  <li><b>standard</b> - frequently accessed files</li>
+  <li><b>infrequent access (EFS IA)</b> - cost to retrieve files, lower storage price</li>
+  <li><b>archive</b> - rarely accessed data</li>
+  <li><b>implement life cycle policies</b> - move files between storage tiers</li>
+</ul>
+
+Availability
+
+Standard: Multi AZ, great for production
+
+One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A
+
+### EBS vs EFS
+
+<table>
+  <head>
+    <tr>
+      <td><b>EBS</b></td>
+      <td><b>EFS</b></td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>one instance (except multi-attach io1/io2)</td>
+      <td>share files</td>
+    </tr>
+    <tr>
+      <td>are locked at Availability Zone level</td>
+      <td>only for Linux Instances (POSIX)</td>
+    </tr>
+    <tr>
+      <td>gp2: IO increases if disk sizes increases</td>
+      <td>EFS has higher price point than EBS</td>
+    </tr>
+    <tr>
+      <td>gp3 and io1: can increase IO increasingly</td>
+      <td>can leverage storage tiers for cost savings</td>
     </tr>
   </body>
 </table>

@@ -2858,6 +2858,39 @@ Lambda@Edge
   </body>
 </table>
 
+Lambda in VPC
+<ul>
+  <li>Define the VPC ID, the Subnets and the Security Groups</li>
+  <li>Lambda will create the ENI in the Subnets</li>
+</ul>
+
+Lambda with RDS Proxy
+<ul>
+  <li>If Lambda functions directly access the database, may be open to too many connections under high load</li>
+  <li>Improves scalability by pooling and sharing DB connections</li>
+  <li>Improves availability by redecuing by 66% the failover time and  preserving connections</li>
+  <li>Improves security by enforcing IAM authentication and storing credentials in Secrets Manager</li>^
+  <li>The Lambda function must be deployed in the VPC, because RDS Proxy is never publically available</li>
+</ul>
+
+Invoking Lambda from RDS and Aurora
+<ul>
+  <li>Invoke Lambda functions fro within the DB instance</li>
+  <li>Allows processing data events from within a database</li>
+  <li>Supported for RDS for PostgreSQL and Aurora MySQL</li>
+  <li>Must allow outbound traffic to Lambda function from within DB instance</li>
+  <li>DB instance must have required permissions to invoke Lambda function</li>
+</ul>
+
+RDS Event Notifications
+<ul>
+  <li>Notifications that tell information about the DB instance itself</li>
+  <li>No information about the data itself</li>
+  <li>Subscribe to the following event categories: DB instance, DB snapshot, DB Parameter Group, DB Security group, RDS Proxy, Custom Engine Version</li>
+  <li>Near real-time events (up to 5 minutes)</li>
+  <li>Send notifications to SNS or suscribe to events using EventBridge</li>
+</ul>
+
 ## Administration
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management

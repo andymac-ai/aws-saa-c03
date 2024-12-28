@@ -31,35 +31,36 @@ Domains of material covered in the exam:
 
 **Time Series** - Amazon Timestream
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS Overview
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS
 
 Managed service for SQL databases
 
-Create databases in the cloud:
+Create databases in the cloud - Postgres, MySQL, ManiaDB, Oracle, Microsoft SQL Services, IBM DB2, Aurora
 
- - Postgres, MySQL, ManiaDB, Oracle, Microsoft SQL Services, IBM DB2, Aurora
-
-### RDS vs using DB on EC2
-
-Advantages:
+RDS vs using DB on EC2
 <ul>
-  <li>Automatic provinsioning</li>
-  <li>Continuous backups</li>
-  <li>Monitoring dashboards</li>
-  <li>Read replicas</li>
-  <li>Multi AZ</li>
-  <li>Maintanence windows</li>
-  <li>Scaling (horizontal and vertical)</li>
-  <li>Storage backed by EBS</li>
+  <li>
+    Advantages:
+    <ul>
+      <li>Automatic provinsioning</li>
+      <li>Continuous backups</li>
+      <li>Monitoring dashboards</li>
+      <li>Read replicas</li>
+      <li>Multi AZ</li>
+      <li>Maintanence windows</li>
+      <li>Scaling (horizontal and vertical)</li>
+      <li>Storage backed by EBS</li>
+    </ul>
+  </li>
+  <li>
+    Disadvantages:
+    <ul>
+      <li>No SSH into instances</li>
+    </ul>
+  </li>
 </ul>
 
-Disadvantages:
-<ul>
-  <li>No SSH into instances</li>
-</ul>
-
-### RDS Auto Scaling
-
+RDS Auto Scaling
 <ul>
   <li>Helps you increase storage on RDS DB instance dynamically</li>
   <li>RDS scales automattically when running out of fre storage</li>
@@ -68,8 +69,7 @@ Disadvantages:
   <li>Supports all RDS database engines</li>
 </ul>
 
-### RDS Read Replicas
-
+RDS Read Replicas
 <ul>
   <li>Help scale reads from DB instance</li>
   <li>Up to 15 read replicas; within AZ, cross AZ, cross region</li>
@@ -90,8 +90,7 @@ Use case:
 
 Fees incurred on cross-region read replicas, not on cross-AZ read replicas
 
-### RDS Multi AZ (disaster recovery)
-
+RDS Multi AZ (disaster recovery)
 <ul>
   <li>SYNC replication</li>
   <li>One DNS name</li>
@@ -99,16 +98,14 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>Failover in case of loss</li>
 </ul>
 
-### RDS Single AZ to Multi AZ
-
+RDS Single AZ to Multi AZ
 <ol>
   <li>Create snapshot of DB</li>
   <li>New DB restored from snapshot</li>
   <li>Synchronization established between the 2 DB's</li>
 </ol>
 
-### RDS Custom
-
+RDS Custom
 <ul>
   <li>managed Oracle and Microsoft SQL Server database with OS and DB customization</li>
   <li>RDS: automates setup, operation, and scaling of DB in AWS</li>
@@ -1226,10 +1223,6 @@ Using a GroupID:
   <li>Runs on servers, can run in Multi AZ with failover</li>
   <li>Has both queue feature and topic features</li>
 </ul>
-
-
-
-
 
 ## Containerization
 

@@ -421,6 +421,118 @@ Aurora: 5432
 
 Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
 
+Read/Write Capacity modes
+
+<ul>
+  <li>Control table's capacity is managed</li>
+  <li>
+    Provisioned Mode
+    <ul>
+      <li>Specify number of read/writes per second</li>
+      <li>Need to plan capatcity beforehand</li>
+      <li>Pay for provisioned Read Cpacity Units (RCU) and Write Capacity Units (WCU)</li>
+      <li>Possibility to add auto-scaling mode for RCU and WCU</li>
+    </ul>
+  </li>
+  <li>
+    On-Demand Mode
+    <ul>
+      <li>Read/Writes automatically scale up/down with workloads</li>
+      <li>No capacity planning needed</li>
+      <li>Pay for what is used, more expensive</li>
+      <li>Great for unpredictable workloads, steep sudden spikes</li>
+    </ul>
+  </li>
+</ul>
+
+DynamoDB Accelerator (DAX)
+<ul>
+  <li>Fully managed, highly available, seamless in-memory cache for DynamoDB</li>
+  <li>Help solve read congestion by caching</li>
+  <li>Microsecond latency for cached data</li>
+  <li>Doesn't require application logic modification</li>
+  <li>5 minutes TTL for cache</li>
+</ul>
+
+Stream Processing
+<ul>
+  <li>Ordered stream of item-level modifications (create/update/delete)</li>
+  <li>Use cases: react to changes in real-time, real-time usage analytics, insert into derivative tables, implement cross-region replication, invoke AWS Lambda on changes to DynamoDB table</li>
+</ul>
+
+DynamoDB Streams
+<ul>
+  <li>24 hours retention</li>
+  <li>Limited # of consumers</li>
+  <li>Process using AWS Lambda Triggers, or DynamoDB Stream Kinesis adapter</li>
+</ul>
+
+Kinesis Data Streams (newer)
+<ul>
+  <li>1 year retention</li>
+  <li>High # of consumers</li>
+  <li>Process using AWS Lambda, Kinesis Data Analytics, Kinesis Data Firehose, AWS Glue Streaming ETL...</li>
+</ul>
+
+DynamoDB Global Tables
+<ul>
+  <li>Make a DynamoDB table accessible with low latency in multiple-regions</li>
+  <li>Active-Active replication</li>
+  <li>Applications can READ and WRITE to the table in any region</li>
+  <li>Must enable DynamoDB Streams as a pre-requisite</li>
+</ul>
+
+Time to Live (TTL)
+<ul>
+  <li>Automatically delete items after an expiry timestamp</li>
+  <li>Use cases: reduce stored data by keeping only current items, adhere to regulatory obligations, web session handling...</li>
+</ul>
+
+Backups for Disastor Recovery
+<ul>
+  <li>
+    Continuous backups using point-in-time recovery (PITR)
+    <ul>
+      <li>Optionally enabled for the last 35 days</li>
+      <li>Point-in-time recovery to any time within the backup window</li>
+      <li>The recovery prcess creates a new table</li>
+    </ul>
+  </li>
+  <li>
+    On-demand backups
+    <ul>
+      <li>Full backups for long-term retention, until explicitely deleted</li>
+      <li>Doesn't affect performance or latency</li>
+      <li>Can be configured and managed in AWS Backup (enables cross-region copy)</li>
+      <li>The recovery proces created a new table</li>
+    </ul>
+  </li>
+</ul>
+
+Integration with S3
+<ul>
+  <li>
+    Export to S3
+    <ul>
+      <li>Works for any point of time in the last 35 days</li>
+      <li>Doesnt affect read capacity</li>
+      <li>Perform data analysis on top of DynamoDB</li>
+      <li>Retain snapshots for auditing</li>
+      <li>ETL on top of S3 data before importing back into DynamoDB</li>
+      <li>Export in DynamoDB JSON or ION format</li>
+    </ul>
+  </li>
+  <li>
+    Import from S3
+    <ul>
+      <li>Import CSV, DynamoDB JSON or ION format</li>
+      <li>Doesn't consume any write capacity</li>
+      <li>Create a new table</li>
+      <li>Import errors are logged in CloudWatch Logs</li>
+    </ul>
+  </li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DocumentDB.png" width="50"/> DocumentDB
 
 <ul>
@@ -2716,6 +2828,268 @@ One Zone: great for development, backup by default, compatible with 1A (EFS One 
 ## Automation
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
+
+<ul>
+  <li>Virtual functions - no managed servers</li>
+  <li>Short execution times, on-demand running, automated scaling</li>
+  <li>Integrated with all AWS services, in many programming languages, easy monitoring through AWS CloudWatch</li>
+</ul>
+
+Language Support:
+<ul>
+  <li>Node.js (JavaScript)</li>
+  <li>Python</li>
+  <li>Java</li>
+  <li>C# (.NET Core) / Powershell</li>
+  <li>Ruby</li>
+  <li>Custom Runtime API</li>
+</ul>
+
+Pricing:
+<ul>
+  <li>Pay per call: first 1 mil requests are free, $0.20 per 1 million requests thereafter</li>
+  <li>Pay per duration: 400,000 GB-seconds of compute time per month FREE, after that $1 for 600,000 GB seconds</li>
+  <li>Ussually very cheap, therefore popular</li>
+</ul>
+
+Execution Limitations:
+<ul>
+  <li>Memory allocation: 128 MB - 10 GB (1 MB increments)</li>
+  <li>Maximum execution time: 900 seconds (15 minutes)</li>
+  <li>Environtment variables: 4 KB</li>
+  <li>Disk Capacity: 512 MB to 10 GB</li>
+  <li>Concurrency executions: 1000 (can be increased)</li>
+</ul>
+
+Deployments:
+<ul>
+  <li>Lambda function depoyment size: 50 MB</li>
+  <li>Size of uncompressed deployment: 250 MB</li>
+  <li>Can use the /tmp directory to load other files at startup</li>
+  <li>Size of env variables: 4 KB</li>
+</ul>
+
+Lambda SnapStart
+<ul>
+  <li>Improves Lambda functions performance up to 10x at no cost for Java 11 and above</li>
+  <li>When enabled, function is invoked from a pre-initialized state (no function initialization from scratch)</li>
+  <li>When new version published: lambda initializes function, takes a snapshot of memory and disk state of the initialized function, snapshot is cached for low-latency access</li>
+</ul>
+
+Customization at the Edge
+<ul>
+  <li>Edge function: code writtent and attached to CloudFront distributions runs close to users to minimize latency</li>
+  <li>CloudFront provides two types: CloudFront Functions & Lambda@Edge</li>
+  <li>No servers to manages, deployed globally</li>
+  <li>Use case: customize CDN content</li>
+</ul>
+
+CloudFront Functions
+<ul>
+  <li>Lightweight functions written in JavaScript</li>
+  <li>For high-scale, latency-sensitive CDN customizations</li>
+  <li>Sub-ms startup times, millions of requests per second</li>
+  <li>Used to change Viewer requests* and responses**</li>
+  <li>Native feature of CloudFront (manage code entirely within CloudFront)</li>
+</ul>
+
+***Viewer request** - after CloudFront recieves a request from a viewer
+
+***Viewer response** - before CloudFront forwards the response to the viewer
+
+Lambda@Edge
+<ul>
+  <li>Lambda functions written in NodeJS or Python</li>
+  <li>Scales to 1000s of requests/second</li>
+  <li>Used to change CloudFront requests and responses</li>
+  <li>Author functions in on AWS region, then ClouFRont replicates to its locations</li>
+</ul>
+
+***Viewer request** - after CloudFront forwards the request to the viewer
+
+***Origin request** - before CloudFront forwards the request to the origin
+
+***Origin Response** - after CloudFront receives the response from the origin
+
+***Viewer response** - before CloudFront forwards the reponse to the viewer
+
+<table>
+  <head>
+    <tr>
+      <td></td>
+      <td>CloudFront</td>
+      <td>Lambda@Edge</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Runtime Support</td>
+      <td>JavaScript</td>
+      <td>Node.js, Python</td>
+    </tr>
+    <tr>
+      <td># of Requests</td>
+      <td>Millions of requests per second</td>
+      <td>Thousands of request per second</td>
+    </tr>
+    <tr>
+      <td>CloudFront Triggers</td>
+      <td>Viewer Request/Response</td>
+      <td>Viewer Request/Resonse, Origin Request/Response</td>
+    </tr>
+    <tr>
+      <td>Max Execution Time</td>
+      <td>< 1ms</td>
+      <td>5-10 seconds</td>
+    </tr>
+    <tr>
+      <td>Max Memory</td>
+      <td>2 MB</td>
+      <td>128 MB up to 10 GB</td>
+    </tr>
+    <tr>
+      <td>Total Package Size</td>
+      <td>10 KB</td>
+      <td>1 MB - 50 MB</td>
+    </tr>
+    <tr>
+      <td>Network Access, File System Access</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Access to the Request Body</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Pricing</td>
+      <td>Free tier available, 1/6th price of @Edge</td>
+      <td>No free tier, charged er request & duration</td>
+    </tr>
+  </body>
+</table>
+
+Lambda in VPC
+<ul>
+  <li>Define the VPC ID, the Subnets and the Security Groups</li>
+  <li>Lambda will create the ENI in the Subnets</li>
+</ul>
+
+Lambda with RDS Proxy
+<ul>
+  <li>If Lambda functions directly access the database, may be open to too many connections under high load</li>
+  <li>Improves scalability by pooling and sharing DB connections</li>
+  <li>Improves availability by redecuing by 66% the failover time and  preserving connections</li>
+  <li>Improves security by enforcing IAM authentication and storing credentials in Secrets Manager</li>^
+  <li>The Lambda function must be deployed in the VPC, because RDS Proxy is never publically available</li>
+</ul>
+
+Invoking Lambda from RDS and Aurora
+<ul>
+  <li>Invoke Lambda functions fro within the DB instance</li>
+  <li>Allows processing data events from within a database</li>
+  <li>Supported for RDS for PostgreSQL and Aurora MySQL</li>
+  <li>Must allow outbound traffic to Lambda function from within DB instance</li>
+  <li>DB instance must have required permissions to invoke Lambda function</li>
+</ul>
+
+RDS Event Notifications
+<ul>
+  <li>Notifications that tell information about the DB instance itself</li>
+  <li>No information about the data itself</li>
+  <li>Subscribe to the following event categories: DB instance, DB snapshot, DB Parameter Group, DB Security group, RDS Proxy, Custom Engine Version</li>
+  <li>Near real-time events (up to 5 minutes)</li>
+  <li>Send notifications to SNS or suscribe to events using EventBridge</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/API-Gateway.png" width="50"/> API Gateway
+
+<ul>
+  <li>AWS Lambda + API Gateway: No infrastructure to manage</li>
+  <li>Support for the WebSocket Protocol</li>
+  <li>Handle API verisoning (v1, v2, ...)</li>
+  <li>Handle different environments (dev, test, prod, ...)</li>
+  <li>Handle security (Authentication and Authorization)</li>
+  <li>Create API keys, handle request throttling</li>
+  <li>Swagger / Open API import to quickly define APIs</li>
+  <li>Transform and validate requests and responses</li>
+  <li>Generate SDK and API specifications</li>
+  <li>Cache API responses</li>
+</ul>
+
+Integrations High Level
+<ul>
+  <li>Lambda Function - invoke Lambda function, easy way to expose REST API backed by AWS Lambda</li>
+  <li>HTTP - expose HTTP endpoints in the backend, adds rate limiting/caching/user authentications/API keys/...</li>
+  <li>AWS Service - expose any AWS API through the API Gateway, adds authentication/deploy publicaly/rate control/...</li>
+</ul>
+
+Endpoint Types
+<ul>
+  <li>Edge Optimized - requests are routed through the CloudFront Edge location, API Gateway stil lives in the only one region</li>
+  <li>Regional - for clients within the same region, could manually combine with CloudFront</li>
+  <li>Private - accessed by VPC using an interface VPC endpoint (ENI), use a resource policy to define access</li>
+</ul>
+
+Security
+<ul>
+  <li>
+    User Authentication through
+    <ul>
+      <li>IAM roles</li>
+      <li>Cognito (identify for external users - example mobile users)</li>
+      <li>Custom Authorizer</li>
+    </ul>
+  </li>
+  <li>
+    Custom Domain Name HTTP
+    <ul>
+      <li>If using Edge-Optimized support, then the certificate must be in us-east-1</li>
+      <li>If using Regional endpoint, the certificate must be in the API Gateway region</li>
+      <li>Must setup CNAME or A-alias record in Route 53</li>
+    </ul>
+  </li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Step-Functions.png" width="50"/> Step Functions
+
+<ul>
+  <li>Build serverless visual workflow to orchestrate Lambda functions</li>
+  <li>Features: sequence, parallel, conditions, timeouts, erro handling, ...</li>
+  <li>Can integrate with EC2, ECS, On-premises servers, API Gateway, SQS queues, etc.</li>
+  <li>Possibility of implementing human approval feature</li>
+  <li>Use cases: order fulfillment, data processing, web applications, any workflow</li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Cognito.png" width="50"/> Cognito
+
+<ul>
+  <li>Give users an identity to interact with web application or mobile application</li>
+  <li>Cognito User Pools: sign in functionality for app users, integrate with API Gateway and Application Load Balancer</li>
+  <li>Cognito Identity Pools (Federated Identity): provide AWS credentials to users so they can access AWS resources directly, integrate with Cognito User Pools as an idenetity provider</li>
+  <li>Cognito vs IAM: "hundreds of sers", "mobile users", "authenitcate with SAML"</li>
+</ul>
+
+Cognito User Pools (CUP) - User Features
+<ul>
+  <li>Create a serverless database for user web and mobile apps</li>
+  <li>Simple login: username (or email) / password combination</li>
+  <li>Password reset</li>
+  <li>Email and phone number verification</li>
+  <li>Multi-factor authentication (MFA)</li>
+  <li>Fenderated Identities: users from Facebook, Google, SAML...</li>
+</ul>
+
+Cognito Identity Pools (Federated Identities)
+<ul>
+  <li>Get identities for "users" so they obtain temporary AWS credentials</li>
+  <li>Users source can be Cognito User Pool, 3rd party logins, etc.</li>
+  <li>Users can then access AWS services directly or through API gateway</li>
+  <li>The IAM policies applied to the credentials are defined in Cognito</li>
+  <li>They can be customized based on the user_id for fine grained control</li>
+  <li>Default IAM roles for authenticated and guest users</li>
+</ul>
 
 ## Administration
 

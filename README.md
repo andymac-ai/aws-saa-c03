@@ -1023,33 +1023,35 @@ Event producers - CloudWatch Alarms, AWS Budgets, Lambda, Auto Scaling Group, S3
 
 Event subscribers - SQS, Lambda, Kinesis Data Firehose, Emails, SMS & Mobile, HTTP(S) endpoints
 
-### How to Publish
-
-Topic Publish
+How to Publish
 <ul>
-  <li>Create a topic</li>
-  <li>Create a or more subscriptions</li>
-  <li>Publish a topic</li>
+  <li>
+    Topic Publish
+    <ul>
+      <li>Create a topic</li>
+      <li>Create a or more subscriptions</li>
+      <li>Publish a topic</li>
+    </ul>
+  </li>
+  <li>
+    Direct Publish
+    <ul>
+      <li>Create a platform application</li>
+      <li>Create a platform endpoint</li>
+      <li>Publish to the platform endpoint</li>
+      <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+    </ul>
+  </li>
 </ul>
 
-Direct Publish
+Security
 <ul>
-  <li>Create a platform application</li>
-  <li>Create a platform endpoint</li>
-  <li>Publish to the platform endpoint</li>
-  <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+  <li>Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage</li>
+  <li>Access Controls: IAM policies to regulate access to the SNS API</li>
+  <li>SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic</li>
 </ul>
 
-### Security
-
-Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage
-
-Access Controls: IAM policies to regulate access to the SNS API
-
-SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
-
-### SQS + SNS - Fan Out
-
+SQS + SNS - Fan Out
 <ul>
   <li>Push once to SNS, recieve in all SQS queues that are subscribers</li>
   <li>Fully decoupled, no data loss</li>
@@ -1059,16 +1061,14 @@ SNS Access Policies: useful for cross-account access to SNS topics, useful for a
   <li>Cross-Region Delivery: works with SQS Queues in other regions</li>
 </ul>
 
-### FIFO Topics
-
+FIFO Topics
 <ul>
   <li>Similar as SQS FIFO: ordered by message group ID, duplication using a deduplication ID or content based deduplication</li>
   <li>Can have SQS Standard and FIFO queues as subscribers</li>
   <li>Limited throughput</li>
 </ul>
 
-### Message filtering
-
+Message filtering
 <ul>
   <li>JSON policy used to filter messages sent to SNS topic's subscriptions</li>
   <li>If a subscription doesn't have a filter policy, it recieves every message</li>

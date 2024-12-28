@@ -142,6 +142,19 @@ RDS Backups
 
 Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
 
+Amazon RDS Proxy
+<ul>
+  <li>Fully managed DB proxy for RDS</li>
+  <li>Allows pooling and sharing DB connections established with DB</li>
+  <li>Improve DB efficiency by reducing the stress on DB resources (ex CPU, RAM) and minimize open connections</li>
+  <li>Serverless, autoscaling, and highly available</li>
+  <li>Reduced RDS and Aurora failover time by 66%</li>
+  <li>Supprts RDS (MySQL, PostgreSQL, MariaDB, MS SQL Server) and Aurora (MySQL, PostgreSQL)</li>
+  <li>No code chage required for most apps</li>
+  <li>Enforce IAM Authentication for DB and securely restore credentials in AWS Secrets Manager</li>
+  <li>RDS Proxy is never publically available (accesed from VPC)</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Aurora.png" width="50"/> Amazon Aurora
 
 <ul>
@@ -207,78 +220,67 @@ Aurora Machine Learning
 
 Use cases: fraud detection, ad targeting, sentiment analysis, product recomendations
 
-### Aurora Backups
-
-Automated Backups
+Aurora Backups
 <ul>
-  <li>1 to 35 day backups (cannot be disabled)</li>
-  <li>point-in-time recovers in that timeframe</li>
+  <li>
+    Automated Backups
+    <ul>
+      <li>1 to 35 day backups (cannot be disabled)</li>
+      <li>point-in-time recovers in that timeframe</li>
+    </ul>
+  </li>
+  <li>
+    Manual Backups
+    <ul>
+      <li>Manually triggered</li>
+      <li>Retention of backup for as long as wanted</li>
+    </ul>
+  </li>
 </ul>
 
-Manual Backups
+RDS & Aurora Restore options
 <ul>
-  <li>Manually triggered</li>
-  <li>Retention of backup for as long as wanted</li>
+  <li>Restoring RDS/Aurora backup or snapshot creates a new database.</li>
+  <li>
+    Restoring MySQL RDS from S3
+    <ol>
+      <li>Create backup of on-premises database</li>
+      <li>Store on S3</li>
+      <li>Restore the backup onto a new RDS instance</li>
+    </ol>
+  </li>
+  <li>
+    Restore MySQL Aurora from S3
+    <ol>
+      <li>Create backup of on-premises database with Percona XtraBackup</li>
+      <li>Store on S3</li>
+      <li>Restore the backup onto a new Aurora cluster</li>
+    </ol>
+  </li>
 </ul>
 
-### RDS & Aurora Restore options
-
-Restoring RDS/Aurora backup or snapshot creates a new database.
-
-Restoring MySQL RDS from S3
-<ol>
-  <li>Create backup of on-premises database</li>
-  <li>Store on S3</li>
-  <li>Restore the backup onto a new RDS instance</li>
-</ol>
-
-Restore MySQL Aurora from S3
-<ol>
-  <li>Create backup of on-premises database with Percona XtraBackup</li>
-  <li>Store on S3</li>
-  <li>Restore the backup onto a new Aurora cluster</li>
-</ol>
-
-### Aurora Database Cloning
-
-Create a new Aurora DB cluster from an existing one.
-
-Faster than snapshot & restore, using copy-on-write protocal. 
-
-Very fast and cost effective.
-
-### RDS & Aurora Security
-
-At-rest encryption:
+Aurora Database Cloning
 <ul>
-  <li>DB master and replics encryption using AWS KMS - defined at launchtime</li>
-  <li>If master not encrypted, replicas cannot be encrypted</li>
-  <li>To encrypt an unencrypted DB, make a snapshot and restore as encrypted.</li>
+  <li>Create a new Aurora DB cluster from an existing one.</li>
+  <li>Faster than snapshot & restore, using copy-on-write protocal.</li>
+  <li>Very fast and cost effective.</li>
 </ul>
 
-In-flight encryption: TLS ready by default, using AWS TLS root certificates client-side-
-
-IAM authentication: IAM roles to connect to the database
-
-Security Groups: Control Network access to RDS / Aurora DB
-
-No SSH except on DB Custom
-
-Audit Logs can be enabled
-
-### Amazon RDS Proxy
-
+RDS & Aurora Security
 <ul>
-  <li>Fully managed DB proxy for RDS</li>
-  <li>Allows pooling and sharing DB connections established with DB</li>
-  <li>Improve DB efficiency by reducing the stress on DB resources (ex CPU, RAM) and minimize open connections</li>
-  <li>Serverless, autoscaling, and highly available</li>
-  <li>Reduced RDS and Aurora failover time by 66%</li>
-  <li>Supprts RDS (MySQL, PostgreSQL, MariaDB, MS SQL Server) and Aurora (MySQL, PostgreSQL)</li>
-  <li>No code chage required for most apps</li>
-  <li>Enforce IAM Authentication for DB and securely restore credentials in AWS Secrets Manager</li>
-  <li>RDS Proxy is never publically available (accesed from VPC)</li>
-</ul>
+  <li>
+    At-rest encryption:
+    <ul>
+      <li>DB master and replics encryption using AWS KMS - defined at launchtime</li>
+      <li>If master not encrypted, replicas cannot be encrypted</li>
+      <li>To encrypt an unencrypted DB, make a snapshot and restore as encrypted.</li>
+    </ul>
+  </li>
+  <li>In-flight encryption: TLS ready by default, using AWS TLS root certificates client-side</li>
+  <li>IAM authentication: IAM roles to connect to the database</li>
+  <li>Security Groups: Control Network access to RDS / Aurora DB</li>
+  <li>No SSH except on DB Custom</li>
+  <li>Audit Logs can be enabled</li>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ElastiCache.png" width="50"/> Amazon ElastiCache
 
@@ -290,8 +292,7 @@ Audit Logs can be enabled
   <li>AWS takes care of OS maintanence, patching, setup configuration, monitoring, failure recovery, and backups</li>
 </ul>
 
-### ElastiCache Solution Architecture - DB Cache
-
+ElastiCache Solution Architecture - DB Cache
 <ul>
   <li>Applications query ElastiCache, if not available then from RDS adn store in Elasticache.</li>
   <li>Helps relieve load in RDS.</li>
@@ -300,8 +301,7 @@ Audit Logs can be enabled
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/elasticache_db_cache.png" width="300"/>
 
-### ElastiCache Solution Architecture - User Session Store
-
+ElastiCache Solution Architecture - User Session Store
 <ul>
   <li>User logs into any application</li>
   <li>Application writes session data into ElastiCache</li>
@@ -311,8 +311,7 @@ Audit Logs can be enabled
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/elasticache_user_session_store.png" width="300"/>
 
-### Elasticache - Redis vs Memcached
-
+Elasticache - Redis vs Memcached
 <table>
   <head>
     <tr>
@@ -344,8 +343,7 @@ Audit Logs can be enabled
   </body>
 </table>
 
-### Elasticache - Cache Security
-
+Cache Security
 <ul>
   <li>Supports IAM Authentication for Redis</li>
   <li>IAM policies on Elasticache are only used for AWS API-level security</li>
@@ -365,7 +363,7 @@ Audit Logs can be enabled
   </li>
 </ul>
 
-### Patterns for Elasticache
+Patterns for Elasticache
 
 **Lazy Loading:** all the read data is cached, data can become stale in cache
 
@@ -373,30 +371,37 @@ Audit Logs can be enabled
 
 **Session Store:** store temporary session data in cache (using TTL features)
 
-### Elasticache - Redis Use Case
-
+Elasticache - Redis Use Case
 <ul>
   <li>Gaming leaderboards are computationally complex</li>
   <li>Redis Sorted sets uarantee both uniqueness and element storing</li>
   <li>Each time a new element is added, it's ranked in real time, then added in correct order</li>
 </ul>
 
-### Ports
-
-Important Ports:
-FTP: 21
-SSH: 22
-SFTP: 22 (same as SSH)
-HTTP: 80
-HTTPS: 443
-
-RDS Databases ports:
-PostgreSQL: 5432
-MySQL: 3306
-Oracle RDS: 1521
-MSSQL Server: 1433
-MariaDB: 3306 (same as MySQL)
-Aurora: 5432
+Ports
+<ul>
+  <li>
+    Important Ports:
+    <ul>
+      <li>FTP: 21</li>
+      <li>SSH: 22</li>
+      <li>SFTP: 22 (same as SSH)</li>
+      <li>HTTP: 80</li>
+      <li>HTTPS: 443</li>
+    </ul>
+  </li>
+  <li>
+    RDS Databases ports:
+    <ul>
+      <li>PostgreSQL: 5432</li>
+      <li>MySQL: 3306</li>
+      <li>Oracle RDS: 1521</li>
+      <li>MSSQL Server: 1433</li>
+      <li>MariaDB: 3306 (same as MySQL)</li>
+      <li>Aurora: 5432</li>
+    </ul>
+  </li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
 

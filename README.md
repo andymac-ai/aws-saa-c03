@@ -3052,6 +3052,18 @@ Security
   </li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Step-Functions.png" width="50"/> Step Functions
+
+<ul>
+  <li>Build serverless visual workflow to orchestrate Lambda functions</li>
+  <li>Features: sequence, parallel, conditions, timeouts, erro handling, ...</li>
+  <li>Can integrate with EC2, ECS, On-premises servers, API Gateway, SQS queues, etc.</li>
+  <li>Possibility of implementing human approval feature</li>
+  <li>Use cases: order fulfillment, data processing, web applications, any workflow</li>
+</ul>
+
+
+
 ## Administration
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management

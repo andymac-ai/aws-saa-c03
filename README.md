@@ -421,6 +421,30 @@ Aurora: 5432
 
 Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
 
+Read/Write Capacity modes
+
+<ul>
+  <li>Control table's capacity is managed</li>
+  <li>
+    Provisioned Mode
+    <ul>
+      <li>Specify number of read/writes per second</li>
+      <li>Need to plan capatcity beforehand</li>
+      <li>Pay for provisioned Read Cpacity Units (RCU) and Write Capacity Units (WCU)</li>
+      <li>Possibility to add auto-scaling mode for RCU and WCU</li>
+    </ul>
+  </li>
+  <li>
+    On-Demand Mode
+    <ul>
+      <li>Read/Writes automatically scale up/down with workloads</li>
+      <li>No capacity planning needed</li>
+      <li>Pay for what is used, more expensive</li>
+      <li>Great for unpredictable workloads, steep sudden spikes</li>
+    </ul>
+  </li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DocumentDB.png" width="50"/> DocumentDB
 
 <ul>

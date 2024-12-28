@@ -2764,6 +2764,100 @@ Lambda SnapStart
   <li>When new version published: lambda initializes function, takes a snapshot of memory and disk state of the initialized function, snapshot is cached for low-latency access</li>
 </ul>
 
+Customization at the Edge
+<ul>
+  <li>Edge function: code writtent and attached to CloudFront distributions runs close to users to minimize latency</li>
+  <li>CloudFront provides two types: CloudFront Functions & Lambda@Edge</li>
+  <li>No servers to manages, deployed globally</li>
+  <li>Use case: customize CDN content</li>
+</ul>
+
+CloudFront Functions
+<ul>
+  <li>Lightweight functions written in JavaScript</li>
+  <li>For high-scale, latency-sensitive CDN customizations</li>
+  <li>Sub-ms startup times, millions of requests per second</li>
+  <li>Used to change Viewer requests* and responses**</li>
+  <li>Native feature of CloudFront (manage code entirely within CloudFront)</li>
+</ul>
+
+***Viewer request** - after CloudFront recieves a request from a viewer
+
+***Viewer response** - before CloudFront forwards the response to the viewer
+
+Lambda@Edge
+<ul>
+  <li>Lambda functions written in NodeJS or Python</li>
+  <li>Scales to 1000s of requests/second</li>
+  <li>Used to change CloudFront requests and responses</li>
+  <li>Author functions in on AWS region, then ClouFRont replicates to its locations</li>
+</ul>
+
+***Viewer request** - after CloudFront forwards the request to the viewer
+
+***Origin request** - before CloudFront forwards the request to the origin
+
+***Origin Response** - after CloudFront receives the response from the origin
+
+***Viewer response** - before CloudFront forwards the reponse to the viewer
+
+<table>
+  <head>
+    <tr>
+      <td></td>
+      <td>CloudFront</td>
+      <td>Lambda@Edge</td>
+    </tr>
+  </head>
+  <body>
+    <tr>
+      <td>Runtime Support</td>
+      <td>JavaScript</td>
+      <td>Node.js, Python</td>
+    </tr>
+    <tr>
+      <td># of Requests</td>
+      <td>Millions of requests per second</td>
+      <td>Thousands of request per second</td>
+    </tr>
+    <tr>
+      <td>CloudFront Triggers</td>
+      <td>Viewer Request/Response</td>
+      <td>Viewer Request/Resonse, Origin Request/Response</td>
+    </tr>
+    <tr>
+      <td>Max Execution Time</td>
+      <td>< 1ms</td>
+      <td>5-10 seconds</td>
+    </tr>
+    <tr>
+      <td>Max Memory</td>
+      <td>2 MB</td>
+      <td>128 MB up to 10 GB</td>
+    </tr>
+    <tr>
+      <td>Total Package Size</td>
+      <td>10 KB</td>
+      <td>1 MB - 50 MB</td>
+    </tr>
+    <tr>
+      <td>Network Access, File System Access</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Access to the Request Body</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Pricing</td>
+      <td>Free tier available, 1/6th price of @Edge</td>
+      <td>No free tier, charged er request & duration</td>
+    </tr>
+  </body>
+</table>
+
 ## Administration
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management

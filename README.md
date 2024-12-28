@@ -445,6 +445,94 @@ Read/Write Capacity modes
   </li>
 </ul>
 
+DynamoDB Accelerator (DAX)
+<ul>
+  <li>Fully managed, highly available, seamless in-memory cache for DynamoDB</li>
+  <li>Help solve read congestion by caching</li>
+  <li>Microsecond latency for cached data</li>
+  <li>Doesn't require application logic modification</li>
+  <li>5 minutes TTL for cache</li>
+</ul>
+
+Stream Processing
+<ul>
+  <li>Ordered stream of item-level modifications (create/update/delete)</li>
+  <li>Use cases: react to changes in real-time, real-time usage analytics, insert into derivative tables, implement cross-region replication, invoke AWS Lambda on changes to DynamoDB table</li>
+</ul>
+
+DynamoDB Streams
+<ul>
+  <li>24 hours retention</li>
+  <li>Limited # of consumers</li>
+  <li>Process using AWS Lambda Triggers, or DynamoDB Stream Kinesis adapter</li>
+</ul>
+
+Kinesis Data Streams (newer)
+<ul>
+  <li>1 year retention</li>
+  <li>High # of consumers</li>
+  <li>Process using AWS Lambda, Kinesis Data Analytics, Kinesis Data Firehose, AWS Glue Streaming ETL...</li>
+</ul>
+
+DynamoDB Global Tables
+<ul>
+  <li>Make a DynamoDB table accessible with low latency in multiple-regions</li>
+  <li>Active-Active replication</li>
+  <li>Applications can READ and WRITE to the table in any region</li>
+  <li>Must enable DynamoDB Streams as a pre-requisite</li>
+</ul>
+
+Time to Live (TTL)
+<ul>
+  <li>Automatically delete items after an expiry timestamp</li>
+  <li>Use cases: reduce stored data by keeping only current items, adhere to regulatory obligations, web session handling...</li>
+</ul>
+
+Backups for Disastor Recovery
+<ul>
+  <li>
+    Continuous backups using point-in-time recovery (PITR)
+    <ul>
+      <li>Optionally enabled for the last 35 days</li>
+      <li>Point-in-time recovery to any time within the backup window</li>
+      <li>The recovery prcess creates a new table</li>
+    </ul>
+  </li>
+  <li>
+    On-demand backups
+    <ul>
+      <li>Full backups for long-term retention, until explicitely deleted</li>
+      <li>Doesn't affect performance or latency</li>
+      <li>Can be configured and managed in AWS Backup (enables cross-region copy)</li>
+      <li>The recovery proces created a new table</li>
+    </ul>
+  </li>
+</ul>
+
+Integration with S3
+<ul>
+  <li>
+    Export to S3
+    <ul>
+      <li>Works for any point of time in the last 35 days</li>
+      <li>Doesnt affect read capacity</li>
+      <li>Perform data analysis on top of DynamoDB</li>
+      <li>Retain snapshots for auditing</li>
+      <li>ETL on top of S3 data before importing back into DynamoDB</li>
+      <li>Export in DynamoDB JSON or ION format</li>
+    </ul>
+  </li>
+  <li>
+    Import from S3
+    <ul>
+      <li>Import CSV, DynamoDB JSON or ION format</li>
+      <li>Doesn't consume any write capacity</li>
+      <li>Create a new table</li>
+      <li>Import errors are logged in CloudWatch Logs</li>
+    </ul>
+  </li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DocumentDB.png" width="50"/> DocumentDB
 
 <ul>

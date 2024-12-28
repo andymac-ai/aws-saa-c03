@@ -3003,6 +3003,55 @@ RDS Event Notifications
   <li>Send notifications to SNS or suscribe to events using EventBridge</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/API-Gateway.png" width="50"/> API Gateway
+
+<ul>
+  <li>AWS Lambda + API Gateway: No infrastructure to manage</li>
+  <li>Support for the WebSocket Protocol</li>
+  <li>Handle API verisoning (v1, v2, ...)</li>
+  <li>Handle different environments (dev, test, prod, ...)</li>
+  <li>Handle security (Authentication and Authorization)</li>
+  <li>Create API keys, handle request throttling</li>
+  <li>Swagger / Open API import to quickly define APIs</li>
+  <li>Transform and validate requests and responses</li>
+  <li>Generate SDK and API specifications</li>
+  <li>Cache API responses</li>
+</ul>
+
+Integrations High Level
+<ul>
+  <li>Lambda Function - invoke Lambda function, easy way to expose REST API backed by AWS Lambda</li>
+  <li>HTTP - expose HTTP endpoints in the backend, adds rate limiting/caching/user authentications/API keys/...</li>
+  <li>AWS Service - expose any AWS API through the API Gateway, adds authentication/deploy publicaly/rate control/...</li>
+</ul>
+
+Endpoint Types
+<ul>
+  <li>Edge Optimized - requests are routed through the CloudFront Edge location, API Gateway stil lives in the only one region</li>
+  <li>Regional - for clients within the same region, could manually combine with CloudFront</li>
+  <li>Private - accessed by VPC using an interface VPC endpoint (ENI), use a resource policy to define access</li>
+</ul>
+
+Security
+<ul>
+  <li>
+    User Authentication through
+    <ul>
+      <li>IAM roles</li>
+      <li>Cognito (identify for external users - example mobile users)</li>
+      <li>Custom Authorizer</li>
+    </ul>
+  </li>
+  <li>
+    Custom Domain Name HTTP
+    <ul>
+      <li>If using Edge-Optimized support, then the certificate must be in us-east-1</li>
+      <li>If using Regional endpoint, the certificate must be in the API Gateway region</li>
+      <li>Must setup CNAME or A-alias record in Route 53</li>
+    </ul>
+  </li>
+</ul>
+
 ## Administration
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management

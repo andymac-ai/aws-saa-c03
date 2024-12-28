@@ -2717,6 +2717,53 @@ One Zone: great for development, backup by default, compatible with 1A (EFS One 
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Lambda.png" width="50"/> Lambda
 
+<ul>
+  <li>Virtual functions - no managed servers</li>
+  <li>Short execution times, on-demand running, automated scaling</li>
+  <li>Integrated with all AWS services, in many programming languages, easy monitoring through AWS CloudWatch</li>
+</ul>
+
+Language Support:
+<ul>
+  <li>Node.js (JavaScript)</li>
+  <li>Python</li>
+  <li>Java</li>
+  <li>C# (.NET Core) / Powershell</li>
+  <li>Ruby</li>
+  <li>Custom Runtime API</li>
+</ul>
+
+Pricing:
+<ul>
+  <li>Pay per call: first 1 mil requests are free, $0.20 per 1 million requests thereafter</li>
+  <li>Pay per duration: 400,000 GB-seconds of compute time per month FREE, after that $1 for 600,000 GB seconds</li>
+  <li>Ussually very cheap, therefore popular</li>
+</ul>
+
+Execution Limitations:
+<ul>
+  <li>Memory allocation: 128 MB - 10 GB (1 MB increments)</li>
+  <li>Maximum execution time: 900 seconds (15 minutes)</li>
+  <li>Environtment variables: 4 KB</li>
+  <li>Disk Capacity: 512 MB to 10 GB</li>
+  <li>Concurrency executions: 1000 (can be increased)</li>
+</ul>
+
+Deployments:
+<ul>
+  <li>Lambda function depoyment size: 50 MB</li>
+  <li>Size of uncompressed deployment: 250 MB</li>
+  <li>Can use the /tmp directory to load other files at startup</li>
+  <li>Size of env variables: 4 KB</li>
+</ul>
+
+Lambda SnapStart
+<ul>
+  <li>Improves Lambda functions performance up to 10x at no cost for Java 11 and above</li>
+  <li>When enabled, function is invoked from a pre-initialized state (no function initialization from scratch)</li>
+  <li>When new version published: lambda initializes function, takes a snapshot of memory and disk state of the initialized function, snapshot is cached for low-latency access</li>
+</ul>
+
 ## Administration
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/IAM.png" width="50"/> IAM - Identity Access Management

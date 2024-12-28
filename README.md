@@ -422,7 +422,6 @@ Ports
 Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
 
 Read/Write Capacity modes
-
 <ul>
   <li>Control table's capacity is managed</li>
   <li>
@@ -653,7 +652,6 @@ Redshift Cluster
 </ul>
 
 Snapshots and DR
-
 <ul>
   <li>Redshift has Multi AZ mode for some clusters</li>
   <li>Snapshots are point-in-tim backups of cluster, stored in S3</li>
@@ -974,16 +972,14 @@ Messages consumers (running on EC2 instances, servers, AWS Lambda, etc.), poll S
 
 Consumers can be arranged in parallel to handle messages, and can scale horizontally to improve throughput.
 
-### SQS - Security
+Security
+<ul>
+  <li>Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.</li>
+  <li>Access Controls: IAM policies to regulate access to SQS API.</li>
+  <li>SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.</li>
+</ul>
 
-Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.
-
-Access Controls: IAM policies to regulate access to SQS API.
-
-SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.
-
-### Message Visibility Timeout
-
+Message Visibility Timeout
 <ul>
   <li>After a messages if pooled by consumer, it becomes invisible to other consumers.</li>
   <li>By default the message visibility timeout is 30 seconds.</li>
@@ -995,10 +991,7 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
   <li>If visibility is too low (seconds), duplicates may occcur.</li>
 </ul>
 
-### Long Polling
-
 **Long Polling** - when a consumer requests messages from the queue, it can optionally "wait" for messages to arrive if there are none in the queue.
-
 <ul>
   <li>Decreasses the number of API calls made to SQS while increasing the efficiency and reducing latency of application.</li>
   <li>The wait time can be between 1s to 20s (20s preferable)</li>
@@ -1006,8 +999,7 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
   <li>Can be enabled at the queue level or at the API level using WaitTimeSeconds</li>
 </ul>
 
-### FIFO Queue
-
+FIFO Queue
 <ul>
   <li>FIFO - First In First Out (ordering of messages in the queue)</li>
   <li>Limited throughput: 300 msgs/s without batching, 3000 with</li>

@@ -3062,7 +3062,34 @@ Security
   <li>Use cases: order fulfillment, data processing, web applications, any workflow</li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Cognito.png" width="50"/> Cognito
 
+<ul>
+  <li>Give users an identity to interact with web application or mobile application</li>
+  <li>Cognito User Pools: sign in functionality for app users, integrate with API Gateway and Application Load Balancer</li>
+  <li>Cognito Identity Pools (Federated Identity): provide AWS credentials to users so they can access AWS resources directly, integrate with Cognito User Pools as an idenetity provider</li>
+  <li>Cognito vs IAM: "hundreds of sers", "mobile users", "authenitcate with SAML"</li>
+</ul>
+
+Cognito User Pools (CUP) - User Features
+<ul>
+  <li>Create a serverless database for user web and mobile apps</li>
+  <li>Simple login: username (or email) / password combination</li>
+  <li>Password reset</li>
+  <li>Email and phone number verification</li>
+  <li>Multi-factor authentication (MFA)</li>
+  <li>Fenderated Identities: users from Facebook, Google, SAML...</li>
+</ul>
+
+Cognito Identity Pools (Federated Identities)
+<ul>
+  <li>Get identities for "users" so they obtain temporary AWS credentials</li>
+  <li>Users source can be Cognito User Pool, 3rd party logins, etc.</li>
+  <li>Users can then access AWS services directly or through API gateway</li>
+  <li>The IAM policies applied to the credentials are defined in Cognito</li>
+  <li>They can be customized based on the user_id for fine grained control</li>
+  <li>Default IAM roles for authenticated and guest users</li>
+</ul>
 
 ## Administration
 

@@ -1426,20 +1426,16 @@ Support for:
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
 
 High Availability and Scalability
+<ul>
+  <li>Scalability - ability of a web application to adapt to greater workloads</li>
+  <li>Vertically Scalability - increasing instance size, common for non-distributed systems</li>
+  <li>EC2 vertical scaling - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)</li>
+  <li>Horizontal Scalability - increasing instance amount</li>
+  <li>EC2 horizontal scaling - Auto Scaling Group, Load Balancer</li>
+  <li>High Availability - Auto scaling group with multiple AZ, Load balancing with multiple AZ</li>
+</ul>
 
-**Scalability** - ability of a web application to adapt to greater workloads
-
-**Vertically Scalability** - increasing instance size, common for non-distributed systems
-
-**EC2 vertical scaling** - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)
-
-**Horizontal Scalability** - increasing instance amount
-
-**EC2 horizontal scaling** - Auto Scaling Group, Load Balancer
-
-**High Availability** - Auto scaling group with multiple AZ, Load balancing with multiple AZ
-
-### Load Balancing
+**Load Balancing**
 
 These are servers that forward traffic to multiple servers downstream.
 
@@ -1468,17 +1464,16 @@ Elastic Load Balacer use case:
   </ul>
 </ul>
 
-### Health Checks
+**Health Checks**
 
 Crusial for load balancers. They enable load balancers to know whether instances it forwards traffic to are available. Health checks are performed on port and route (/health is common).
 
-### Load Balancer Types
-
-**Application Load Balancer (v2)** - HTTP, HTTPS, WebSocket
-
-**Network Load Balancer (v2)** - TCP, TLS (secure TCP), UDP
-
-**Gateway Load Balancer** - operates at Network layer - IP Protocol
+Load Balancer Types
+<ul>
+  <li>Application Load Balancer (v2) - HTTP, HTTPS, WebSocket</li>
+  <li>Network Load Balancer (v2) - TCP, TLS (secure TCP), UDP</li>
+  <li>Gateway Load Balancer - operates at Network layer - IP Protocol</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ALB.png" width="50"/> ALB - Application Load Balancer
 
@@ -1491,8 +1486,7 @@ Routing tables to different target groups based on:
   <li>query string, headers (example.com/users?<ins>id=123&order=false</ins>)</li>
 </ul>
 
-### ALB Target Groups
-
+ALB Target Groups
 <ul>
   <li>EC2 instances - HTTP</li>
   <li>ECS tasks - HTTP</li>
@@ -1506,8 +1500,7 @@ Network load balancer is layer 4 (TCP). NLB forwards TCP and UDP traffic to inst
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/NLB.png" width="300"/>
 
-### NLB Target Groups
-
+NLB Target Groups
 <ul>
   <li>EC2 instances</li>
   <li>IP addresses (must e private)</li>
@@ -1521,8 +1514,7 @@ Deploy, scale, and manage a fleet of 3rd party network appliances in AWS (ex. Fi
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/GWLB.png" width="250"/>
 
-### GLB Target Groups
-
+GLB Target Groups
 <ul>
   <li>EC2 instances</li>
   <li>IP addresses (must e private)</li>

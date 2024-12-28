@@ -121,6 +121,27 @@ RDS Custom
   <li>deactivate automation made to perform customization, make snapshot first</li>
 </ul>
 
+RDS Backups 
+<ul>
+  <li>
+    Automated Backups
+    <ul>
+      <li>Daily full backup of the DB</li>
+      <li>Transaction log backed up by RDS every 5 minutes</li>
+      <li>1 to 35 days of retention, set to 0 to disable</li>
+    </ul>
+  </li>
+  <li>
+    Manual DB Snapshots
+    <ul>
+      <li>Manually triggered</li>
+      <li>Rentention of back up as long as wanted</li>
+    </ul>
+  </li>
+</ul>
+
+Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Aurora.png" width="50"/> Amazon Aurora
 
 <ul>
@@ -132,8 +153,7 @@ RDS Custom
   <li>failover is instantaneous</li>
 </ul>
 
-### Aurora High Availability and Read Scaling
-
+Aurora High Availability and Read Scaling
 <ul>
   <li>
     6 copies of data across 3 AZs
@@ -150,20 +170,17 @@ RDS Custom
   <li>support cross region replication</li>
 </ul>
 
-### Amazon DB Cluster
-
+Amazon DB Cluster
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/aurora_db_cluster.png" width="300"/>
 
-### Aurora Custom Endpoints
-
+Aurora Custom Endpoints
 <ul>
   <li>define a subset of aurora instances as a custom endpoint</li>
   <li>example: run analytical queries on specific replicas</li>
   <li>reader endpoint is gernally not used after defining custom endpoints</li>
 </ul>
 
-### Aurora Services
-
+Aurora Services
 <ul>
   <li>automated database installation and auto-scaling based on actual usage</li>
   <li>good for infrequent, intermittent, or unpredictable workloads</li>
@@ -171,8 +188,7 @@ RDS Custom
   <li>pay per second, can be cost effective</li>
 </ul>
 
-### Global Aurora
-
+Global Aurora
 <ul>
   <li>1 primary region (read/write)</li>
   <li>up to 15 secondary (read only) regions, replication lag is less than 1s</li>
@@ -181,8 +197,7 @@ RDS Custom
   <li>typical cross-region replication less than 1 second</li>
 </ul>
 
-### Aurora Machine Learning
-
+Aurora Machine Learning
 <ul>
   <li>Allows ML-based predictions to applications through SQL</li>
   <li>Simple, optimized, and secure integration between Aurora and AWS ML services</li>
@@ -191,23 +206,6 @@ RDS Custom
 </ul>
 
 Use cases: fraud detection, ad targeting, sentiment analysis, product recomendations
-
-### RDS Backups 
-
-Automated Backups
-<ul>
-  <li>Daily full backup of the DB</li>
-  <li>Transaction log backed up by RDS every 5 minutes</li>
-  <li>1 to 35 days of retention, set to 0 to disable</li>
-</ul>
-
-Manual DB Snapshots
-<ul>
-  <li>Manually triggered</li>
-  <li>Rentention of back up as long as wanted</li>
-</ul>
-
-Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
 
 ### Aurora Backups
 

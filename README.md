@@ -31,35 +31,36 @@ Domains of material covered in the exam:
 
 **Time Series** - Amazon Timestream
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS Overview
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/RDS.png" width="50"/> RDS
 
 Managed service for SQL databases
 
-Create databases in the cloud:
+Create databases in the cloud - Postgres, MySQL, ManiaDB, Oracle, Microsoft SQL Services, IBM DB2, Aurora
 
- - Postgres, MySQL, ManiaDB, Oracle, Microsoft SQL Services, IBM DB2, Aurora
-
-### RDS vs using DB on EC2
-
-Advantages:
+RDS vs using DB on EC2
 <ul>
-  <li>Automatic provinsioning</li>
-  <li>Continuous backups</li>
-  <li>Monitoring dashboards</li>
-  <li>Read replicas</li>
-  <li>Multi AZ</li>
-  <li>Maintanence windows</li>
-  <li>Scaling (horizontal and vertical)</li>
-  <li>Storage backed by EBS</li>
+  <li>
+    Advantages:
+    <ul>
+      <li>Automatic provinsioning</li>
+      <li>Continuous backups</li>
+      <li>Monitoring dashboards</li>
+      <li>Read replicas</li>
+      <li>Multi AZ</li>
+      <li>Maintanence windows</li>
+      <li>Scaling (horizontal and vertical)</li>
+      <li>Storage backed by EBS</li>
+    </ul>
+  </li>
+  <li>
+    Disadvantages:
+    <ul>
+      <li>No SSH into instances</li>
+    </ul>
+  </li>
 </ul>
 
-Disadvantages:
-<ul>
-  <li>No SSH into instances</li>
-</ul>
-
-### RDS Auto Scaling
-
+RDS Auto Scaling
 <ul>
   <li>Helps you increase storage on RDS DB instance dynamically</li>
   <li>RDS scales automattically when running out of fre storage</li>
@@ -68,8 +69,7 @@ Disadvantages:
   <li>Supports all RDS database engines</li>
 </ul>
 
-### RDS Read Replicas
-
+RDS Read Replicas
 <ul>
   <li>Help scale reads from DB instance</li>
   <li>Up to 15 read replicas; within AZ, cross AZ, cross region</li>
@@ -90,8 +90,7 @@ Use case:
 
 Fees incurred on cross-region read replicas, not on cross-AZ read replicas
 
-### RDS Multi AZ (disaster recovery)
-
+RDS Multi AZ (disaster recovery)
 <ul>
   <li>SYNC replication</li>
   <li>One DNS name</li>
@@ -99,16 +98,14 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>Failover in case of loss</li>
 </ul>
 
-### RDS Single AZ to Multi AZ
-
+RDS Single AZ to Multi AZ
 <ol>
   <li>Create snapshot of DB</li>
   <li>New DB restored from snapshot</li>
   <li>Synchronization established between the 2 DB's</li>
 </ol>
 
-### RDS Custom
-
+RDS Custom
 <ul>
   <li>managed Oracle and Microsoft SQL Server database with OS and DB customization</li>
   <li>RDS: automates setup, operation, and scaling of DB in AWS</li>
@@ -124,6 +121,40 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>deactivate automation made to perform customization, make snapshot first</li>
 </ul>
 
+RDS Backups 
+<ul>
+  <li>
+    Automated Backups
+    <ul>
+      <li>Daily full backup of the DB</li>
+      <li>Transaction log backed up by RDS every 5 minutes</li>
+      <li>1 to 35 days of retention, set to 0 to disable</li>
+    </ul>
+  </li>
+  <li>
+    Manual DB Snapshots
+    <ul>
+      <li>Manually triggered</li>
+      <li>Rentention of back up as long as wanted</li>
+    </ul>
+  </li>
+</ul>
+
+Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
+
+Amazon RDS Proxy
+<ul>
+  <li>Fully managed DB proxy for RDS</li>
+  <li>Allows pooling and sharing DB connections established with DB</li>
+  <li>Improve DB efficiency by reducing the stress on DB resources (ex CPU, RAM) and minimize open connections</li>
+  <li>Serverless, autoscaling, and highly available</li>
+  <li>Reduced RDS and Aurora failover time by 66%</li>
+  <li>Supprts RDS (MySQL, PostgreSQL, MariaDB, MS SQL Server) and Aurora (MySQL, PostgreSQL)</li>
+  <li>No code chage required for most apps</li>
+  <li>Enforce IAM Authentication for DB and securely restore credentials in AWS Secrets Manager</li>
+  <li>RDS Proxy is never publically available (accesed from VPC)</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Aurora.png" width="50"/> Amazon Aurora
 
 <ul>
@@ -135,8 +166,7 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>failover is instantaneous</li>
 </ul>
 
-### Aurora High Availability and Read Scaling
-
+Aurora High Availability and Read Scaling
 <ul>
   <li>
     6 copies of data across 3 AZs
@@ -153,20 +183,17 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>support cross region replication</li>
 </ul>
 
-### Amazon DB Cluster
-
+Amazon DB Cluster
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/aurora_db_cluster.png" width="300"/>
 
-### Aurora Custom Endpoints
-
+Aurora Custom Endpoints
 <ul>
   <li>define a subset of aurora instances as a custom endpoint</li>
   <li>example: run analytical queries on specific replicas</li>
   <li>reader endpoint is gernally not used after defining custom endpoints</li>
 </ul>
 
-### Aurora Services
-
+Aurora Services
 <ul>
   <li>automated database installation and auto-scaling based on actual usage</li>
   <li>good for infrequent, intermittent, or unpredictable workloads</li>
@@ -174,8 +201,7 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>pay per second, can be cost effective</li>
 </ul>
 
-### Global Aurora
-
+Global Aurora
 <ul>
   <li>1 primary region (read/write)</li>
   <li>up to 15 secondary (read only) regions, replication lag is less than 1s</li>
@@ -184,8 +210,7 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
   <li>typical cross-region replication less than 1 second</li>
 </ul>
 
-### Aurora Machine Learning
-
+Aurora Machine Learning
 <ul>
   <li>Allows ML-based predictions to applications through SQL</li>
   <li>Simple, optimized, and secure integration between Aurora and AWS ML services</li>
@@ -195,95 +220,67 @@ Fees incurred on cross-region read replicas, not on cross-AZ read replicas
 
 Use cases: fraud detection, ad targeting, sentiment analysis, product recomendations
 
-### RDS Backups 
-
-Automated Backups
+Aurora Backups
 <ul>
-  <li>Daily full backup of the DB</li>
-  <li>Transaction log backed up by RDS every 5 minutes</li>
-  <li>1 to 35 days of retention, set to 0 to disable</li>
+  <li>
+    Automated Backups
+    <ul>
+      <li>1 to 35 day backups (cannot be disabled)</li>
+      <li>point-in-time recovers in that timeframe</li>
+    </ul>
+  </li>
+  <li>
+    Manual Backups
+    <ul>
+      <li>Manually triggered</li>
+      <li>Retention of backup for as long as wanted</li>
+    </ul>
+  </li>
 </ul>
 
-Manual DB Snapshots
+RDS & Aurora Restore options
 <ul>
-  <li>Manually triggered</li>
-  <li>Rentention of back up as long as wanted</li>
+  <li>Restoring RDS/Aurora backup or snapshot creates a new database.</li>
+  <li>
+    Restoring MySQL RDS from S3
+    <ol>
+      <li>Create backup of on-premises database</li>
+      <li>Store on S3</li>
+      <li>Restore the backup onto a new RDS instance</li>
+    </ol>
+  </li>
+  <li>
+    Restore MySQL Aurora from S3
+    <ol>
+      <li>Create backup of on-premises database with Percona XtraBackup</li>
+      <li>Store on S3</li>
+      <li>Restore the backup onto a new Aurora cluster</li>
+    </ol>
+  </li>
 </ul>
 
-Tip: Snapshot and restore if DB inactive for long times (Snapshot cheaper than stopped)
-
-### Aurora Backups
-
-Automated Backups
+Aurora Database Cloning
 <ul>
-  <li>1 to 35 day backups (cannot be disabled)</li>
-  <li>point-in-time recovers in that timeframe</li>
+  <li>Create a new Aurora DB cluster from an existing one.</li>
+  <li>Faster than snapshot & restore, using copy-on-write protocal.</li>
+  <li>Very fast and cost effective.</li>
 </ul>
 
-Manual Backups
+RDS & Aurora Security
 <ul>
-  <li>Manually triggered</li>
-  <li>Retention of backup for as long as wanted</li>
-</ul>
-
-### RDS & Aurora Restore options
-
-Restoring RDS/Aurora backup or snapshot creates a new database.
-
-Restoring MySQL RDS from S3
-<ol>
-  <li>Create backup of on-premises database</li>
-  <li>Store on S3</li>
-  <li>Restore the backup onto a new RDS instance</li>
-</ol>
-
-Restore MySQL Aurora from S3
-<ol>
-  <li>Create backup of on-premises database with Percona XtraBackup</li>
-  <li>Store on S3</li>
-  <li>Restore the backup onto a new Aurora cluster</li>
-</ol>
-
-### Aurora Database Cloning
-
-Create a new Aurora DB cluster from an existing one.
-
-Faster than snapshot & restore, using copy-on-write protocal. 
-
-Very fast and cost effective.
-
-### RDS & Aurora Security
-
-At-rest encryption:
-<ul>
-  <li>DB master and replics encryption using AWS KMS - defined at launchtime</li>
-  <li>If master not encrypted, replicas cannot be encrypted</li>
-  <li>To encrypt an unencrypted DB, make a snapshot and restore as encrypted.</li>
-</ul>
-
-In-flight encryption: TLS ready by default, using AWS TLS root certificates client-side-
-
-IAM authentication: IAM roles to connect to the database
-
-Security Groups: Control Network access to RDS / Aurora DB
-
-No SSH except on DB Custom
-
-Audit Logs can be enabled
-
-### Amazon RDS Proxy
-
-<ul>
-  <li>Fully managed DB proxy for RDS</li>
-  <li>Allows pooling and sharing DB connections established with DB</li>
-  <li>Improve DB efficiency by reducing the stress on DB resources (ex CPU, RAM) and minimize open connections</li>
-  <li>Serverless, autoscaling, and highly available</li>
-  <li>Reduced RDS and Aurora failover time by 66%</li>
-  <li>Supprts RDS (MySQL, PostgreSQL, MariaDB, MS SQL Server) and Aurora (MySQL, PostgreSQL)</li>
-  <li>No code chage required for most apps</li>
-  <li>Enforce IAM Authentication for DB and securely restore credentials in AWS Secrets Manager</li>
-  <li>RDS Proxy is never publically available (accesed from VPC)</li>
-</ul>
+  <li>
+    At-rest encryption:
+    <ul>
+      <li>DB master and replics encryption using AWS KMS - defined at launchtime</li>
+      <li>If master not encrypted, replicas cannot be encrypted</li>
+      <li>To encrypt an unencrypted DB, make a snapshot and restore as encrypted.</li>
+    </ul>
+  </li>
+  <li>In-flight encryption: TLS ready by default, using AWS TLS root certificates client-side</li>
+  <li>IAM authentication: IAM roles to connect to the database</li>
+  <li>Security Groups: Control Network access to RDS / Aurora DB</li>
+  <li>No SSH except on DB Custom</li>
+  <li>Audit Logs can be enabled</li>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ElastiCache.png" width="50"/> Amazon ElastiCache
 
@@ -295,8 +292,7 @@ Audit Logs can be enabled
   <li>AWS takes care of OS maintanence, patching, setup configuration, monitoring, failure recovery, and backups</li>
 </ul>
 
-### ElastiCache Solution Architecture - DB Cache
-
+ElastiCache Solution Architecture - DB Cache
 <ul>
   <li>Applications query ElastiCache, if not available then from RDS adn store in Elasticache.</li>
   <li>Helps relieve load in RDS.</li>
@@ -305,8 +301,7 @@ Audit Logs can be enabled
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/elasticache_db_cache.png" width="300"/>
 
-### ElastiCache Solution Architecture - User Session Store
-
+ElastiCache Solution Architecture - User Session Store
 <ul>
   <li>User logs into any application</li>
   <li>Application writes session data into ElastiCache</li>
@@ -316,8 +311,7 @@ Audit Logs can be enabled
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/elasticache_user_session_store.png" width="300"/>
 
-### Elasticache - Redis vs Memcached
-
+Elasticache - Redis vs Memcached
 <table>
   <head>
     <tr>
@@ -349,8 +343,7 @@ Audit Logs can be enabled
   </body>
 </table>
 
-### Elasticache - Cache Security
-
+Cache Security
 <ul>
   <li>Supports IAM Authentication for Redis</li>
   <li>IAM policies on Elasticache are only used for AWS API-level security</li>
@@ -370,7 +363,7 @@ Audit Logs can be enabled
   </li>
 </ul>
 
-### Patterns for Elasticache
+Patterns for Elasticache
 
 **Lazy Loading:** all the read data is cached, data can become stale in cache
 
@@ -378,30 +371,37 @@ Audit Logs can be enabled
 
 **Session Store:** store temporary session data in cache (using TTL features)
 
-### Elasticache - Redis Use Case
-
+Elasticache - Redis Use Case
 <ul>
   <li>Gaming leaderboards are computationally complex</li>
   <li>Redis Sorted sets uarantee both uniqueness and element storing</li>
   <li>Each time a new element is added, it's ranked in real time, then added in correct order</li>
 </ul>
 
-### Ports
-
-Important Ports:
-FTP: 21
-SSH: 22
-SFTP: 22 (same as SSH)
-HTTP: 80
-HTTPS: 443
-
-RDS Databases ports:
-PostgreSQL: 5432
-MySQL: 3306
-Oracle RDS: 1521
-MSSQL Server: 1433
-MariaDB: 3306 (same as MySQL)
-Aurora: 5432
+Ports
+<ul>
+  <li>
+    Important Ports:
+    <ul>
+      <li>FTP: 21</li>
+      <li>SSH: 22</li>
+      <li>SFTP: 22 (same as SSH)</li>
+      <li>HTTP: 80</li>
+      <li>HTTPS: 443</li>
+    </ul>
+  </li>
+  <li>
+    RDS Databases ports:
+    <ul>
+      <li>PostgreSQL: 5432</li>
+      <li>MySQL: 3306</li>
+      <li>Oracle RDS: 1521</li>
+      <li>MSSQL Server: 1433</li>
+      <li>MariaDB: 3306 (same as MySQL)</li>
+      <li>Aurora: 5432</li>
+    </ul>
+  </li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DynamoDB.png" width="50"/> DynamoDB
 
@@ -422,7 +422,6 @@ Aurora: 5432
 Use case: serverless applications development (small documents 100s KB), distrinuted serverless cache
 
 Read/Write Capacity modes
-
 <ul>
   <li>Control table's capacity is managed</li>
   <li>
@@ -653,7 +652,6 @@ Redshift Cluster
 </ul>
 
 Snapshots and DR
-
 <ul>
   <li>Redshift has Multi AZ mode for some clusters</li>
   <li>Snapshots are point-in-tim backups of cluster, stored in S3</li>
@@ -974,16 +972,14 @@ Messages consumers (running on EC2 instances, servers, AWS Lambda, etc.), poll S
 
 Consumers can be arranged in parallel to handle messages, and can scale horizontally to improve throughput.
 
-### SQS - Security
+Security
+<ul>
+  <li>Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.</li>
+  <li>Access Controls: IAM policies to regulate access to SQS API.</li>
+  <li>SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.</li>
+</ul>
 
-Encryption: In-flight ugin HTTPS API, At-rest using KMS keys, client-side encryption if the client prefers to encrypt/decrypt themselves.
-
-Access Controls: IAM policies to regulate access to SQS API.
-
-SQS Access Policies: useful for cross-account access to SQS queues, useful for allowing other services to write to queue.
-
-### Message Visibility Timeout
-
+Message Visibility Timeout
 <ul>
   <li>After a messages if pooled by consumer, it becomes invisible to other consumers.</li>
   <li>By default the message visibility timeout is 30 seconds.</li>
@@ -995,10 +991,7 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
   <li>If visibility is too low (seconds), duplicates may occcur.</li>
 </ul>
 
-### Long Polling
-
 **Long Polling** - when a consumer requests messages from the queue, it can optionally "wait" for messages to arrive if there are none in the queue.
-
 <ul>
   <li>Decreasses the number of API calls made to SQS while increasing the efficiency and reducing latency of application.</li>
   <li>The wait time can be between 1s to 20s (20s preferable)</li>
@@ -1006,8 +999,7 @@ SQS Access Policies: useful for cross-account access to SQS queues, useful for a
   <li>Can be enabled at the queue level or at the API level using WaitTimeSeconds</li>
 </ul>
 
-### FIFO Queue
-
+FIFO Queue
 <ul>
   <li>FIFO - First In First Out (ordering of messages in the queue)</li>
   <li>Limited throughput: 300 msgs/s without batching, 3000 with</li>
@@ -1031,33 +1023,35 @@ Event producers - CloudWatch Alarms, AWS Budgets, Lambda, Auto Scaling Group, S3
 
 Event subscribers - SQS, Lambda, Kinesis Data Firehose, Emails, SMS & Mobile, HTTP(S) endpoints
 
-### How to Publish
-
-Topic Publish
+How to Publish
 <ul>
-  <li>Create a topic</li>
-  <li>Create a or more subscriptions</li>
-  <li>Publish a topic</li>
+  <li>
+    Topic Publish
+    <ul>
+      <li>Create a topic</li>
+      <li>Create a or more subscriptions</li>
+      <li>Publish a topic</li>
+    </ul>
+  </li>
+  <li>
+    Direct Publish
+    <ul>
+      <li>Create a platform application</li>
+      <li>Create a platform endpoint</li>
+      <li>Publish to the platform endpoint</li>
+      <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+    </ul>
+  </li>
 </ul>
 
-Direct Publish
+Security
 <ul>
-  <li>Create a platform application</li>
-  <li>Create a platform endpoint</li>
-  <li>Publish to the platform endpoint</li>
-  <li>Works with Google GCM, Apple APNS, Amazon ADM...</li>
+  <li>Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage</li>
+  <li>Access Controls: IAM policies to regulate access to the SNS API</li>
+  <li>SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic</li>
 </ul>
 
-### Security
-
-Ecryption: In-flight using HTTPS API, at-rest using KMS keys, client side if client wants to self-manage
-
-Access Controls: IAM policies to regulate access to the SNS API
-
-SNS Access Policies: useful for cross-account access to SNS topics, useful for allowing other services (eg S3) to write an SNS topic
-
-### SQS + SNS - Fan Out
-
+SQS + SNS - Fan Out
 <ul>
   <li>Push once to SNS, recieve in all SQS queues that are subscribers</li>
   <li>Fully decoupled, no data loss</li>
@@ -1067,16 +1061,14 @@ SNS Access Policies: useful for cross-account access to SNS topics, useful for a
   <li>Cross-Region Delivery: works with SQS Queues in other regions</li>
 </ul>
 
-### FIFO Topics
-
+FIFO Topics
 <ul>
   <li>Similar as SQS FIFO: ordered by message group ID, duplication using a deduplication ID or content based deduplication</li>
   <li>Can have SQS Standard and FIFO queues as subscribers</li>
   <li>Limited throughput</li>
 </ul>
 
-### Message filtering
-
+Message filtering
 <ul>
   <li>JSON policy used to filter messages sent to SNS topic's subscriptions</li>
   <li>If a subscription doesn't have a filter policy, it recieves every message</li>
@@ -1136,8 +1128,7 @@ Security:
   <li>Can send failed or all data to a backup S3 bucket</li>
 </ul>
 
-### Data Streams vs. Firehose
-
+Data Streams vs. Firehose
 <table>
   <head>
     <tr>
@@ -1193,11 +1184,13 @@ Use cases: Time-series analytics, Real-time dashboards, Real-time metrics
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Kinesis-Video-Streams.png" width="25"/></td> Kinesis Video Streams
 
-### Ordering Data in Kinesis
+### Data Ordering
+
+**Ordering Data in Kinesis**
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
 
-### Ordering Data in SQS
+**Ordering Data in SQS**
 
 Without a GroupID, messages are consued as sent: 
 
@@ -1207,7 +1200,7 @@ Using a GroupID:
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/ordering_kinesis.png" width="300"/>
 
-### Kinesis vs SQS Ordering
+Kinesis vs SQS Ordering:
 
 **Scenario** - 100 trucks, 5 kinesis shards, 1 SQS FIFO
 
@@ -1226,10 +1219,6 @@ Using a GroupID:
   <li>Runs on servers, can run in Multi AZ with failover</li>
   <li>Has both queue feature and topic features</li>
 </ul>
-
-
-
-
 
 ## Containerization
 
@@ -1437,20 +1426,16 @@ Support for:
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
 
 High Availability and Scalability
+<ul>
+  <li>Scalability - ability of a web application to adapt to greater workloads</li>
+  <li>Vertically Scalability - increasing instance size, common for non-distributed systems</li>
+  <li>EC2 vertical scaling - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)</li>
+  <li>Horizontal Scalability - increasing instance amount</li>
+  <li>EC2 horizontal scaling - Auto Scaling Group, Load Balancer</li>
+  <li>High Availability - Auto scaling group with multiple AZ, Load balancing with multiple AZ</li>
+</ul>
 
-**Scalability** - ability of a web application to adapt to greater workloads
-
-**Vertically Scalability** - increasing instance size, common for non-distributed systems
-
-**EC2 vertical scaling** - from t2.nano (0.5GB RAM, 1 CPU) to u-12tb1.metal (12.3TB RAM, 448 CPUs)
-
-**Horizontal Scalability** - increasing instance amount
-
-**EC2 horizontal scaling** - Auto Scaling Group, Load Balancer
-
-**High Availability** - Auto scaling group with multiple AZ, Load balancing with multiple AZ
-
-### Load Balancing
+**Load Balancing**
 
 These are servers that forward traffic to multiple servers downstream.
 
@@ -1479,17 +1464,16 @@ Elastic Load Balacer use case:
   </ul>
 </ul>
 
-### Health Checks
+**Health Checks**
 
 Crusial for load balancers. They enable load balancers to know whether instances it forwards traffic to are available. Health checks are performed on port and route (/health is common).
 
-### Load Balancer Types
-
-**Application Load Balancer (v2)** - HTTP, HTTPS, WebSocket
-
-**Network Load Balancer (v2)** - TCP, TLS (secure TCP), UDP
-
-**Gateway Load Balancer** - operates at Network layer - IP Protocol
+Load Balancer Types
+<ul>
+  <li>Application Load Balancer (v2) - HTTP, HTTPS, WebSocket</li>
+  <li>Network Load Balancer (v2) - TCP, TLS (secure TCP), UDP</li>
+  <li>Gateway Load Balancer - operates at Network layer - IP Protocol</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ALB.png" width="50"/> ALB - Application Load Balancer
 
@@ -1502,8 +1486,7 @@ Routing tables to different target groups based on:
   <li>query string, headers (example.com/users?<ins>id=123&order=false</ins>)</li>
 </ul>
 
-### ALB Target Groups
-
+ALB Target Groups
 <ul>
   <li>EC2 instances - HTTP</li>
   <li>ECS tasks - HTTP</li>
@@ -1517,8 +1500,7 @@ Network load balancer is layer 4 (TCP). NLB forwards TCP and UDP traffic to inst
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/NLB.png" width="300"/>
 
-### NLB Target Groups
-
+NLB Target Groups
 <ul>
   <li>EC2 instances</li>
   <li>IP addresses (must e private)</li>
@@ -1532,8 +1514,7 @@ Deploy, scale, and manage a fleet of 3rd party network appliances in AWS (ex. Fi
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/GWLB.png" width="250"/>
 
-### GLB Target Groups
-
+GLB Target Groups
 <ul>
   <li>EC2 instances</li>
   <li>IP addresses (must e private)</li>
@@ -1547,17 +1528,26 @@ Use case: user can retain user data.
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/StickySessions.jpg" width="300"/>
 
-### Sticky Sessions- Cookie Names
+Sticky Sessions - Cookie Names
+<ul>
+  <li>
+    Application-based Cookies
+    <ul>
+      <li>Custom cookie - generated by target, can include custom atributes required by application, name specified for each target group (AWSALB, AWSALBAPP, AWSALBTG reserved by ELB)</li>
+      <li>Application cookie - generated by load balancer, name is AWSALB for ALB</li>
+    </ul>
+  </li>
+  <li>
+    Duration-based Cookies
+    <ul>
+      <li>generated by the load balancer, cookie name is AWSALB for ALB, AWSELB for CLB</li>
+    </ul>
+  </li>
+</ul>
 
-**Application-based Cookies**
+### Networking Concepts
 
-Custom cookie - generated by target, can include custom atributes required by application, name specified for each target group (AWSALB, AWSALBAPP, AWSALBTG reserved by ELB)
-
-Application cookie - generated by load balancer, name is AWSALB for ALB
-
-**Duration-based Cookies** - generated by the load balancer, cookie name is AWSALB for ALB, AWSELB for CLB
-
-### ELB Cross-Zone Balancing
+**Cross-Zone Balancing**
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/CrossZoneBalancing.png" width="300"/>
 
@@ -1565,13 +1555,13 @@ Application load balancer - Cross zone balancing enabled by default, no charges
 
 Network and Gateway Load Balancers - disabled by default, costs $
 
-### SSL/TLS Bases
+**SSL/TLS Bases**
 
 SSL certificate allows traffic between clients and load balancer to be encrypted in transit (in-flight encryption). SSL refers to secure sockets layer, used to encrypt connections. TLS referes to transport layer security (newer). TLS mainly used, some still use SSL.
 
 Public SSL certificates are issued by Certificate Authorities. SSL certificates have an expiration date. 
 
-### SSL Certificates
+**SSL Certificates**
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/LoadBalancerSSL.png" width="300"/>
 
@@ -1584,19 +1574,19 @@ HTTPS Listeners:
   <li>clients can use SNI to specify the hostname</li>
 </ul>
 
-### SNI - Server Name Identification
+**SNI - Server Name Identification**
 
 Solves the proble, of having multiple SSL certificates on one web server. "Newer" protocol client to indicate the hostname target server of initial SSL handshake. Server finds correct certificate, or returns default.
 
 Only works for ALB, NLB, and CloudFront.
 
-### Elastic Load Balancers - SSL Certificates
+**Elastic Load Balancers - SSL Certificates**
 
-**Application Load Balancers** - support multiple listeners with multiple SSL certificates, ise SNI to make it work
+Application Load Balancers - support multiple listeners with multiple SSL certificates, ise SNI to make it work
 
-**Network Load Balancers** - supports multiple listeners with multiple SSL certificates
+Network Load Balancers - supports multiple listeners with multiple SSL certificates
 
-### Connection Draining
+**Connection Draining**
 
 Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
 
@@ -1609,8 +1599,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
 </ul>
 
-### DNS Terminology
-
+DNS Terminology
 <ul>
   <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
   <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
@@ -1620,7 +1609,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
 </ul>
 
-### DNS Functionality
+DNS Functionality
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
 
@@ -1634,8 +1623,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>53: reference to the traditional DNS port</li>
 </ul>
 
-### Route 53 - Records
-
+Records
 <ul>
   <li>How to the traffic should be routed for a domain</li>
   <li>
@@ -1657,8 +1645,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   </li>
 </ul>
 
-### Route 53 - Record Types
-
+Record Types
 <ul>
   <li>A: maps a hostname to IPv4</li>
   <li>AAAA: maps a hostname to IPv6</li>
@@ -1673,35 +1660,34 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>NS: Name servers for the hosted zone</li>
 </ul>
 
-### Route 53 - Hosted Zones
+Hosted Zones
+<ul>
+  <li>Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)</li>
+  <li>Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)</li>
+</ul>
 
-Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
+**Records TTL (Time to Live)**
 
-Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
-
-### Records TTL (Time to Live)
-
-**High TTL:** eg 24hr
+High TTL - eg 24hr
 <ul>
   <li>Less traffic on Route 53</li>
   <li>Possibly outdated records</li>
 </ul>
 
-**Low TTL:** eg 60sec
+Low TTL - eg 60sec
 <ul>
   <li>More traffic on Route 53</li>
   <li>Records are outdated for less time</li>
   <li>Easy to change records</li>
 </ul>
 
-### CNAME vs Alias
+CNAME vs Alias
+<ul>
+  <li>CNAME: Points a hostname to any other hostname, only for non root domain</li>
+  <li>Alias: Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks</li>
+</ul>
 
-**CNAME:** Points a hostname to any other hostname, only for non root domain
-
-**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
-
-### Alias Records
-
+Alias Records
 <ul>
   <li>Maps a hostname to an AWS resource</li>
   <li>an extension to DNS functionality</li>
@@ -1713,8 +1699,7 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 
 **Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
 
-### Routing Policies
-
+Routing Policies
 <ul>
   <li>Define how Route 53 responds to DNS queries</li>
   <li>DNS does not route traffic, only responds to DNS queries</li>
@@ -1822,7 +1807,6 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 </table>
 
 ### Health Checks
-
 <ul>
   <li>HTTP Health Checks are only for public resources</li>
   <li>
@@ -1835,8 +1819,7 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   </li>
 </ul>
 
-### Health Checks - Monitor an Endpoint
-
+Monitor an Endpoint
 <ul>
   <li>About 15 global health checkers will check endpoint health.</li>
   <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
@@ -1844,8 +1827,7 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
 </ul>
 
-### Health Checks - Calculated
-
+Calculated
 <ul>
   <li>Combine the results of multiple health checks into a single health check.</li>
   <li>Can use OR, AND, or NOT.</li>
@@ -1854,16 +1836,14 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
 </ul>
 
-### Health Checks - Private Hosted Zones
-
+Private Hosted Zones
 <ul>
   <li>Route 53 health checkers are outside the VPC.</li>
   <li>They can't process private endpoints.</li>
   <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
 </ul>
 
-### Domain Registar vs DNS Service
-
+Domain Registar vs DNS Service
 <ul>
   <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
   <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
@@ -1881,51 +1861,56 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   <li>DDoS Protection, integration with Shield, AWS Web Application Firewall</li>
 </ul>
 
-### Origins
-
-**S3 Bucket:**
+Origins
 <ul>
-  <li>For distirbuting files and caching at the edge</li>
-  <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
-  <li>OAC replaces Origin Access Identity (OAI)</li>
-  <li>CloudFront can be used as an ingress (uploading files to S3)</li>
+  <li>
+    S3 Bucket
+    <ul>
+      <li>For distirbuting files and caching at the edge</li>
+      <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
+      <li>OAC replaces Origin Access Identity (OAI)</li>
+      <li>CloudFront can be used as an ingress (uploading files to S3)</li>
+    </ul>
+  </li>
+  <li>
+    Custom Origin (HTTP)
+    <ul>
+      <li>Application Load Balancer</li>
+      <li>EC2 instance</li>
+      <li>S3 website (bucket must be enabled as static S3 website)</li>
+      <li>Any HTTP backend</li>
+    </ul>
+  </li>
 </ul>
 
-**Custom Origin (HTTP):**
+CloudFront vs S3 Cross Region Replication
 <ul>
-  <li>Application Load Balancer</li>
-  <li>EC2 instance</li>
-  <li>S3 website (bucket must be enabled as static S3 website)</li>
-  <li>Any HTTP backend</li>
+  <li>
+    CloudFront
+    <ul>
+      <li>Global edge network</li>
+      <li>Files are cached or a TTL (maybe delay)</li>
+      <li>Great for static content that must be globally available</li>
+    </ul>
+  </li>
+  <li>
+    S3 Cross Region Replication
+    <ul>
+      <li>Must be setup in each region for replication</li>
+      <li>Files are updated in near real-time</li>
+      <li>Read only</li>
+      <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
+    </ul>
+  </li>
 </ul>
 
-### CloudFront vs S3 Cross Region Replication
-
-**CloudFront:**
+Geo Restriction
 <ul>
-  <li>Global edge network</li>
-  <li>Files are cached or a TTL (maybe delay)</li>
-  <li>Great for static content that must be globally available</li>
+  <li>Allowlist: Allow users to access content only if they are in one of the countries on the aproved list</li>
+  <li>Blocklist: Prevent users from accessing your content if they are in one of the countries in the banned list</li>
 </ul>
 
-**S3 Cross Region Replication:**
-<ul>
-  <li>Must be setup in each region for replication</li>
-  <li>Files are updated in near real-time</li>
-  <li>Read only</li>
-  <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
-</ul>
-
-### Geo Restriction
-
-**Allowlist:** Allow users to access content only if they are in one of the countries on the aproved list
-
-**Blocklist:** Prevent users from accessing your content if they are in one of the countries in the banned list
-
-### Pricing
-
-Cost of data out of CloudFront Edge location varies.
-
+Pricing - Cost of data out of CloudFront Edge location varies.
 <table>
   <head>
     <tr>
@@ -1950,8 +1935,7 @@ Cost of data out of CloudFront Edge location varies.
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cloudfront_price.png" width="300"/>
 
-### Cache Invalidations
-
+Cache Invalidations
 <ul>
   <li>If the back-end origin is updated, CloudFront only gets refreshed content after the TTL has expired</li>
   <li>A partial cache refresh can be forced using CloudFront invalidation</li>
@@ -1994,58 +1978,31 @@ Cost of data out of CloudFront Edge location varies.
   </li>
 </ul>
 
-### Global Accelerator vs CloudFront
-
-Both use AWS global network and its edge locations around the world.
-
-Both services integrate with AWS Shield for DDoS protection.
-
-**CloudFront**
+Global Accelerator vs CloudFront
 <ul>
-  <li>improves performance for both cacheable content</li>
-  <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
-  <li>Content served on the edge</li>
-</ul>
-
-**Global Accelerator**
-<ul>
-  <li>Improve performance for a wide range of applications over TCP or UDP</li>
-  <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
-  <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
-  <li>Good for HTTP with static IP addresses</li>
-  <li>Good for HTTP with required deterministic, fast regional failover</li>
+  <li>Both use AWS global network and its edge locations around the world.</li>
+  <li>Both services integrate with AWS Shield for DDoS protection.</li>
+  <li>
+    CloudFront
+    <ul>
+      <li>improves performance for both cacheable content</li>
+      <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
+      <li>Content served on the edge</li>
+    </ul>
+  </li>
+  <li>
+    Global Accelerator
+    <ul>
+      <li>Improve performance for a wide range of applications over TCP or UDP</li>
+      <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
+      <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
+      <li>Good for HTTP with static IP addresses</li>
+      <li>Good for HTTP with required deterministic, fast regional failover</li>
+    </ul>
+  </li>
 </ul>
 
 ## Computing
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
-
-IP Types
-<ul>
-  <li>Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space</li>
-  <li>Private IP - Only devices on network can see the IP address</li>
-  <li>Elastic IP - can change to work when instance is stopped and started (not rebooted)</li>
-</ul>
-
-### Placement Groups
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
-
-#### Cluster Placement Group
-
-Use Case: Low latency and fast, mostly for data processing and in bursts
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
-
-#### Spread Placement Group
-
-Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
-
-#### Partition Placement Group
-
-Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ENI.png" width="50"/> ENI - Elastic Network Interface
 
@@ -2064,15 +2021,43 @@ Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distribu
   </li>
 </ul>
 
-### EC2 Hibernate
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
 
-*stop* - data on the disk of the instance is held until start
+IP Types
+<ul>
+  <li>Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space</li>
+  <li>Private IP - Only devices on network can see the IP address</li>
+  <li>Elastic IP - can change to work when instance is stopped and started (not rebooted)</li>
+</ul>
 
-*terminate* - data on the disk is lost
+**Placement Groups**
 
-*hibernate* - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
 
-### EC2 Instance Store
+Cluster Placement Group
+
+Use Case: Low latency and fast, mostly for data processing and in bursts
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
+
+Spread Placement Group
+
+Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
+
+Partition Placement Group
+
+Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
+
+EC2 Hibernate
+<ul>
+  <li>stop - data on the disk of the instance is held until start</li>
+  <li>terminate - data on the disk is lost</li>
+  <li>hibernate - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted</li>
+</ul>
+
+**EC2 Instance Store**
 
 EBS Volumes are network drives with good but limited performance. EC2 is a high-performance hardware disk-like network drive. The instance store features:
 <ul>
@@ -2109,27 +2094,30 @@ Moving Between Storage Classes - Objects can be moved through the storage classe
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
 
-### Lifecycle Rules
-
-**Transition Actions:**
+Lifecycle Rules
 <ul>
-  <li>configure objects to transition to another storage class</li>
-  <li>Ex: move objects to Standard 1A 60 days after creation</li>
-  <li>Ex: move objects into glacier after 6 months</li>
-</ul>
-
-**Expiration Actions:**
-<ul>
-  <li>configure object deletion after time</li>
-  <li>Ex: delete access logs after 365 days</li>
-  <li>Ex: delete old versions of files (with versioning)</li>
-  <li>Ex: delete multi-part uploads</li>
+  <li>
+    Transition Actions:
+    <ul>
+      <li>configure objects to transition to another storage class</li>
+      <li>Ex: move objects to Standard 1A 60 days after creation</li>
+      <li>Ex: move objects into glacier after 6 months</li>
+    </ul>
+  </li>
+  <li>
+    Expiration Actions:
+    <ul>
+      <li>configure object deletion after time</li>
+      <li>Ex: delete access logs after 365 days</li>
+      <li>Ex: delete old versions of files (with versioning)</li>
+      <li>Ex: delete multi-part uploads</li>
+    </ul>
+  </li>
 </ul>
 
 *Rules can be created for a certain prefix, eg. s3://mybucket/mp3/xxx*
 
-### Analytics
-
+Analytics
 <ul>
   <li>Helps determine timeperiods for tansitioning objects into archive</li>
   <li>Recomentions for Standard and Standard-1A</li>
@@ -2138,8 +2126,7 @@ Moving Between Storage Classes - Objects can be moved through the storage classe
   <li>Good starting point for creating lifecycle rules, or improving them</li>
 </ul>
 
-### Requester Pays
-
+Requester Pays
 <ul>
   <li>Bucket owners typically pay for storage and data transfer costs for bucket</li>
   <li>Requester Pays buckets bill the requester the cost of the request and download</li>
@@ -2147,8 +2134,7 @@ Moving Between Storage Classes - Objects can be moved through the storage classe
   <li>Requester must be AWS authenticated</li>
 </ul>
 
-### Event Notifications
-
+Event Notifications
 <ul>
   <li>notifications on s3 events</li>
   <li>typically delivered in seconds, sometimes in minutes</li>
@@ -2160,8 +2146,7 @@ Can be passed to SNS, SQS, or Lambda Functions as policy checks for access.
 
 Can be passed into Amazon EventBridge, and shared with other AWS services as destinations, allowing for advanced filtering, multiple destinations, EventBridge Capabilities.
 
-### Baseline Performance
-
+Baseline Performance
 <ul>
   <li>Automatically scales to high request rates, latency 100-200ms</li>
   <li>Application can achieve at least 3500 PUT/COPY/POST/DELETE or 5500 GET/HEAD requests per second per prefix in a bucket</li>
@@ -2170,8 +2155,7 @@ Can be passed into Amazon EventBridge, and shared with other AWS services as des
   <li>spreading accross 4 prefixes evenly results in 22000 requests per second for GET and HEAD</li>
 </ul>
 
-### Performance
-
+Performance
 <table>
   <head>
     <tr>
@@ -2191,12 +2175,11 @@ Can be passed into Amazon EventBridge, and shared with other AWS services as des
   </body>
 </table>
 
-### S3 Byte-Range Fetches
+**S3 Byte-Range Fetches**
 
 Parallelize GETs by requesting specific byte ranges, has better failure resistance.
 
-### Batch Operations
-
+Batch Operations
 <ul>
   <li>Perform bulk operations on existing S3 objects with single request</li>
   <li>Job consists of a list of objects, the action to perform, and optional parameters</li>
@@ -2204,9 +2187,7 @@ Parallelize GETs by requesting specific byte ranges, has better failure resistan
   <li>S3 Inventory can be used to get object list and use S3 Select to filter objects</li>
 </ul>
 
-### Storage Lens
-
-Default Dashboard:
+Storage Lens - Default Dashboard:
 <ul>
   <li>Visualize summarized insights and trends for both free and advanced metrics</li>
   <li>Default dashboard shows Multi-Region and Multi-Account data</li>
@@ -2214,88 +2195,97 @@ Default Dashboard:
   <li>Can't be deleted, but can be disabled</li>
 </ul>
 
-<h4>Metrics</h4>
-
-**Summary**
+Metrics
 <ul>
-  <li>general insights about your s3 storage</li>
-  <li>StorageBytes, ObjectCount...</li>
-  <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+  <li>
+    Summary
+    <ul>
+      <li>general insights about your s3 storage</li>
+      <li>StorageBytes, ObjectCount...</li>
+      <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+    </ul>
+  </li>
+  <li>
+    Cost-Optimization
+    <ul>
+      <li>Provide insights to manage and optimize your storage costs</li>
+      <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
+      <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+    </ul>
+  </li>
+  <li>
+    Free
+    <ul>
+      <li>automatically available for all</li>
+      <li>Contains 28 usage metrics</li>
+      <li>Data is available for 14 days</li>
+    </ul>
+  </li>
+  <li>
+    Advanced
+    <ul>
+      <li>additional paid metrics and features</li>
+      <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
+      <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
+      <li>Prefix Aggregation - collect metrics at the prefix level</li>
+      <li>Data is available for queries for 15 months</li>
+    </ul>
+  </li>
 </ul>
 
-**Cost-Optimization**
+Object Encryption
 <ul>
-  <li>Provide insights to manage and optimize your storage costs</li>
-  <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
-  <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+  <li>
+    SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+    <ul>
+      <li>Encryption keys handled, managed, and owned by AWS</li>
+      <li>Object encryption is server-side</li>
+      <li>Encryption type is AES-256</li>
+      <li>Enabled by default for new buckets and new objects</li>
+      <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
+    </ul>
+  </li>
+  <li>
+    SSE-KMS (Server-Side Encryption with KMS keys)
+    <ul>
+      <li>Encryption keys handled, managed, and owned by AWS KMS</li>
+      <li>KMS advantages: user control + audit key usage using CloudTrain</li>
+      <li>Object is encrypted server side</li>
+      <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
+      <li>SSE-KMS impacted by KMS limits</li>
+      <li>Upon downloads calls the GenerateDataKey KMS API</li>
+      <li>Count towards the KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
+      <li>Can request a quota increase using the Service Quotas Console</li>
+    </ul>
+  </li>
+  <li>
+    DSSE-KMS (Double Server-Side Encryption with KMS keys)
+    <ul>
+      <li>Encryption handled on double sides</li>
+      <li>For customers with more rigorous security standards</li>
+    </ul>
+  </li>
+  <li>
+    SSE-C (Server-Side Encryption with Customer keys)
+    <ul>
+      <li>Keys fully managed by customer outside of AWS</li>
+      <li>S3 does not store the encryption key you provide</li>
+      <li>HTTPS required</li>
+      <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
+    </ul>
+  </li>
+  <li>
+    Client-Side Encryption
+    <ul>
+      <li>Use client libraries such as S3 Client Side Encryption Library</li>
+      <li>Clients must encrypt data themselved before sending to S3</li>
+      <li>Clients must decrpt data themselves when retrieving</li>
+      <li>Customer fully manages the keys and encryption cycle</li>
+    </ul>
+  </li>
 </ul>
 
-**Free**
-<ul>
-  <li>automatically available for all</li>
-  <li>Contains 28 usage metrics</li>
-  <li>Data is available for 14 days</li>
-</ul>
-
-**Advanced**
-<ul>
-  <li>additional paid metrics and features</li>
-  <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
-  <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
-  <li>Prefix Aggregation - collect metrics at the prefix level</li>
-  <li>Data is available for queries for 15 months</li>
-</ul>
-
-### Object Encryption
-
-SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
-<ul>
-  <li>Encryption keys handled, managed, and owned by AWS</li>
-  <li>Object encryption is server-side</li>
-  <li>Encryption type is AES-256</li>
-  <li>Enabled by default for new buckets and new objects</li>
-  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
-</ul>
-
-SSE-KMS (Server-Side Encryption with KMS keys)
-<ul>
-  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
-  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
-  <li>Object is encrypted server side</li>
-  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
-</ul>
-
-<ul>
-  <li>SSE-KMS impacted by KMS limits</li>
-  <li>Upon downloads calls the GenerateDataKey KMS API</li>
-  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
-  <li>You can request a quota increase using the Service Quotas Console</li>
-</ul>
-
-DSSE-KMS (Double Server-Side Encryption with KMS keys)
-<ul>
-  <li>Encryption handled on double sides</li>
-  <li>For customers with more rigorous security standards</li>
-</ul>
-
-SSE-C (Server-Side Encryption with Customer keys)
-<ul>
-  <li>Keys fully managed by customer outside of AWS</li>
-  <li>S3 does not store the encryption key you provide</li>
-  <li>HTTPS required</li>
-  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
-</ul>
-
-Client-Side Encryption
-<ul>
-  <li>Use client libraries such as S3 Client Side Encryption Library</li>
-  <li>Clients must encrypt data themselved before sending to S3</li>
-  <li>Clients must decrpt data themselves when retrieving</li>
-  <li>Customer fully manages the keys and encryption cycle</li>
-</ul>
-
-### Ecryption in Transit (SSL/TLS)
-
+Ecryption in Transit (SSL/TLS)
 <ul>
   <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
   <li>HTTPS recommended</li>
@@ -2303,14 +2293,13 @@ Client-Side Encryption
   <li>Most clients use HTTPS endpoint by default</li>
 </ul>
 
-### Default Encryption vs Bucket Policies
+Default Encryption vs Bucket Policies
+<ul>
+  <li>SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.</li>
+  <li>Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.</li>
+</ul>
 
-SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
-
-Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
-
-### CORS
-
+CORS
 <ul>
   <li>Cross-Origin Resource Sharing</li>
   <li>Origin = scheme (protocol) + host (domain) + port</li>
@@ -2324,8 +2313,7 @@ Optional: "Force Encryption" using a bucket policy and refuse any API call to PU
 
 If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
 
-### MFA Delete
-
+MFA Delete
 <ul>
   <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
   <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
@@ -2334,8 +2322,7 @@ If a client makes a cross-origin request on an S3 bucket, the correct CORS heade
   <li>Only bucket owner can enable/disable MFA Delete</li>
 </ul>
 
-### Access Logs
-
+Access Logs
 <ul>
   <li>Logging access to S3 buckets recomended for audits</li>
   <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
@@ -2349,8 +2336,7 @@ Log:Warnings
   <li>creates logging loop, bucket will grow exponentially</li>
 </ul>
 
-### Pre-Signed URLs
-
+Pre-Signed URLs
 <ul>
   <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
   <li>
@@ -2370,8 +2356,7 @@ Examples:
   <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
 </ul>
 
-### Glacier Vault Lock
-
+Glacier Vault Lock
 <ul>
   <li>adopt a WORM model (Write Once Read Man)</li>
   <li>Create a Vault Lock Policy</li>
@@ -2379,8 +2364,7 @@ Examples:
   <li>Helpful for compliance and data retention</li>
 </ul>
 
-### Object Lock
-
+Object Lock
 <ul>
   <li>adopt a WORM model (Write Once Read Man)</li>
   <li>Block an object version deletion for a specified time</li>
@@ -2402,7 +2386,7 @@ Examples:
   <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
 </ul>
 
-### Access Points
+**Access Points**
 
 Access points simplify security management for S3 buckets. Each Access Point has:
 <ul>
@@ -2417,8 +2401,7 @@ VPC Origin:
   <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
 </ul>
 
-### Object Lambda
-
+Object Lambda
 <ul>
   <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
   <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S3 Object Lambda Access Points are created</li>
@@ -2484,8 +2467,7 @@ Usage process:
   <li>Snowball is completely wiped</li>
 </ol>
 
-### Edge Computing
-
+Edge Computing
 <ul>
   <li>Processing data while its being created on an edge location.</li>
   <li>Locations may have limited internet connection and no access to computing power.</li>
@@ -2493,18 +2475,17 @@ Usage process:
   <li>Use cases: preprocess data, machine learning, transcoding media</li>
 </ul>
 
-### Solution Architecture: Snowball into Glacier
-
-Snowball cannot import directly into Glacier.
-
-Data must first use S3, then moved with an S3 lifecycle policy.
+Solution Architecture: Snowball into Glacier
+<ul>
+  <li>Snowball cannot import directly into Glacier.</li>
+  <li>Data must first use S3, then moved with an S3 lifecycle policy.</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
 
 Launch 3rd party highperformance file systems on AWS, fully managed service.
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
 <ul>
   <li>A fully managed Windows filesystem share drive</li>
   <li>Supports SMB protocol & Windows NTFS</li>
@@ -2513,8 +2494,7 @@ Launch 3rd party highperformance file systems on AWS, fully managed service.
   <li>Support's MS's Distributed File System (DFS) Namespaces</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
 <ul>
   <li>Lustre is a type of parallel distributed file system, for large-scale computing</li>
   <li>Lustre = Linux + cluster</li>
@@ -2525,26 +2505,29 @@ Launch 3rd party highperformance file systems on AWS, fully managed service.
   <li>Seamless integration with S3</li>
 </ul>
 
-### FSx File System Deployment Options
-
-Scratch File System
+FSx File System Deployment Options
 <ul>
-  <li>Temporary storage</li>
-  <li>Data is not replicated</li>
-  <li>High Burst</li>
-  <li>Usage: short-term processing, optimize costs</li>
+  <li>
+    Scratch File System
+    <ul>
+      <li>Temporary storage</li>
+      <li>Data is not replicated</li>
+      <li>High Burst</li>
+      <li>Usage: short-term processing, optimize costs</li>
+    </ul>
+  </li>
+  <li>
+    Persistent File System
+    <ul>
+      <li>Long-term storage</li>
+      <li>Data is replicated with same AZ</li>
+      <li>Rlace failed files in minutes</li>
+      <li>sage: long-term processing, sensitive</li>
+    </ul>
+  </li>
 </ul>
 
-Persistent File System
-<ul>
-  <li>Long-term storage</li>
-  <li>Data is replicated with same AZ</li>
-  <li>Rlace failed files in minutes</li>
-  <li>sage: long-term processing, sensitive</li>
-</ul>
-
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
 <ul>
   <li>Managed NetApp ONTAP on AWS</li>
   <li>File System compatible with NFS, SMB, iSCSI protocol</li>
@@ -2555,8 +2538,7 @@ Persistent File System
   <li>Point-in-time instantaneous cloning</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
 <ul>
   <li>Managed OpenZFS file system on AWS</li>
   <li>File System compatible with NFS</li>
@@ -2567,15 +2549,14 @@ Persistent File System
   <li>Point-in-time instantaneous cloning</li>
 </ul>
 
-### Hybrid Cloud for Storage
-
+Hybrid Cloud for Storage
 <ul>
   <li>AWS is pushing for "hybrid-cloud" (part of infrastructure in the cloud, part on-premises)</li>
   <li>Causes: Long cloud migrations, security requirements, compliance requirements, IT strategy</li>
   <li>Amazon Storage Gateway exposes on-premises S3 data</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
 
 Bridge between on-premises data and cloud data.
 
@@ -2595,8 +2576,7 @@ Types of storage gateway:
   <li>Tape Gateway</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
 <ul>
   <li>Configured S3 buckets are accessible using the NFS and SMB protocol</li>
   <li>Most recently used data is cached in the file gateway</li>
@@ -2606,8 +2586,7 @@ Types of storage gateway:
   <li>SMB Protocol has integration with Active Directory (AD) for user authentication</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
 <ul>
   <li>Native access to Amazon FSx for Windows File Server</li>
   <li>Local cache for frequently accessed data</li>
@@ -2615,8 +2594,7 @@ Types of storage gateway:
   <li>Useful for group file shares and home directories</li>
 </ul>
 
-### Volume Gateway
-
+Volume Gateway
 <ul>
   <li>Block storage using iSCSI protocol backed by S3</li>
   <li>Backed by EBS Snapshot which can help restore on premises volumes</li>
@@ -2624,8 +2602,7 @@ Types of storage gateway:
   <li>Stored Volumes: entire dataset is on premise, scheduled backups to S3</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
 <ul>
   <li>Some companies have backup processes using physical tapes</li>
   <li>With Tape Gateway, companies use the same processes but, in the cloud</li>
@@ -2634,11 +2611,11 @@ Types of storage gateway:
   <li>Works with leading backup software vendors</li>
 </ul>
 
-### Storage Gateway - Hardware Appliance
-
-Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.
-
-Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.
+Storage Gateway - Hardware Appliance
+<ul>
+  <li>Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.</li>
+  <li>Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
 
@@ -2655,13 +2632,12 @@ Managed infrastructure, Scalable, Reliable, Highly Available (multi-AZ). Pay per
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
 
-Moves large amount of data from on-premises/AWS to AWS.
-
-Can syncronize to Amazon S3, EFS, FSx.
-
-Replication tasks can be scheduled hourly, daily, or weekly.
-
-File permissions and metadata are preserved.
+<ul>
+  <li>Moves large amount of data from on-premises/AWS to AWS.</li>
+  <li>Can syncronize to Amazon S3, EFS, FSx.</li>
+  <li>Replication tasks can be scheduled hourly, daily, or weekly.</li>
+  <li>File permissions and metadata are preserved.</li>
+</ul>
 
 ### Storage Comparison
 
@@ -2745,8 +2721,7 @@ Use case:
   <li>file system scales automatically, billed by GB (size)</li>
 </ul>
 
-### EFS Performance Classes
-
+EFS Performance Classes
 <table>
   <body>
     <tr>
@@ -2780,24 +2755,27 @@ Use case:
   </body>
 </table>
 
-### EFS Storage Classes
-
-Storage Tiers:
+EFS Storage Classes
 <ul>
-  <li><b>standard</b> - frequently accessed files</li>
-  <li><b>infrequent access (EFS IA)</b> - cost to retrieve files, lower storage price</li>
-  <li><b>archive</b> - rarely accessed data</li>
-  <li><b>implement life cycle policies</b> - move files between storage tiers</li>
+  <li>
+    Storage Tiers
+    <ul>
+      <li>standard - frequently accessed files</li>
+      <li>infrequent access (EFS IA) - cost to retrieve files, lower storage price</li>
+      <li>archive - rarely accessed data</li>
+      <li>implement life cycle policies - move files between storage tiers</li>
+    </ul>
+  </li>
+  <li>
+    Availability
+    <ul>
+      <li>Standard: Multi AZ, great for production</li>
+      <li>One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A)</li>
+    </ul>
+  </li>
 </ul>
 
-Availability
-
-Standard: Multi AZ, great for production
-
-One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A
-
-### EBS vs EFS
-
+EBS vs EFS
 <table>
   <head>
     <tr>
@@ -3118,39 +3096,28 @@ Service Control Policies (SPC)
   <li>Must have expicit allow from the root through each OU in the direct path to the target account</li>
 </ul>
 
-### SCP Hiearchy
+SCP Hiearchy
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/scp_hierarchy.png" width="300"/>
 
-### IAM Conditions
+**IAM Conditions** - Set conditions for applying IAM rules.
 
-Set conditions for applying IAM rules.
+**IAM S3** - Conditions can be bucket level or object level.
 
-### IAM S3
+**Resource Policies** - Principle does not give up their permissions.
 
-Conditions can be bucket level or object level.
+**IAM Roles** - Assuming a role surrenders original permissions and takes new permissions.
 
-### Resource Policies
-
-Principle does not give up their permissions.
-
-### IAM Roles 
-
-Assuming a role surrenders original permissions and takes new permissions.
-
-### Amazon EventBridge - Security
-
+Amazon EventBridge - Security
 <ul>
   <li>When a rule runs, it needs permissions on the target.</li>
   <li>Resource-based policy: Lambda, SNS, SQS, S3 buckets, API gatesway...</li>
   <li>IAM Role: Kinesis stream, EC2 Auto Scaling, Systems Manager Run Command, ECS task...</li>
 </ul>
 
-### Permission Boundaries
-
 Permission boundaries are supported for users and roles. Advanced feature to use a managed policy to set the maximum permissions an IAM entity can get.
 
-### Identity Center
+**Identity Center**
 
 One login for all your:
 <ul>
@@ -3162,13 +3129,12 @@ One login for all your:
 
 Identity providers: Built-in identity store in IAM Identity Center
 
-### Directory Serivces
-
-AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD
-
-AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD
-
-Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD
+Directory Services
+<ul>
+  <li>AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD</li>
+  <li>AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD</li>
+  <li>Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower
 
@@ -3202,20 +3168,16 @@ Goals:
   <li>recreate unhealthy instances</li>
 </ul>
 
-### ASG Attributes
+ASG Attributes
+<ul>
+  <li>Launch Template - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information</li>
+  <li>Min/Max Size</li>
+  <li>Initial Capacity</li>
+</ul>
 
-**Launch Template** - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information
+ASG CloudWatch Alarms - Can be used to trigger ASG
 
-**Min/Max Size**
-
-**Initial Capacity**
-
-### ASG CloudWatch Alarms
-
-Can be used to trigger ASG
-
-### ASG Scaling Policies
-
+ASG Scaling Policies
 <ul>
   <li>
     Dynamic Scaling
@@ -3258,9 +3220,7 @@ Metrics to scale on:
   <li>Custom Metric</li>
 </ul>
 
-### ASG Scaling Cooldowns
-
-During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
+ASG Scaling Cooldowns - During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
 
@@ -3286,17 +3246,11 @@ Can be detached and reattached to other instances. Capacity must be provisioned 
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
 
-### EBS Snapshot Archive
+EBS Snapshot Archive - Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
 
-Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
+Recycle Bin for EBS Snapshots - Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
 
-### Recycle Bin for EBS Snapshots
-
-Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
-
-### FSR - Fast Snapshot Restore
-
-Forces full initialization of snapshot to have no latency on first use, but is very expensive.
+FSR (Fast Snapshot Restore) - Forces full initialization of snapshot to have no latency on first use, but is very expensive.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
 
@@ -3379,15 +3333,13 @@ Characterized by size/throughput/IOPS (I/O Operations per second). Only gp2/gp3 
   </body>
 </table>
 
-### EBS Multi-Attach - (io1/io2 family)
+EBS Multi-Attach - (io1/io2 family)
+<ul>
+  <li>Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).</li>
+  <li>Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.</li>
+</ul>
 
-Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).
-
-Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.
-
-### EBS Encryption
-
-Advantages of EBS volumes:
+EBS Encryption Advantages:
 <ul>
   <li>data at rest is encrypted indie the volume</li>
   <li>all data in-flight moving between the instance and the volume is encrypted</li>

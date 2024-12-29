@@ -2467,8 +2467,7 @@ Usage process:
   <li>Snowball is completely wiped</li>
 </ol>
 
-### Edge Computing
-
+Edge Computing
 <ul>
   <li>Processing data while its being created on an edge location.</li>
   <li>Locations may have limited internet connection and no access to computing power.</li>
@@ -2476,18 +2475,17 @@ Usage process:
   <li>Use cases: preprocess data, machine learning, transcoding media</li>
 </ul>
 
-### Solution Architecture: Snowball into Glacier
-
-Snowball cannot import directly into Glacier.
-
-Data must first use S3, then moved with an S3 lifecycle policy.
+Solution Architecture: Snowball into Glacier
+<ul>
+  <li>Snowball cannot import directly into Glacier.</li>
+  <li>Data must first use S3, then moved with an S3 lifecycle policy.</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx.png" width="50"/> Amazon FSx
 
 Launch 3rd party highperformance file systems on AWS, fully managed service.
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-WFS.png" width="50"/> FSx for Windows
 <ul>
   <li>A fully managed Windows filesystem share drive</li>
   <li>Supports SMB protocol & Windows NTFS</li>
@@ -2496,8 +2494,7 @@ Launch 3rd party highperformance file systems on AWS, fully managed service.
   <li>Support's MS's Distributed File System (DFS) Namespaces</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-Lustre.png" width="50"/> FSx for Lustre
 <ul>
   <li>Lustre is a type of parallel distributed file system, for large-scale computing</li>
   <li>Lustre = Linux + cluster</li>
@@ -2508,22 +2505,26 @@ Launch 3rd party highperformance file systems on AWS, fully managed service.
   <li>Seamless integration with S3</li>
 </ul>
 
-### FSx File System Deployment Options
-
-Scratch File System
+FSx File System Deployment Options
 <ul>
-  <li>Temporary storage</li>
-  <li>Data is not replicated</li>
-  <li>High Burst</li>
-  <li>Usage: short-term processing, optimize costs</li>
-</ul>
-
-Persistent File System
-<ul>
-  <li>Long-term storage</li>
-  <li>Data is replicated with same AZ</li>
-  <li>Rlace failed files in minutes</li>
-  <li>sage: long-term processing, sensitive</li>
+  <li>
+    Scratch File System
+    <ul>
+      <li>Temporary storage</li>
+      <li>Data is not replicated</li>
+      <li>High Burst</li>
+      <li>Usage: short-term processing, optimize costs</li>
+    </ul>
+  </li>
+  <li>
+    Persistent File System
+    <ul>
+      <li>Long-term storage</li>
+      <li>Data is replicated with same AZ</li>
+      <li>Rlace failed files in minutes</li>
+      <li>sage: long-term processing, sensitive</li>
+    </ul>
+  </li>
 </ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP

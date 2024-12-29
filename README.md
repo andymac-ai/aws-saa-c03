@@ -2293,14 +2293,13 @@ Ecryption in Transit (SSL/TLS)
   <li>Most clients use HTTPS endpoint by default</li>
 </ul>
 
-### Default Encryption vs Bucket Policies
+Default Encryption vs Bucket Policies
+<ul>
+  <li>SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.</li>
+  <li>Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.</li>
+</ul>
 
-SSE-S3 encryption is automaticaly pplied to new objects stored in S3 bucket.
-
-Optional: "Force Encryption" using a bucket policy and refuse any API call to PUT an S3 object without encryption headers.
-
-### CORS
-
+CORS
 <ul>
   <li>Cross-Origin Resource Sharing</li>
   <li>Origin = scheme (protocol) + host (domain) + port</li>
@@ -2314,8 +2313,7 @@ Optional: "Force Encryption" using a bucket policy and refuse any API call to PU
 
 If a client makes a cross-origin request on an S3 bucket, the correct CORS headers need to enabled.
 
-### MFA Delete
-
+MFA Delete
 <ul>
   <li>MFA - force users to generate a code on a device (ussually mobile phone or other hardware) before doing important operations on S3</li>
   <li>MFA required to: permanently delete an object version, suspend versioning on the bucket</li>
@@ -2324,8 +2322,7 @@ If a client makes a cross-origin request on an S3 bucket, the correct CORS heade
   <li>Only bucket owner can enable/disable MFA Delete</li>
 </ul>
 
-### Access Logs
-
+Access Logs
 <ul>
   <li>Logging access to S3 buckets recomended for audits</li>
   <li>any request made to s3, from any account (authorized or denied) is logged into another S3 bucket</li>
@@ -2339,8 +2336,7 @@ Log:Warnings
   <li>creates logging loop, bucket will grow exponentially</li>
 </ul>
 
-### Pre-Signed URLs
-
+Pre-Signed URLs
 <ul>
   <li>Generate pre-signed URLs using the S3 console, AWS CLI or SDK</li>
   <li>
@@ -2360,8 +2356,7 @@ Examples:
   <li>Allow temporarily a user to upload a file to a precise location in the S3 buccket</li>
 </ul>
 
-### Glacier Vault Lock
-
+Glacier Vault Lock
 <ul>
   <li>adopt a WORM model (Write Once Read Man)</li>
   <li>Create a Vault Lock Policy</li>
@@ -2369,8 +2364,7 @@ Examples:
   <li>Helpful for compliance and data retention</li>
 </ul>
 
-### Object Lock
-
+Object Lock
 <ul>
   <li>adopt a WORM model (Write Once Read Man)</li>
   <li>Block an object version deletion for a specified time</li>
@@ -2392,7 +2386,7 @@ Examples:
   <li>Legal hold - protect the object indefinitely, independent from retention period, can be freely placed and removed using specific IAM permission</li>
 </ul>
 
-### Access Points
+**Access Points**
 
 Access points simplify security management for S3 buckets. Each Access Point has:
 <ul>
@@ -2407,8 +2401,7 @@ VPC Origin:
   <li>VPC Endpoint Policy must allow access to the target bucket and Access Point</li>
 </ul>
 
-### Object Lambda
-
+Object Lambda
 <ul>
   <li>AWS Lambda Functions to change object before it is retrieved by the caller application</li>
   <li>Only one S3 bucket is neededm on top of which an S3 ACCESS Point and S3 Object Lambda Access Points are created</li>

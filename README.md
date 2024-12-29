@@ -2004,35 +2004,6 @@ Global Accelerator vs CloudFront
 
 ## Computing
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
-
-IP Types
-<ul>
-  <li>Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space</li>
-  <li>Private IP - Only devices on network can see the IP address</li>
-  <li>Elastic IP - can change to work when instance is stopped and started (not rebooted)</li>
-</ul>
-
-### Placement Groups
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
-
-#### Cluster Placement Group
-
-Use Case: Low latency and fast, mostly for data processing and in bursts
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
-
-#### Spread Placement Group
-
-Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
-
-<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
-
-#### Partition Placement Group
-
-Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
-
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ENI.png" width="50"/> ENI - Elastic Network Interface
 
 <ul>
@@ -2050,15 +2021,43 @@ Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distribu
   </li>
 </ul>
 
-### EC2 Hibernate
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EC2.png" width="50"/> EC2 - Elastic Compute Cloud
 
-*stop* - data on the disk of the instance is held until start
+IP Types
+<ul>
+  <li>Public IP - IPv4 (common) or IPv6 (IoT), can be observed anywhere in public space</li>
+  <li>Private IP - Only devices on network can see the IP address</li>
+  <li>Elastic IP - can change to work when instance is stopped and started (not rebooted)</li>
+</ul>
 
-*terminate* - data on the disk is lost
+**Placement Groups**
 
-*hibernate* - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cluster_placement_group.jpg" width="300"/>
 
-### EC2 Instance Store
+Cluster Placement Group
+
+Use Case: Low latency and fast, mostly for data processing and in bursts
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/spread_placement_group.jpg" width="300"/>
+
+Spread Placement Group
+
+Use Case: high availability and reliability, only 7 instances per placement group, used for continuous running applications that need to be available
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/partition_placement_group.png" width="300"/>
+
+Partition Placement Group
+
+Use Case: 7 partitions per AZ and 100s of EC2 instances, used for large distributed and replicated workloads 
+
+EC2 Hibernate
+<ul>
+  <li>stop - data on the disk of the instance is held until start</li>
+  <li>terminate - data on the disk is lost</li>
+  <li>hibernate - in-memory (RAM) is preserved, faster boot time, RAM written onto EBS volume, EBS volume must be encrypted</li>
+</ul>
+
+**EC2 Instance Store**
 
 EBS Volumes are network drives with good but limited performance. EC2 is a high-performance hardware disk-like network drive. The instance store features:
 <ul>

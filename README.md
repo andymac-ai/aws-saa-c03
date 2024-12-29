@@ -2094,27 +2094,30 @@ Moving Between Storage Classes - Objects can be moved through the storage classe
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/s3_storage_classes.png" width="300"/>
 
-### Lifecycle Rules
-
-**Transition Actions:**
+Lifecycle Rules
 <ul>
-  <li>configure objects to transition to another storage class</li>
-  <li>Ex: move objects to Standard 1A 60 days after creation</li>
-  <li>Ex: move objects into glacier after 6 months</li>
-</ul>
-
-**Expiration Actions:**
-<ul>
-  <li>configure object deletion after time</li>
-  <li>Ex: delete access logs after 365 days</li>
-  <li>Ex: delete old versions of files (with versioning)</li>
-  <li>Ex: delete multi-part uploads</li>
+  <li>
+    Transition Actions:
+    <ul>
+      <li>configure objects to transition to another storage class</li>
+      <li>Ex: move objects to Standard 1A 60 days after creation</li>
+      <li>Ex: move objects into glacier after 6 months</li>
+    </ul>
+  </li>
+  <li>
+    Expiration Actions:
+    <ul>
+      <li>configure object deletion after time</li>
+      <li>Ex: delete access logs after 365 days</li>
+      <li>Ex: delete old versions of files (with versioning)</li>
+      <li>Ex: delete multi-part uploads</li>
+    </ul>
+  </li>
 </ul>
 
 *Rules can be created for a certain prefix, eg. s3://mybucket/mp3/xxx*
 
-### Analytics
-
+Analytics
 <ul>
   <li>Helps determine timeperiods for tansitioning objects into archive</li>
   <li>Recomentions for Standard and Standard-1A</li>
@@ -2123,8 +2126,7 @@ Moving Between Storage Classes - Objects can be moved through the storage classe
   <li>Good starting point for creating lifecycle rules, or improving them</li>
 </ul>
 
-### Requester Pays
-
+Requester Pays
 <ul>
   <li>Bucket owners typically pay for storage and data transfer costs for bucket</li>
   <li>Requester Pays buckets bill the requester the cost of the request and download</li>
@@ -2132,8 +2134,7 @@ Moving Between Storage Classes - Objects can be moved through the storage classe
   <li>Requester must be AWS authenticated</li>
 </ul>
 
-### Event Notifications
-
+Event Notifications
 <ul>
   <li>notifications on s3 events</li>
   <li>typically delivered in seconds, sometimes in minutes</li>
@@ -2145,8 +2146,7 @@ Can be passed to SNS, SQS, or Lambda Functions as policy checks for access.
 
 Can be passed into Amazon EventBridge, and shared with other AWS services as destinations, allowing for advanced filtering, multiple destinations, EventBridge Capabilities.
 
-### Baseline Performance
-
+Baseline Performance
 <ul>
   <li>Automatically scales to high request rates, latency 100-200ms</li>
   <li>Application can achieve at least 3500 PUT/COPY/POST/DELETE or 5500 GET/HEAD requests per second per prefix in a bucket</li>
@@ -2155,8 +2155,7 @@ Can be passed into Amazon EventBridge, and shared with other AWS services as des
   <li>spreading accross 4 prefixes evenly results in 22000 requests per second for GET and HEAD</li>
 </ul>
 
-### Performance
-
+Performance
 <table>
   <head>
     <tr>
@@ -2176,12 +2175,11 @@ Can be passed into Amazon EventBridge, and shared with other AWS services as des
   </body>
 </table>
 
-### S3 Byte-Range Fetches
+**S3 Byte-Range Fetches**
 
 Parallelize GETs by requesting specific byte ranges, has better failure resistance.
 
-### Batch Operations
-
+Batch Operations
 <ul>
   <li>Perform bulk operations on existing S3 objects with single request</li>
   <li>Job consists of a list of objects, the action to perform, and optional parameters</li>
@@ -2189,9 +2187,7 @@ Parallelize GETs by requesting specific byte ranges, has better failure resistan
   <li>S3 Inventory can be used to get object list and use S3 Select to filter objects</li>
 </ul>
 
-### Storage Lens
-
-Default Dashboard:
+Storage Lens - Default Dashboard:
 <ul>
   <li>Visualize summarized insights and trends for both free and advanced metrics</li>
   <li>Default dashboard shows Multi-Region and Multi-Account data</li>
@@ -2199,88 +2195,97 @@ Default Dashboard:
   <li>Can't be deleted, but can be disabled</li>
 </ul>
 
-<h4>Metrics</h4>
-
-**Summary**
+Metrics
 <ul>
-  <li>general insights about your s3 storage</li>
-  <li>StorageBytes, ObjectCount...</li>
-  <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+  <li>
+    Summary
+    <ul>
+      <li>general insights about your s3 storage</li>
+      <li>StorageBytes, ObjectCount...</li>
+      <li>Use cases: identify the fastest-growing buckets and prefixes</li>
+    </ul>
+  </li>
+  <li>
+    Cost-Optimization
+    <ul>
+      <li>Provide insights to manage and optimize your storage costs</li>
+      <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
+      <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+    </ul>
+  </li>
+  <li>
+    Free
+    <ul>
+      <li>automatically available for all</li>
+      <li>Contains 28 usage metrics</li>
+      <li>Data is available for 14 days</li>
+    </ul>
+  </li>
+  <li>
+    Advanced
+    <ul>
+      <li>additional paid metrics and features</li>
+      <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
+      <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
+      <li>Prefix Aggregation - collect metrics at the prefix level</li>
+      <li>Data is available for queries for 15 months</li>
+    </ul>
+  </li>
 </ul>
 
-**Cost-Optimization**
+Object Encryption
 <ul>
-  <li>Provide insights to manage and optimize your storage costs</li>
-  <li>NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes...</li>
-  <li>Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which could be transitioned to lower-cost storage class</li>
+  <li>
+    SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
+    <ul>
+      <li>Encryption keys handled, managed, and owned by AWS</li>
+      <li>Object encryption is server-side</li>
+      <li>Encryption type is AES-256</li>
+      <li>Enabled by default for new buckets and new objects</li>
+      <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
+    </ul>
+  </li>
+  <li>
+    SSE-KMS (Server-Side Encryption with KMS keys)
+    <ul>
+      <li>Encryption keys handled, managed, and owned by AWS KMS</li>
+      <li>KMS advantages: user control + audit key usage using CloudTrain</li>
+      <li>Object is encrypted server side</li>
+      <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
+      <li>SSE-KMS impacted by KMS limits</li>
+      <li>Upon downloads calls the GenerateDataKey KMS API</li>
+      <li>Count towards the KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
+      <li>Can request a quota increase using the Service Quotas Console</li>
+    </ul>
+  </li>
+  <li>
+    DSSE-KMS (Double Server-Side Encryption with KMS keys)
+    <ul>
+      <li>Encryption handled on double sides</li>
+      <li>For customers with more rigorous security standards</li>
+    </ul>
+  </li>
+  <li>
+    SSE-C (Server-Side Encryption with Customer keys)
+    <ul>
+      <li>Keys fully managed by customer outside of AWS</li>
+      <li>S3 does not store the encryption key you provide</li>
+      <li>HTTPS required</li>
+      <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
+    </ul>
+  </li>
+  <li>
+    Client-Side Encryption
+    <ul>
+      <li>Use client libraries such as S3 Client Side Encryption Library</li>
+      <li>Clients must encrypt data themselved before sending to S3</li>
+      <li>Clients must decrpt data themselves when retrieving</li>
+      <li>Customer fully manages the keys and encryption cycle</li>
+    </ul>
+  </li>
 </ul>
 
-**Free**
-<ul>
-  <li>automatically available for all</li>
-  <li>Contains 28 usage metrics</li>
-  <li>Data is available for 14 days</li>
-</ul>
-
-**Advanced**
-<ul>
-  <li>additional paid metrics and features</li>
-  <li>Advanced Metrics - activity, advanced cost optimization, advanced data protection, status code</li>
-  <li>CloudWatch Publishing - access metrics in cloudwatch without additional charges</li>
-  <li>Prefix Aggregation - collect metrics at the prefix level</li>
-  <li>Data is available for queries for 15 months</li>
-</ul>
-
-### Object Encryption
-
-SSE-S3 (Server-Side Encryption with Amazon S3-Managed keys)
-<ul>
-  <li>Encryption keys handled, managed, and owned by AWS</li>
-  <li>Object encryption is server-side</li>
-  <li>Encryption type is AES-256</li>
-  <li>Enabled by default for new buckets and new objects</li>
-  <li>Must set header "x-amz-server-side-encryption":"AES256"</li>
-</ul>
-
-SSE-KMS (Server-Side Encryption with KMS keys)
-<ul>
-  <li>Encryption keys handled, managed, and owned by AWS KMS</li>
-  <li>KMS advantages: user control + audit key usage using CloudTrain</li>
-  <li>Object is encrypted server side</li>
-  <li>Must set header "x-amz-server-side-encryption":"aws:kms"</li>
-</ul>
-
-<ul>
-  <li>SSE-KMS impacted by KMS limits</li>
-  <li>Upon downloads calls the GenerateDataKey KMS API</li>
-  <li>Count towards teh KMS quota per second (5500, 10000, 30000 req/s based on region)</li>
-  <li>You can request a quota increase using the Service Quotas Console</li>
-</ul>
-
-DSSE-KMS (Double Server-Side Encryption with KMS keys)
-<ul>
-  <li>Encryption handled on double sides</li>
-  <li>For customers with more rigorous security standards</li>
-</ul>
-
-SSE-C (Server-Side Encryption with Customer keys)
-<ul>
-  <li>Keys fully managed by customer outside of AWS</li>
-  <li>S3 does not store the encryption key you provide</li>
-  <li>HTTPS required</li>
-  <li>Encryption key must be provided in HTTP headers, for every HTTP request made</li>
-</ul>
-
-Client-Side Encryption
-<ul>
-  <li>Use client libraries such as S3 Client Side Encryption Library</li>
-  <li>Clients must encrypt data themselved before sending to S3</li>
-  <li>Clients must decrpt data themselves when retrieving</li>
-  <li>Customer fully manages the keys and encryption cycle</li>
-</ul>
-
-### Ecryption in Transit (SSL/TLS)
-
+Ecryption in Transit (SSL/TLS)
 <ul>
   <li>Amazon S3 exposes two endpoints: HTTP (non encrypted) and HTTP (encrypted in flight)</li>
   <li>HTTPS recommended</li>

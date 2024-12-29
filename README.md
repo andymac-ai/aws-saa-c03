@@ -2527,8 +2527,7 @@ FSx File System Deployment Options
   </li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-NetApp-ONTAP.png" width="50"/> FSx for NetApp ONTAP
 <ul>
   <li>Managed NetApp ONTAP on AWS</li>
   <li>File System compatible with NFS, SMB, iSCSI protocol</li>
@@ -2539,8 +2538,7 @@ FSx File System Deployment Options
   <li>Point-in-time instantaneous cloning</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/FSx-for-OpenZFS.png" width="50"/> FSx for OpenZFS
 <ul>
   <li>Managed OpenZFS file system on AWS</li>
   <li>File System compatible with NFS</li>
@@ -2551,15 +2549,14 @@ FSx File System Deployment Options
   <li>Point-in-time instantaneous cloning</li>
 </ul>
 
-### Hybrid Cloud for Storage
-
+Hybrid Cloud for Storage
 <ul>
   <li>AWS is pushing for "hybrid-cloud" (part of infrastructure in the cloud, part on-premises)</li>
   <li>Causes: Long cloud migrations, security requirements, compliance requirements, IT strategy</li>
   <li>Amazon Storage Gateway exposes on-premises S3 data</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway.png" width="50"/> AWS Storage Gateway
 
 Bridge between on-premises data and cloud data.
 
@@ -2579,8 +2576,7 @@ Types of storage gateway:
   <li>Tape Gateway</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-S3.png" width="50"/> Amazon S3 File Gateway
 <ul>
   <li>Configured S3 buckets are accessible using the NFS and SMB protocol</li>
   <li>Most recently used data is cached in the file gateway</li>
@@ -2590,8 +2586,7 @@ Types of storage gateway:
   <li>SMB Protocol has integration with Active Directory (AD) for user authentication</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Storage-Gateway-FSx.png" width="50"/> Amazon FSx File Gateway
 <ul>
   <li>Native access to Amazon FSx for Windows File Server</li>
   <li>Local cache for frequently accessed data</li>
@@ -2599,8 +2594,7 @@ Types of storage gateway:
   <li>Useful for group file shares and home directories</li>
 </ul>
 
-### Volume Gateway
-
+Volume Gateway
 <ul>
   <li>Block storage using iSCSI protocol backed by S3</li>
   <li>Backed by EBS Snapshot which can help restore on premises volumes</li>
@@ -2608,8 +2602,7 @@ Types of storage gateway:
   <li>Stored Volumes: entire dataset is on premise, scheduled backups to S3</li>
 </ul>
 
-### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
-
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Tape-Gateway.png" width="50"/> Tape Gateway
 <ul>
   <li>Some companies have backup processes using physical tapes</li>
   <li>With Tape Gateway, companies use the same processes but, in the cloud</li>
@@ -2618,11 +2611,11 @@ Types of storage gateway:
   <li>Works with leading backup software vendors</li>
 </ul>
 
-### Storage Gateway - Hardware Appliance
-
-Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.
-
-Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.
+Storage Gateway - Hardware Appliance
+<ul>
+  <li>Alternitive to on-premises virtualization, Storage Gateway Hardware Appliances can serve the same purpose and easily purchased.</li>
+  <li>Works with File Gateway, Volume Gateway, and Tape Gateway. Has the required CPU, memory network, and SSD cache resources. Helpful for daily backups in small data centers.</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transfer-Family.png" width="50"/> AWS Transfer Family
 
@@ -2639,13 +2632,12 @@ Managed infrastructure, Scalable, Reliable, Highly Available (multi-AZ). Pay per
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/DataSync.png" width="50"/> AWS DataSync
 
-Moves large amount of data from on-premises/AWS to AWS.
-
-Can syncronize to Amazon S3, EFS, FSx.
-
-Replication tasks can be scheduled hourly, daily, or weekly.
-
-File permissions and metadata are preserved.
+<ul>
+  <li>Moves large amount of data from on-premises/AWS to AWS.</li>
+  <li>Can syncronize to Amazon S3, EFS, FSx.</li>
+  <li>Replication tasks can be scheduled hourly, daily, or weekly.</li>
+  <li>File permissions and metadata are preserved.</li>
+</ul>
 
 ### Storage Comparison
 
@@ -2729,8 +2721,7 @@ Use case:
   <li>file system scales automatically, billed by GB (size)</li>
 </ul>
 
-### EFS Performance Classes
-
+EFS Performance Classes
 <table>
   <body>
     <tr>
@@ -2764,24 +2755,27 @@ Use case:
   </body>
 </table>
 
-### EFS Storage Classes
-
-Storage Tiers:
+EFS Storage Classes
 <ul>
-  <li><b>standard</b> - frequently accessed files</li>
-  <li><b>infrequent access (EFS IA)</b> - cost to retrieve files, lower storage price</li>
-  <li><b>archive</b> - rarely accessed data</li>
-  <li><b>implement life cycle policies</b> - move files between storage tiers</li>
+  <li>
+    Storage Tiers
+    <ul>
+      <li>standard - frequently accessed files</li>
+      <li>infrequent access (EFS IA) - cost to retrieve files, lower storage price</li>
+      <li>archive - rarely accessed data</li>
+      <li>implement life cycle policies - move files between storage tiers</li>
+    </ul>
+  </li>
+  <li>
+    Availability
+    <ul>
+      <li>Standard: Multi AZ, great for production</li>
+      <li>One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A)</li>
+    </ul>
+  </li>
 </ul>
 
-Availability
-
-Standard: Multi AZ, great for production
-
-One Zone: great for development, backup by default, compatible with 1A (EFS One Zone-1A
-
-### EBS vs EFS
-
+EBS vs EFS
 <table>
   <head>
     <tr>

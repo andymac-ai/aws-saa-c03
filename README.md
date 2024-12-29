@@ -3096,39 +3096,28 @@ Service Control Policies (SPC)
   <li>Must have expicit allow from the root through each OU in the direct path to the target account</li>
 </ul>
 
-### SCP Hiearchy
+SCP Hiearchy
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/scp_hierarchy.png" width="300"/>
 
-### IAM Conditions
+**IAM Conditions** - Set conditions for applying IAM rules.
 
-Set conditions for applying IAM rules.
+**IAM S3** - Conditions can be bucket level or object level.
 
-### IAM S3
+**Resource Policies** - Principle does not give up their permissions.
 
-Conditions can be bucket level or object level.
+**IAM Roles** - Assuming a role surrenders original permissions and takes new permissions.
 
-### Resource Policies
-
-Principle does not give up their permissions.
-
-### IAM Roles 
-
-Assuming a role surrenders original permissions and takes new permissions.
-
-### Amazon EventBridge - Security
-
+Amazon EventBridge - Security
 <ul>
   <li>When a rule runs, it needs permissions on the target.</li>
   <li>Resource-based policy: Lambda, SNS, SQS, S3 buckets, API gatesway...</li>
   <li>IAM Role: Kinesis stream, EC2 Auto Scaling, Systems Manager Run Command, ECS task...</li>
 </ul>
 
-### Permission Boundaries
-
 Permission boundaries are supported for users and roles. Advanced feature to use a managed policy to set the maximum permissions an IAM entity can get.
 
-### Identity Center
+**Identity Center**
 
 One login for all your:
 <ul>
@@ -3140,13 +3129,12 @@ One login for all your:
 
 Identity providers: Built-in identity store in IAM Identity Center
 
-### Directory Serivces
-
-AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD
-
-AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD
-
-Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD
+Directory Services
+<ul>
+  <li>AWS Managed Microsoft AD - create own AD in AWS, manage users locally, supports MFA; est. "trust" connections with on-premise AD</li>
+  <li>AD Connector - Directory Gateway (proxy) ro redirect to on-premise AD, supports MFA; users are managed on the on-premise AD</li>
+  <li>Simple AD - AD-compatible managed directory on AWS; cannot be joined with on-remise AD</li>
+</ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Control-Tower.png" width="50"/> AWS Control Tower
 

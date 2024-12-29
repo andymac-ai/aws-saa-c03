@@ -3168,20 +3168,16 @@ Goals:
   <li>recreate unhealthy instances</li>
 </ul>
 
-### ASG Attributes
+ASG Attributes
+<ul>
+  <li>Launch Template - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information</li>
+  <li>Min/Max Size</li>
+  <li>Initial Capacity</li>
+</ul>
 
-**Launch Template** - AMI + Instance type, EC2 user data, EBS volumes, security groups, SSH key pair, IAM roles for EC2 instances, network and subnet information, load balancer information
+ASG CloudWatch Alarms - Can be used to trigger ASG
 
-**Min/Max Size**
-
-**Initial Capacity**
-
-### ASG CloudWatch Alarms
-
-Can be used to trigger ASG
-
-### ASG Scaling Policies
-
+ASG Scaling Policies
 <ul>
   <li>
     Dynamic Scaling
@@ -3224,9 +3220,7 @@ Metrics to scale on:
   <li>Custom Metric</li>
 </ul>
 
-### ASG Scaling Cooldowns
-
-During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
+ASG Scaling Cooldowns - During cooldown, there is no launching new instances or terminating instances to stabilize metrics after stabilize.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBS.png" width="50"/> EBS - Elastic Block Store
 
@@ -3252,17 +3246,11 @@ Can be detached and reattached to other instances. Capacity must be provisioned 
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/EBSSnapshots.png" width="300"/>
 
-### EBS Snapshot Archive
+EBS Snapshot Archive - Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
 
-Snapshots can be moved to an "archive tier" that is 75% cheaper. Takes 24 to 72 hours to restore. 
+Recycle Bin for EBS Snapshots - Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
 
-### Recycle Bin for EBS Snapshots
-
-Can be setup with rules to retain deleted EBS Snapshots to recover from accidental deletion. Rules specify retention time (1 day - 1 year).
-
-### FSR - Fast Snapshot Restore
-
-Forces full initialization of snapshot to have no latency on first use, but is very expensive.
+FSR (Fast Snapshot Restore) - Forces full initialization of snapshot to have no latency on first use, but is very expensive.
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/EBSVolumeTypes.png" width="50"/> EBS Volume Types
 
@@ -3345,15 +3333,13 @@ Characterized by size/throughput/IOPS (I/O Operations per second). Only gp2/gp3 
   </body>
 </table>
 
-### EBS Multi-Attach - (io1/io2 family)
+EBS Multi-Attach - (io1/io2 family)
+<ul>
+  <li>Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).</li>
+  <li>Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.</li>
+</ul>
 
-Attach the same EBS volume to multiple EC2 instances in the same AZ. Each instance has full read and write permissions to the high performance volume. Up to 16 EC2 instances at a time and must use a file system that is cluster aware (not XFS, EXT4, etc.).
-
-Use case: achieve higher application availability in clusteres Linux applications that manage concurrent write operations.
-
-### EBS Encryption
-
-Advantages of EBS volumes:
+EBS Encryption Advantages:
 <ul>
   <li>data at rest is encrypted indie the volume</li>
   <li>all data in-flight moving between the instance and the volume is encrypted</li>

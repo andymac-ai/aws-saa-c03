@@ -1545,7 +1545,9 @@ Sticky Sessions - Cookie Names
   </li>
 </ul>
 
-### ELB Cross-Zone Balancing
+### Networking Concepts
+
+**Cross-Zone Balancing**
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/CrossZoneBalancing.png" width="300"/>
 
@@ -1553,13 +1555,13 @@ Application load balancer - Cross zone balancing enabled by default, no charges
 
 Network and Gateway Load Balancers - disabled by default, costs $
 
-### SSL/TLS Bases
+**SSL/TLS Bases**
 
 SSL certificate allows traffic between clients and load balancer to be encrypted in transit (in-flight encryption). SSL refers to secure sockets layer, used to encrypt connections. TLS referes to transport layer security (newer). TLS mainly used, some still use SSL.
 
 Public SSL certificates are issued by Certificate Authorities. SSL certificates have an expiration date. 
 
-### SSL Certificates
+**SSL Certificates**
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/LoadBalancerSSL.png" width="300"/>
 
@@ -1572,19 +1574,19 @@ HTTPS Listeners:
   <li>clients can use SNI to specify the hostname</li>
 </ul>
 
-### SNI - Server Name Identification
+**SNI - Server Name Identification**
 
 Solves the proble, of having multiple SSL certificates on one web server. "Newer" protocol client to indicate the hostname target server of initial SSL handshake. Server finds correct certificate, or returns default.
 
 Only works for ALB, NLB, and CloudFront.
 
-### Elastic Load Balancers - SSL Certificates
+**Elastic Load Balancers - SSL Certificates**
 
-**Application Load Balancers** - support multiple listeners with multiple SSL certificates, ise SNI to make it work
+Application Load Balancers - support multiple listeners with multiple SSL certificates, ise SNI to make it work
 
-**Network Load Balancers** - supports multiple listeners with multiple SSL certificates
+Network Load Balancers - supports multiple listeners with multiple SSL certificates
 
-### Connection Draining
+**Connection Draining**
 
 Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
 
@@ -1597,8 +1599,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>DNS is the backbone of the internet, uses heirarchical naming structure: eg. .com, example.com, www.example.com, api.example.com</li>
 </ul>
 
-### DNS Terminology
-
+DNS Terminology
 <ul>
   <li>**Domain Registrar:** Amazon Route 53, GoDaddy, ...</li>
   <li>**DNS Records:** A, AAAA, CNAME, NS, ...</li>
@@ -1608,7 +1609,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>**Second Level Domain (SLD):** amazon.com, google.com, ...</li>
 </ul>
 
-### DNS Functionality
+DNS Functionality
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/dns.jpg" width="300"/>
 
@@ -1622,8 +1623,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>53: reference to the traditional DNS port</li>
 </ul>
 
-### Route 53 - Records
-
+Records
 <ul>
   <li>How to the traffic should be routed for a domain</li>
   <li>
@@ -1645,8 +1645,7 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   </li>
 </ul>
 
-### Route 53 - Record Types
-
+Record Types
 <ul>
   <li>A: maps a hostname to IPv4</li>
   <li>AAAA: maps a hostname to IPv6</li>
@@ -1661,35 +1660,34 @@ Also called degredation delay, refers to time to complete "in-flight requests" w
   <li>NS: Name servers for the hosted zone</li>
 </ul>
 
-### Route 53 - Hosted Zones
+Hosted Zones
+<ul>
+  <li>Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)</li>
+  <li>Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)</li>
+</ul>
 
-Public Hosted Zones - contains records that specify how to route traffic on the Internet (public domain names)
+**Records TTL (Time to Live)**
 
-Private Hosted Zones - contains records that specify how you route traffic with one or more VPCs (private domain names)
-
-### Records TTL (Time to Live)
-
-**High TTL:** eg 24hr
+High TTL - eg 24hr
 <ul>
   <li>Less traffic on Route 53</li>
   <li>Possibly outdated records</li>
 </ul>
 
-**Low TTL:** eg 60sec
+Low TTL - eg 60sec
 <ul>
   <li>More traffic on Route 53</li>
   <li>Records are outdated for less time</li>
   <li>Easy to change records</li>
 </ul>
 
-### CNAME vs Alias
+CNAME vs Alias
+<ul>
+  <li>CNAME: Points a hostname to any other hostname, only for non root domain</li>
+  <li>Alias: Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks</li>
+</ul>
 
-**CNAME:** Points a hostname to any other hostname, only for non root domain
-
-**Alias:** Points a hostname to an AWS resource, works for root domain and non root domain, free, native health checks
-
-### Alias Records
-
+Alias Records
 <ul>
   <li>Maps a hostname to an AWS resource</li>
   <li>an extension to DNS functionality</li>
@@ -1701,8 +1699,7 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 
 **Alias Targets:** Elastic Load Balancers, CloudFront Distributions, API Gateway, Elastic Beanstalk environments, S3 Websites, VPC Interface Endpoints, Global Accelerator accelerator, Route 53 record in the same hosted zone
 
-### Routing Policies
-
+Routing Policies
 <ul>
   <li>Define how Route 53 responds to DNS queries</li>
   <li>DNS does not route traffic, only responds to DNS queries</li>
@@ -1810,7 +1807,6 @@ Private Hosted Zones - contains records that specify how you route traffic with 
 </table>
 
 ### Health Checks
-
 <ul>
   <li>HTTP Health Checks are only for public resources</li>
   <li>
@@ -1823,8 +1819,7 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   </li>
 </ul>
 
-### Health Checks - Monitor an Endpoint
-
+Monitor an Endpoint
 <ul>
   <li>About 15 global health checkers will check endpoint health.</li>
   <li>Health checks only pass then the endpoint responds with 2xx or 3xx codes.</li>
@@ -1832,8 +1827,7 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   <li>Configure router/firewall to allow incoming requests from Route 53 Health checkers</li>
 </ul>
 
-### Health Checks - Calculated
-
+Calculated
 <ul>
   <li>Combine the results of multiple health checks into a single health check.</li>
   <li>Can use OR, AND, or NOT.</li>
@@ -1842,16 +1836,14 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   <li>Usage: perform maintainence to website without causing all health checks to fail.</li>
 </ul>
 
-### Health Checks - Private Hosted Zones
-
+Private Hosted Zones
 <ul>
   <li>Route 53 health checkers are outside the VPC.</li>
   <li>They can't process private endpoints.</li>
   <li>CloudWatch Metrics can be created and associated with a CloudWatch Alarm, then a Health Check that checks the alarm itself.</li>
 </ul>
 
-### Domain Registar vs DNS Service
-
+Domain Registar vs DNS Service
 <ul>
   <li>Domain names can be purchased with a Domain Registrar typically by paying annual charges.</li>
   <li>The Domain Registrar provides a DNS service to manage DNS records.</li>
@@ -1869,51 +1861,56 @@ Private Hosted Zones - contains records that specify how you route traffic with 
   <li>DDoS Protection, integration with Shield, AWS Web Application Firewall</li>
 </ul>
 
-### Origins
-
-**S3 Bucket:**
+Origins
 <ul>
-  <li>For distirbuting files and caching at the edge</li>
-  <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
-  <li>OAC replaces Origin Access Identity (OAI)</li>
-  <li>CloudFront can be used as an ingress (uploading files to S3)</li>
+  <li>
+    S3 Bucket
+    <ul>
+      <li>For distirbuting files and caching at the edge</li>
+      <li>Enhanced security with CloudFront Origin Access Control (OAC)</li>
+      <li>OAC replaces Origin Access Identity (OAI)</li>
+      <li>CloudFront can be used as an ingress (uploading files to S3)</li>
+    </ul>
+  </li>
+  <li>
+    Custom Origin (HTTP)
+    <ul>
+      <li>Application Load Balancer</li>
+      <li>EC2 instance</li>
+      <li>S3 website (bucket must be enabled as static S3 website)</li>
+      <li>Any HTTP backend</li>
+    </ul>
+  </li>
 </ul>
 
-**Custom Origin (HTTP):**
+CloudFront vs S3 Cross Region Replication
 <ul>
-  <li>Application Load Balancer</li>
-  <li>EC2 instance</li>
-  <li>S3 website (bucket must be enabled as static S3 website)</li>
-  <li>Any HTTP backend</li>
+  <li>
+    CloudFront
+    <ul>
+      <li>Global edge network</li>
+      <li>Files are cached or a TTL (maybe delay)</li>
+      <li>Great for static content that must be globally available</li>
+    </ul>
+  </li>
+  <li>
+    S3 Cross Region Replication
+    <ul>
+      <li>Must be setup in each region for replication</li>
+      <li>Files are updated in near real-time</li>
+      <li>Read only</li>
+      <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
+    </ul>
+  </li>
 </ul>
 
-### CloudFront vs S3 Cross Region Replication
-
-**CloudFront:**
+Geo Restriction
 <ul>
-  <li>Global edge network</li>
-  <li>Files are cached or a TTL (maybe delay)</li>
-  <li>Great for static content that must be globally available</li>
+  <li>Allowlist: Allow users to access content only if they are in one of the countries on the aproved list</li>
+  <li>Blocklist: Prevent users from accessing your content if they are in one of the countries in the banned list</li>
 </ul>
 
-**S3 Cross Region Replication:**
-<ul>
-  <li>Must be setup in each region for replication</li>
-  <li>Files are updated in near real-time</li>
-  <li>Read only</li>
-  <li>Great for dynamic content that needs to be available at low-latency in a few regions</li>
-</ul>
-
-### Geo Restriction
-
-**Allowlist:** Allow users to access content only if they are in one of the countries on the aproved list
-
-**Blocklist:** Prevent users from accessing your content if they are in one of the countries in the banned list
-
-### Pricing
-
-Cost of data out of CloudFront Edge location varies.
-
+Pricing - Cost of data out of CloudFront Edge location varies.
 <table>
   <head>
     <tr>
@@ -1938,8 +1935,7 @@ Cost of data out of CloudFront Edge location varies.
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/images/cloudfront_price.png" width="300"/>
 
-### Cache Invalidations
-
+Cache Invalidations
 <ul>
   <li>If the back-end origin is updated, CloudFront only gets refreshed content after the TTL has expired</li>
   <li>A partial cache refresh can be forced using CloudFront invalidation</li>
@@ -1982,26 +1978,28 @@ Cost of data out of CloudFront Edge location varies.
   </li>
 </ul>
 
-### Global Accelerator vs CloudFront
-
-Both use AWS global network and its edge locations around the world.
-
-Both services integrate with AWS Shield for DDoS protection.
-
-**CloudFront**
+Global Accelerator vs CloudFront
 <ul>
-  <li>improves performance for both cacheable content</li>
-  <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
-  <li>Content served on the edge</li>
-</ul>
-
-**Global Accelerator**
-<ul>
-  <li>Improve performance for a wide range of applications over TCP or UDP</li>
-  <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
-  <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
-  <li>Good for HTTP with static IP addresses</li>
-  <li>Good for HTTP with required deterministic, fast regional failover</li>
+  <li>Both use AWS global network and its edge locations around the world.</li>
+  <li>Both services integrate with AWS Shield for DDoS protection.</li>
+  <li>
+    CloudFront
+    <ul>
+      <li>improves performance for both cacheable content</li>
+      <li>Dynamic content (such as API acceleration and dynamic site delivery)</li>
+      <li>Content served on the edge</li>
+    </ul>
+  </li>
+  <li>
+    Global Accelerator
+    <ul>
+      <li>Improve performance for a wide range of applications over TCP or UDP</li>
+      <li>Proxying packets at the edge to applications running in one or more AWS Regions</li>
+      <li>Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP</li>
+      <li>Good for HTTP with static IP addresses</li>
+      <li>Good for HTTP with required deterministic, fast regional failover</li>
+    </ul>
+  </li>
 </ul>
 
 ## Computing

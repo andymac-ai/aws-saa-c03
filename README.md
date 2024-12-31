@@ -1662,7 +1662,7 @@ Peering
   <li></li>
 </ul>
 
-Endpoints
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Endpoints.png" width="50"/> Endpoints
 <ul>
   <li></li>
   <li></li>

@@ -1670,7 +1670,7 @@ Peering
   <li></li>
 </ul>
 
-Flow Logs
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Flow-Logs.png" width="50"/> Flow Logs
 <ul>
   <li></li>
   <li></li>

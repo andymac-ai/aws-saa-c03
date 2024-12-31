@@ -1638,7 +1638,7 @@ NAT Instance
   <li></li>
 </ul>
 
-NAT Gateway
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NAT-Gateway.png" width="50"/> NAT Gateway
 <ul>
   <li></li>
   <li></li>

@@ -1646,7 +1646,7 @@ NAT Instance
   <li></li>
 </ul>
 
-NACL and Security Groups
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NACL.png" width="50"/> NACL and Security Groups
 <ul>
   <li></li>
   <li></li>

@@ -1590,7 +1590,93 @@ Network Load Balancers - supports multiple listeners with multiple SSL certifica
 
 Also called degredation delay, refers to time to complete "in-flight requests" while instance is deregistering or unhealthy. Stops sending new requests to the EC2 instance which is deregistering. Can be set between 1 to 3500 seconds (default 300s) or be disabled. Low values can be set if requests are short.
 
+CIDR (Classless InterDomain Routing)
+<ul>
+  <li>IPv4</li>
+  <li>Subnet Mask</li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
+
+IPv4
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Subnet
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Internet-Gateway.png" width="50"/> Internet Gateway
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Bastion Hosts
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+NAT Instance
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NAT-Gateway.png" width="50"/> NAT Gateway
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NACL.png" width="50"/> NACL and Security Groups
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Peering
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Endpoints.png" width="50"/> Endpoints
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Flow-Logs.png" width="50"/> Flow Logs
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
 
 ### DNS
 

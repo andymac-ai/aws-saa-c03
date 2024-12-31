@@ -1614,7 +1614,7 @@ Subnet
   <li></li>
 </ul>
 
-Internet Gateway
+<img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Internet-Gateway.png" width="50"/> Internet Gateway
 <ul>
   <li></li>
   <li></li>

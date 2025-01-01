@@ -1421,6 +1421,14 @@ Support for:
   <li>Supports pre-built CI/CD pipelines</li>
 </ul>
 
+## Security
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Network-Firewall.png" width="50"/> AWS Network Firewall
+
+<ul>
+  <li></li>
+</ul>
+
 ## Networking
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
@@ -1596,6 +1604,11 @@ CIDR (Classless InterDomain Routing)
   <li>Subnet Mask</li>
 </ul>
 
+Networking Costs in AWS per GB - Simplified
+<ul>
+  <li></li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 IPv4
@@ -1638,6 +1651,35 @@ NAT Instance
   <li></li>
 </ul>
 
+Traffic Monitoring
+<ul>
+  <li></li>
+</ul>
+
+IPv6 in VPC
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+IPv6 Troubleshooting
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Egress-only Internet Gateway
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NAT-Gateway.png" width="50"/> NAT Gateway
 <ul>
   <li></li>
@@ -1663,6 +1705,7 @@ Peering
 </ul>
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Endpoints.png" width="50"/> Endpoints
+
 <ul>
   <li></li>
   <li></li>
@@ -1671,12 +1714,95 @@ Peering
 </ul>
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Flow-Logs.png" width="50"/> Flow Logs
+
 <ul>
   <li></li>
   <li></li>
   <li></li>
   <li></li>
 </ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Site-To-Site-VPN.png" width="50"/> Site-to-Site VPN
+
+<ul>
+  <li>Virtual Private Gateway (VGW)</li>
+  <li>Customer Gateway</li>
+</ul>
+
+Site-to-Site VPN Connections
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+AWS VPN CloudHub
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Direct-Connect.png" width="50"/> Direct Connect
+
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Direct Connect Gateway
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Connection Types
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Encryption
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Site-to-Site VPN connection as a backup
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transit-Gatewy.png" width="50"/> Transit Gateway
+
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Site-to-Site VPN ECMP
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+
 
 ### DNS
 

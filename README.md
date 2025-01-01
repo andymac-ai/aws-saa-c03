@@ -1421,6 +1421,14 @@ Support for:
   <li>Supports pre-built CI/CD pipelines</li>
 </ul>
 
+## Security
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Network-Firewall.png" width="50"/> AWS Network Firewall
+
+<ul>
+  <li></li>
+</ul>
+
 ## Networking
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/ELB.png" width="50"/> ELB - Elastic Load Balancing
@@ -1596,6 +1604,11 @@ CIDR (Classless InterDomain Routing)
   <li>Subnet Mask</li>
 </ul>
 
+Networking Costs in AWS per GB - Simplified
+<ul>
+  <li></li>
+</ul>
+
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC.png" width="50"/> VPC - Virtual Private Cloud
 
 IPv4
@@ -1652,6 +1665,14 @@ IPv6 in VPC
 </ul>
 
 IPv6 Troubleshooting
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Egress-only Internet Gateway
 <ul>
   <li></li>
   <li></li>

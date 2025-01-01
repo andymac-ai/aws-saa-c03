@@ -1663,6 +1663,7 @@ Peering
 </ul>
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Endpoints.png" width="50"/> Endpoints
+
 <ul>
   <li></li>
   <li></li>
@@ -1671,6 +1672,7 @@ Peering
 </ul>
 
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/VPC-Flow-Logs.png" width="50"/> Flow Logs
+
 <ul>
   <li></li>
   <li></li>
@@ -1679,6 +1681,7 @@ Peering
 </ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Site-To-Site-VPN.png" width="50"/> Site-to-Site VPN
+
 <ul>
   <li>Virtual Private Gateway (VGW)</li>
   <li>Customer Gateway</li>
@@ -1701,6 +1704,7 @@ AWS VPN CloudHub
 </ul>
 
 ### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Direct-Connect.png" width="50"/> Direct Connect
+
 <ul>
   <li></li>
   <li></li>
@@ -1735,6 +1739,22 @@ Encryption
 Site-to-Site VPN connection as a backup
 <ul>
   <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Transit-Gatewy.png" width="50"/> Transit Gateway
+
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+Site-to-Site VPN ECMP
+<ul>
   <li></li>
   <li></li>
   <li></li>

@@ -1638,6 +1638,27 @@ NAT Instance
   <li></li>
 </ul>
 
+Traffic Monitoring
+<ul>
+  <li></li>
+</ul>
+
+IPv6 in VPC
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+IPv6 Troubleshooting
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
 <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/NAT-Gateway.png" width="50"/> NAT Gateway
 <ul>
   <li></li>
@@ -1759,6 +1780,8 @@ Site-to-Site VPN ECMP
   <li></li>
   <li></li>
 </ul>
+
+
 
 ### DNS
 

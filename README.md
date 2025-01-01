@@ -1678,6 +1678,28 @@ Peering
   <li></li>
 </ul>
 
+### <img src="https://github.com/cgrundman/aws-saa-c03/blob/main/icons/Site-To-Site-VPN.png" width="50"/> Site-to-Site VPN
+<ul>
+  <li>Virtual Private Gateway (VGW)</li>
+  <li>Customer Gateway</li>
+</ul>
+
+Site-to-Site VPN Connections
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+AWS VPN CloudHub
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
 ### DNS
 
 <ul>
